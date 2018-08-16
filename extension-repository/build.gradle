@@ -26,4 +26,6 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.3.5.Final'
 }
