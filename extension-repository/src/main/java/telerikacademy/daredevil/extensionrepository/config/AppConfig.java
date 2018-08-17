@@ -3,16 +3,20 @@ package telerikacademy.daredevil.extensionrepository.config;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import telerikacademy.daredevil.extensionrepository.models.Product;
 
 @Configuration
 public class AppConfig {
-    @Bean
-    public SessionFactory createSessionFactory(){
+    private static SessionFactory sessionFactory;
 
-        return new org.hibernate.cfg.Configuration()
+    static {
+        sessionFactory = new org.hibernate.cfg.Configuration()
                 .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Product.class)
+                //.addAnnotatedClass(Product.class)
                 .buildSessionFactory();
+    }
+
+    @Bean
+    public SessionFactory sessionFactory() {
+        return sessionFactory;
     }
 }
