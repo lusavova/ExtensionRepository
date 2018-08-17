@@ -1,58 +1,57 @@
 package telerikacademy.daredevil.extensionrepository.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 @Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "product_id")
+    private int id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "version", nullable = false)
     private String version;
 
-    @Column(nullable = false)
-    private User owner;
-
-    @Column(name = "number_of_downloads", nullable = false)
+    @Column(name = "number_of_downloads")
     private int numberOfDownloads;
 
     @Column(name = "download_link", nullable = false)
     private String downloadLink;
 
-    @Column(name = "source_repository_link", nullable = false)
-    private String sourceRepositoryLink;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @Column(name = "owner_id")
+    private User owner;
 
-    @Column(name = "number_of_open_issues", nullable = false)
-    private int numberOfOpenIssues;
+    @OneToOne
+    @JoinColumn(name = "id")
+    @Column(name = "github_repos_info_id", nullable = false)
+    private GithubInfo githubInfo;
 
-    @Column(name = "number_of_pull_requests", nullable = false)
-    private int numberOfPullRequests;
-
-    @Column(name = "last_commit_date", nullable = false)
-    private Date lastCommitDate;
-
-    @OneToMany
-    private List<Tag> tags;
+    @ManyToMany
+    @JoinTable(
+            name = "products_tags",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 
     public Product() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,14 +79,6 @@ public class Product {
         this.version = version;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
     public int getNumberOfDownloads() {
         return numberOfDownloads;
     }
@@ -104,36 +95,20 @@ public class Product {
         this.downloadLink = downloadLink;
     }
 
-    public String getSourceRepositoryLink() {
-        return sourceRepositoryLink;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setSourceRepositoryLink(String sourceRepositoryLink) {
-        this.sourceRepositoryLink = sourceRepositoryLink;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
-    public int getNumberOfOpenIssues() {
-        return numberOfOpenIssues;
+    public GithubInfo getGithubInfo() {
+        return githubInfo;
     }
 
-    public void setNumberOfOpenIssues(int numberOfOpenIssues) {
-        this.numberOfOpenIssues = numberOfOpenIssues;
-    }
-
-    public int getNumberOfPullRequests() {
-        return numberOfPullRequests;
-    }
-
-    public void setNumberOfPullRequests(int numberOfPullRequests) {
-        this.numberOfPullRequests = numberOfPullRequests;
-    }
-
-    public Date getLastCommitDate() {
-        return lastCommitDate;
-    }
-
-    public void setLastCommitDate(Date lastCommitDate) {
-        this.lastCommitDate = lastCommitDate;
+    public void setGithubInfo(GithubInfo githubInfo) {
+        this.githubInfo = githubInfo;
     }
 
     public List<Tag> getTags() {
