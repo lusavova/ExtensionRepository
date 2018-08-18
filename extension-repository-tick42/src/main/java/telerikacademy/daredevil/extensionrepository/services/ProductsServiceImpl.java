@@ -55,4 +55,24 @@ public class ProductsServiceImpl implements ProductsService {
     public void deleteProduct(long id) {
         productsRepository.deleteById(id);
     }
+
+    @Override
+    public List<Product> getNewestProducts() {
+        return productsRepository.findAllByOrderByUploadDateDesc();
+    }
+
+    @Override
+    public List<Product> getProductsByOwner(String ownerName) {
+        return null;
+    }
+
+//    @Override
+//    public List<Product> getFeaturedProducts() {
+//        return null;
+//    }
+
+    @Override
+    public List<Product> getMostPopularProducts() {
+        return productsRepository.findAllByOrderByNumberOfDownloadsDesc();
+    }
 }

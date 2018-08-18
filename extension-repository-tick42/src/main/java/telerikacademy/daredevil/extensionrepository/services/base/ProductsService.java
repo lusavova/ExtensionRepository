@@ -3,6 +3,7 @@ package telerikacademy.daredevil.extensionrepository.services.base;
 import telerikacademy.daredevil.extensionrepository.models.Product;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public interface ProductsService {
 
@@ -16,4 +17,16 @@ public interface ProductsService {
 
     void deleteProduct(long id);
 
+    List<Product> getMostPopularProducts();
+
+    List<Product> getNewestProducts();
+
+    //List<Product> getFeaturedProducts();
+
+    List<Product> getProductsByOwner(String ownerName);
+
+    //List<Product> getProductsOrderedByName(String productName);
+
+
+    //List<Product> orderProductsBy(Predicate criteria);
 }
