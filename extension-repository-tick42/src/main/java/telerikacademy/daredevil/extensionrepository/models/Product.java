@@ -23,7 +23,7 @@ public class Product {
 
     private int numberOfDownloads;
 
-    private Date UploadDate;
+    private Date uploadDate;
 
     @Column(nullable = false)
     private String downloadLink;
@@ -114,10 +114,10 @@ public class Product {
     }
 
     public Date getUploadDate() {
-        return UploadDate;
+        return uploadDate;
     }
 
     public void setUploadDate(Date uploadDate) {
-        UploadDate = uploadDate;
+        uploadDate = uploadDate;
     }
 }
