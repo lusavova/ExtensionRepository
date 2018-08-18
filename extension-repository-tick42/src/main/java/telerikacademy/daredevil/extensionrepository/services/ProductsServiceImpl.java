@@ -22,8 +22,7 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public Product findProductById(long id){
         // VALIDATION????
-        Product product = productsRepository.findById(id).orElse(null);
-        return product;
+        return productsRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -46,7 +45,6 @@ public class ProductsServiceImpl implements ProductsService {
         product.setNumberOfDownloads(updateProduct.getNumberOfDownloads());
         product.setDownloadLink(updateProduct.getDownloadLink());
         product.setOwner(updateProduct.getOwner());
-        product.setGithubInfo(updateProduct.getGithubInfo());
         product.setTags(updateProduct.getTags());
         productsRepository.saveAndFlush(product);
     }

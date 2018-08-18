@@ -3,7 +3,6 @@ package telerikacademy.daredevil.extensionrepository.services.base;
 import telerikacademy.daredevil.extensionrepository.models.Product;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public interface ProductsService {
 
