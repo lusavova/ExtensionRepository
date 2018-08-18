@@ -30,9 +30,18 @@ public class Product {
 
     @ManyToOne(optional = false)
     private User owner;
+//
+//    @OneToOne(optional = false)
+//    private GithubInfo githubInfo;
 
-    @OneToOne(optional = false)
-    private GithubInfo githubInfo;
+    @Column(nullable = false)
+    private String repositoryLink;
+
+    private int numberOfOpenIssues;
+
+    private int numberOfPullRequests;
+
+    private Date lastCommitDate;
 
     @ManyToMany
     private List<Tag> tags;
@@ -97,13 +106,13 @@ public class Product {
         this.owner = owner;
     }
 
-    public GithubInfo getGithubInfo() {
-        return githubInfo;
-    }
-
-    public void setGithubInfo(GithubInfo githubInfo) {
-        this.githubInfo = githubInfo;
-    }
+//    public GithubInfo getGithubInfo() {
+//        return githubInfo;
+//    }
+//
+//    public void setGithubInfo(GithubInfo githubInfo) {
+//        this.githubInfo = githubInfo;
+//    }
 
     public List<Tag> getTags() {
         return tags;

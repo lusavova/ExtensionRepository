@@ -25,6 +25,11 @@ public class User {
         this.products = new ArrayList<>();
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,5 +60,11 @@ public class User {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Transient
+    @Override
+    public String toString() {
+        return getUsername() + " " + getPassword();
     }
 }
