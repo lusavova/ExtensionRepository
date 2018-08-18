@@ -2,6 +2,7 @@ package telerikacademy.daredevil.extensionrepository.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,8 @@ public class Product {
     private String version;
 
     private int numberOfDownloads;
+
+    private Date UploadDate;
 
     @Column(nullable = false)
     private String downloadLink;
@@ -108,5 +111,13 @@ public class Product {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Date getUploadDate() {
+        return UploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        UploadDate = uploadDate;
     }
 }
