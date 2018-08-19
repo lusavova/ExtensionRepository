@@ -1,5 +1,7 @@
 package telerikacademy.daredevil.extensionrepository.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,36 +14,26 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    private String productPicture;
+
     private String description;
 
-    @Column(nullable = false)
     private String version;
 
     private int numberOfDownloads;
 
     private Date uploadDate;
 
-    @Column(nullable = false)
     private String downloadLink;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonBackReference
     private User owner;
-//
-//    @OneToOne(optional = false)
-//    private GithubInfo githubInfo;
 
-    @Column(nullable = false)
-    private String repositoryLink;
-
-    private int numberOfOpenIssues;
-
-    private int numberOfPullRequests;
-
-    private Date lastCommitDate;
+    @OneToOne(optional = false)
+    private GithubInfo githubInfo;
 
     @ManyToMany
     private List<Tag> tags;
@@ -64,6 +56,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getProductPicture() {
+        return productPicture;
+    }
+
+    public void setProductPicture(String productPicture) {
+        this.productPicture = productPicture;
     }
 
     public String getDescription() {
@@ -90,6 +90,14 @@ public class Product {
         this.numberOfDownloads = numberOfDownloads;
     }
 
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
     public String getDownloadLink() {
         return downloadLink;
     }
@@ -106,13 +114,13 @@ public class Product {
         this.owner = owner;
     }
 
-//    public GithubInfo getGithubInfo() {
-//        return githubInfo;
-//    }
-//
-//    public void setGithubInfo(GithubInfo githubInfo) {
-//        this.githubInfo = githubInfo;
-//    }
+    public GithubInfo getGithubInfo() {
+        return githubInfo;
+    }
+
+    public void setGithubInfo(GithubInfo githubInfo) {
+        this.githubInfo = githubInfo;
+    }
 
     public List<Tag> getTags() {
         return tags;
@@ -120,13 +128,5 @@ public class Product {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
-    }
-
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        uploadDate = uploadDate;
     }
 }

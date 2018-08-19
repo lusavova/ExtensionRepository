@@ -1,5 +1,7 @@
 package telerikacademy.daredevil.extensionrepository.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +20,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
     private List<Product> products;
 
     public User() {
@@ -60,11 +62,5 @@ public class User {
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    @Transient
-    @Override
-    public String toString() {
-        return getUsername() + " " + getPassword();
     }
 }
