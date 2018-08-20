@@ -30,6 +30,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        return usersRepository.findByUsername(username);
+    }
+
+    @Override
     public void saveUserIntoDB(User user) {
         this.usersRepository.save(user);
     }

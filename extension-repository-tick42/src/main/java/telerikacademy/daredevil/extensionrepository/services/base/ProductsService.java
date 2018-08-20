@@ -16,16 +16,20 @@ public interface ProductsService {
 
     void deleteProduct(long id);
 
+    List<Product> getProductsOrderByNameAsc();
+
     List<Product> getMostPopularProducts();
 
-    List<Product> getNewestProducts();
-
-    //List<Product> getFeaturedProducts();
-
-    List<Product> getProductsByOwner(String ownerName);
-
-    //List<Product> getProductsOrderedByName(String productName);
-
-
-    //List<Product> orderProductsBy(Predicate criteria);
+    List<Product> getProductOrderByLastCommitDate();
+//
+//    List<Product> getNewestProducts();
+//
+//    //List<Product> getFeaturedProducts();
+//
+//    List<Product> getProductsByOwner(String ownerName);
+//
+//    //List<Product> getProductsOrderedByName(String productName);
+//
+//
+//    //List<Product> orderProductsBy(Predicate criteria);
 }

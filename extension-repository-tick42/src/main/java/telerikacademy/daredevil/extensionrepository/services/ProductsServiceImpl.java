@@ -55,22 +55,17 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public List<Product> getNewestProducts() {
-        return productsRepository.findAllByOrderByUploadDateDesc();
+    public List<Product> getProductsOrderByNameAsc() {
+        return productsRepository.findAllByOrderByName();
     }
-
-    @Override
-    public List<Product> getProductsByOwner(String ownerName) {
-        return null;
-    }
-
-//    @Override
-//    public List<Product> getFeaturedProducts() {
-//        return null;
-//    }
 
     @Override
     public List<Product> getMostPopularProducts() {
         return productsRepository.findAllByOrderByNumberOfDownloadsDesc();
+    }
+
+    @Override
+    public List<Product> getProductOrderByLastCommitDate() {
+        return productsRepository.findAllSortedByLastCommitDate();
     }
 }

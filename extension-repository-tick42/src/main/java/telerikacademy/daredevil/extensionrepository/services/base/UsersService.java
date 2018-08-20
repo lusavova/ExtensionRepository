@@ -9,6 +9,8 @@ public interface UsersService {
 
     User findUserById(long id);
 
+    User findUserByUsername(String username);
+
     void saveUserIntoDB(User user);
 
     void deleteUser(long id);
