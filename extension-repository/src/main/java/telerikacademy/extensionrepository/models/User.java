@@ -1,8 +1,9 @@
 package telerikacademy.extensionrepository.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,12 @@ public class User {
     @Column(nullable = false ,columnDefinition = "boolean default 0")
     private boolean userStatus;
 
+    @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
+    private List<Product> products;
+
     public User() {
+        products = new ArrayList<>();
     }
 
     public User(String username, String password) {
@@ -92,5 +98,19 @@ public class User {
 
     public void setUserStatus(boolean userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    @Transient
+    @Override
+    public String toString() {
+        return id + " " + username;
     }
 }

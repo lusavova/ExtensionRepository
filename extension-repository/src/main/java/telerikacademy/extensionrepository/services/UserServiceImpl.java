@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.UserRepository;
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
 
@@ -48,4 +49,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
+
+
 }

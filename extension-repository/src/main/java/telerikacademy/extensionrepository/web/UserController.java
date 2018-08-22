@@ -2,7 +2,9 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.services.base.ProductService;
 import telerikacademy.extensionrepository.services.base.UserService;
 
 import java.util.List;
@@ -42,7 +44,6 @@ public class UserController {
     public @ResponseBody User updateUser(@RequestBody User user){
         return userService.updateUser(user);
     }
-
 
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable long id){

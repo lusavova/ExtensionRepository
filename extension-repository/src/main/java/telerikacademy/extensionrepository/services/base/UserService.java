@@ -1,5 +1,6 @@
 package telerikacademy.extensionrepository.services.base;
 
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 
 import java.util.List;
