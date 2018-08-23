@@ -14,10 +14,14 @@ import java.util.List;
 @Transactional
 public interface ProductsRepository extends JpaRepository<Product, Long> {
 
+    Product findByName(String name);
+
     List<Product> findAllByOwner(User owner);
 
-    @Query("SELECT p FROM Product as p ORDER BY name")
-    List<Product> getAllOrderByName();
+//    @Query("SELECT p FROM Product as p ORDER BY name")
+//    List<Product> getAllOrderByName();
+
+    List<Product> findAllByOrderByName();
 
     List<Product> findAllByOrderByNumberOfDownloadsDesc();
 
@@ -32,4 +36,6 @@ public interface ProductsRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query("update Product as p set p.productState = 'approved' where p.id =?1")
     void approveProduct(long id);
+
+    List<Product> findAllByNameContaining(String param);
 }

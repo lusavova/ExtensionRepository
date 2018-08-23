@@ -10,6 +10,8 @@ public interface ProductService {
 
     Product findById(long id);
 
+    Product findByName(String name);
+
     Product addProduct(Product product);
 
     Product updateProduct(long id, Product product);

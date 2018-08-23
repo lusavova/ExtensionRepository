@@ -8,6 +8,7 @@ import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.AdminService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 @Service
@@ -38,7 +39,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User getById(long id) {
-        userRepository.findById(id);
-        return null;
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<User> listAllAdmins() {
+        //to do!!!
+        //where role = admin
+        return userRepository.findAll();
     }
 }

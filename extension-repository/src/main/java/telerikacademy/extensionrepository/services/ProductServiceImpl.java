@@ -33,6 +33,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product findByName(String name) {
+        return productsRepository.findByName(name);
+    }
+
+    @Override
     public Product addProduct(Product product) {
         return productsRepository.saveAndFlush(product);
     }
@@ -56,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllSortedByName() {
-        return productsRepository.getAllOrderByName();
+        return productsRepository.findAllByOrderByName();
     }
 
     @Override

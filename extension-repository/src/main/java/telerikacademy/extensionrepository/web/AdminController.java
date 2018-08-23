@@ -7,6 +7,8 @@ import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.AdminService;
 import telerikacademy.extensionrepository.services.base.ProductService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -18,9 +20,16 @@ public class AdminController {
         this.adminService = adminService;
         this.productService = productService;
     }
+
     @GetMapping("/{id}")
     public @ResponseBody User getById(@PathVariable("id") long id){
         return adminService.getById(id);
+    }
+
+    @GetMapping("/listAll")
+    public @ResponseBody
+    List<User> listAllAdmins(){
+        return adminService.listAllAdmins();
     }
 
     // approve extension (/admin/products/approve)

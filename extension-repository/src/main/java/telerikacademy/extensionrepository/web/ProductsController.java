@@ -27,12 +27,17 @@ public class ProductsController {
         return productService.findById(id);
     }
 
+    @GetMapping(value = "/{name}")
+    public Product findByName(@PathVariable("name") String name){
+        return productService.findByName(name);
+    }
+
     @PostMapping("/add")
     public @ResponseBody Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
 
-    @PutMapping(value = "update")
+    @PutMapping(value = "/update")
     public @ResponseBody Product updateProduct(@RequestBody Product product, long id){
         return productService.updateProduct(id, product);
     }
