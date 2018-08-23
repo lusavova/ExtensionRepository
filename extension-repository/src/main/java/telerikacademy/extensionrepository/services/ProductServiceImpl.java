@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllSortedByName() {
-        return productsRepository.findAllByOrderByName();
+        return productsRepository.getAllOrderByName();
     }
 
     @Override
@@ -66,11 +66,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllSortedByUploadDateDesc() {
-        return findAllSortedByUploadDateDesc();
+        return productsRepository.findAllByOrderByUploadDateDesc();
     }
 
     @Override
     public List<Product> findAllSortedByLastCommitDateDesc() {
-        return findAllSortedByLastCommitDateDesc();
+        return productsRepository.findAllByOrderByLastCommitDateDesc();
+    }
+
+    @Override
+    public List<Product> findTop10SortedByNumberOfDownloadsDesc() {
+        return productsRepository.findTop10ByOrderByNumberOfDownloadsDesc();
+    }
+
+    @Override
+    public List<Product> findTop10SortedByUploadDateDesc() {
+        return productsRepository.findTop10ByOrderByUploadDateDesc();
     }
 }

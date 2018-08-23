@@ -25,4 +25,8 @@ public interface ProductService {
     List<Product> findAllSortedByUploadDateDesc();
 
     List<Product> findAllSortedByLastCommitDateDesc();
+
+    List<Product> findTop10SortedByNumberOfDownloadsDesc();
+
+    List<Product> findTop10SortedByUploadDateDesc();
 }
