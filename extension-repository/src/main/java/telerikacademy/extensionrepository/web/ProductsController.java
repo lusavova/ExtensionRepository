@@ -18,7 +18,7 @@ public class ProductsController {
         this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Product> listAllProducts(){
         return productService.listAllProducts();
     }
@@ -47,6 +47,4 @@ public class ProductsController {
     public List<Product> findAllUserProducts(@PathVariable long id){
         return productService.findAllUserProducts(id);
     }
-
-
 }

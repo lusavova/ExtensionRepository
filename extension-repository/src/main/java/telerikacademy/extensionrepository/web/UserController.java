@@ -2,9 +2,7 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
-import telerikacademy.extensionrepository.services.base.ProductService;
 import telerikacademy.extensionrepository.services.base.UserService;
 
 import java.util.List;
@@ -25,20 +23,20 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public User findById(@PathVariable("id") String idString){
+    public @ResponseBody User findById(@PathVariable("id") String idString){
         long id = Long.parseLong(idString);
         return userService.getUserById(id);
     }
 
     @GetMapping("/{username}")
-    public User getUserByUsername(@PathVariable String username){
+    public @ResponseBody User getUserByUsername(@PathVariable String username){
         return userService.getUserByUsername(username);
     }
 
-    @PostMapping("/add")
-    public @ResponseBody User addUser(@RequestBody User user){
-        return userService.addUser(user);
-    }
+//    @PostMapping("/add")
+//    public @ResponseBody User addUser(@RequestBody User user){
+//        return userService.addUser(user);
+//    }
 
     @PutMapping(value = "update")
     public @ResponseBody User updateUser(@RequestBody User user){
@@ -46,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable long id){
+    public @ResponseBody void deleteUser(@PathVariable long id){
         userService.deleteUser(id);
     }
 }

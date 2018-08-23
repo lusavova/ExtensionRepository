@@ -1,16 +1,14 @@
 package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.services.base.ProductService;
 
 import java.util.List;
 
-@RestController("/products")
+@RestController
+@RequestMapping("/products")
 public class SortProductsController {
 
     private ProductService productService;
@@ -20,12 +18,10 @@ public class SortProductsController {
         this.productService = productService;
     }
 
-    @GetMapping(value = "/sortBy", params = "param")
-    @ResponseBody
-    public List<Product> sortProbuctsByParam(
-            @RequestParam("param") String param) {
-
-        switch (param) {
+    @GetMapping
+    public @ResponseBody
+    List<Product> sortProductsByParam(@RequestParam String sortBy) {
+        switch (sortBy) {
             case "Name":
                 return productService.findAllSortedByName();
             case "Downloads":
@@ -34,7 +30,19 @@ public class SortProductsController {
                 return productService.findAllSortedByUploadDateDesc();
             case "UpdatedDate":
                 return productService.findAllSortedByLastCommitDateDesc();
-            //VALIDATION
+            default:
+                return null;
+        }
+    }
+
+    @GetMapping("/filter")
+    public @ResponseBody
+    List<Product> findTop10Products(@RequestParam String top10) {
+        switch (top10) {
+            case "Newest":
+                return productService.findTop10SortedByUploadDateDesc();
+            case "Downloaded":
+                return productService.findTop10SortedByNumberOfDownloadsDesc();
             default:
                 return null;
         }
