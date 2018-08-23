@@ -152,4 +152,12 @@ public class Product {
     public void setProductState(String productState) {
         this.productState = productState;
     }
+
+    @Transient
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
