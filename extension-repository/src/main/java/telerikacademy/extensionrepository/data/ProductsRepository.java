@@ -15,11 +15,16 @@ public interface ProductsRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByOwner(User owner);
 
-    List<Product> findAllByOrderByName();
+    @Query("SELECT p FROM Product as p ORDER BY name")
+    List<Product> getAllOrderByName();
 
     List<Product> findAllByOrderByNumberOfDownloadsDesc();
 
     List<Product> findAllByOrderByUploadDateDesc();
 
     List<Product> findAllByOrderByLastCommitDateDesc();
+
+    List<Product> findTop10ByOrderByNumberOfDownloadsDesc();
+
+    List<Product> findTop10ByOrderByUploadDateDesc();
 }
