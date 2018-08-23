@@ -3,7 +3,6 @@ package telerikacademy.extensionrepository.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.models.Product;
-import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.ProductService;
 
 import java.util.List;
