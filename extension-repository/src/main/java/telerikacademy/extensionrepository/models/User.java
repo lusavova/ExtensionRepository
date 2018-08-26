@@ -22,26 +22,14 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String firstName;
+    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'active'")
+    private String userStatus;
 
-    @Column(nullable = false)
-    private String lastName;
-
-    @Column(nullable = false ,columnDefinition = "boolean default 0")
-    private boolean userStatus;
-
-    @OneToMany(mappedBy = "owner")
-    @JsonManagedReference
+    @OneToMany
     private List<Product> products;
 
     public User() {
         products = new ArrayList<>();
-    }
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
     }
 
     public Long getId() {
@@ -76,27 +64,11 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public boolean isUserStatus() {
+    public String getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(boolean userStatus) {
+    public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 
@@ -106,11 +78,5 @@ public class User {
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    @Transient
-    @Override
-    public String toString() {
-        return id + " " + username;
     }
 }

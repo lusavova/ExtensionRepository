@@ -3,8 +3,10 @@ package telerikacademy.extensionrepository.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.services.base.GithubService;
 import telerikacademy.extensionrepository.services.base.ProductService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,37 +20,30 @@ public class ProductsController {
     }
 
     @GetMapping("/")
-    public List<Product> listAllProducts(){
+    public List<Product> listAllProducts() {
         return productService.listAllProducts();
     }
 
     @GetMapping(value = "/{id}")
-    public Product findById(@PathVariable("id") long id){
+    public Product findById(@PathVariable("id") long id) {
         return productService.findById(id);
     }
 
-    @GetMapping(value = "/{name}")
-    public Product findByName(@PathVariable("name") String name){
-        return productService.findByName(name);
-    }
-
     @PostMapping("/add")
-    public @ResponseBody Product addProduct(@RequestBody Product product){
+    public @ResponseBody
+    Product addProduct(@RequestBody Product product) {
+
         return productService.addProduct(product);
     }
 
-    @PutMapping(value = "/update")
-    public @ResponseBody Product updateProduct(@RequestBody Product product, long id){
+    @PutMapping(value = "/update/{id}")
+    public @ResponseBody
+    Product updateProduct(@RequestBody Product product, @PathVariable long id) {
         return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable long id){
+    public void deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
-    }
-
-    @GetMapping("/user/{id}")
-    public List<Product> findAllUserProducts(@PathVariable long id){
-        return productService.findAllUserProducts(id);
     }
 }

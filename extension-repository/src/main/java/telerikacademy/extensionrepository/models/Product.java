@@ -1,19 +1,25 @@
 package telerikacademy.extensionrepository.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "downloadLink", "sourceRepositoryLink"})})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
+    @Size(min=3, message="Product name should be atleast 3 characters long")
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -22,20 +28,19 @@ public class Product {
     @Column(nullable = false)
     private String version;
 
-    @Column(nullable = false)
     private Date uploadDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JsonBackReference
-    private User owner;
+    @Column(nullable = false)
+    private String ownerId;
 
+    @Column(columnDefinition = "INT DEFAULT 0")
     private long numberOfDownloads;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String downloadLink;
 
-    @Column(nullable = false)
-    private String  sourceRepositoryLink;
+    @Column(nullable = false, unique = true)
+    private String sourceRepositoryLink;
 
     private long openIssues;
 
@@ -89,12 +94,12 @@ public class Product {
         this.uploadDate = uploadDate;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public long getNumberOfDownloads() {
@@ -151,13 +156,5 @@ public class Product {
 
     public void setProductState(String productState) {
         this.productState = productState;
-    }
-
-    @Transient
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                '}';
     }
 }

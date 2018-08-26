@@ -3,22 +3,25 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.ProductsRepository;
-import telerikacademy.extensionrepository.data.UserRepository;
+import telerikacademy.extensionrepository.exceptions.InvalidNameException;
 import telerikacademy.extensionrepository.models.Product;
-import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.services.base.GithubService;
 import telerikacademy.extensionrepository.services.base.ProductService;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductsRepository productsRepository;
-    private UserRepository userRepository;
+    private GithubService githubService;
 
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, UserRepository userRepository) {
+    public ProductServiceImpl(ProductsRepository productsRepository, GithubService githubService) {
         this.productsRepository = productsRepository;
-        this.userRepository = userRepository;
+        this.githubService = githubService;
     }
 
     @Override
@@ -28,35 +31,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(long id) {
-        //VALIDATION
-        return productsRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public Product findByName(String name) {
-        return productsRepository.findByName(name);
+        return productsRepository.getOne(id);
     }
 
     @Override
     public Product addProduct(Product product) {
+        validateProduct(product);
+        Date uploadDate = new Date();
+        product.setUploadDate(uploadDate);
+        product.setProductState("pending");
+        addGithubInfo(product);
         return productsRepository.saveAndFlush(product);
     }
 
     @Override
-    public Product updateProduct(long id, Product product) {
-        return productsRepository.saveAndFlush(product);
+    public Product updateProduct(long id, Product updateProduct) {
+        validateProduct(updateProduct);
+        return productsRepository.saveAndFlush(updateProduct);
     }
 
     @Override
     public void deleteProduct(long id) {
         productsRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Product> findAllUserProducts(long id) {
-        //Validation
-        User user = userRepository.findById(id).orElse(null);
-        return productsRepository.findAllByOwner(user);
     }
 
     @Override
@@ -87,5 +83,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findTop10SortedByUploadDateDesc() {
         return productsRepository.findTop10ByOrderByUploadDateDesc();
+    }
+
+    private void addGithubInfo(Product product) {
+        try {
+            githubService.saveGihtubInfo(product);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void validateProduct(Product product){
+        List<Product> products = productsRepository.findAll();
+        boolean isNamePresent = products.stream().anyMatch(p -> p.getName().equals(product.getName()));
+        boolean isRepoLinkPresent = products.stream()
+                .anyMatch(p -> p.getSourceRepositoryLink().equals(product.getSourceRepositoryLink()));
+
+        if (isNamePresent) {
+            throw new InvalidNameException("Product name already exist");
+        }
+        if (isRepoLinkPresent) {
+            throw  new InvalidNameException("Source repository link already exist");
+        }
     }
 }

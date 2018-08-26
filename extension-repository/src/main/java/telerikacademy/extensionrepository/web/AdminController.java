@@ -32,26 +32,22 @@ public class AdminController {
         return adminService.listAllAdmins();
     }
 
-    // approve extension (/admin/products/approve)
     @PutMapping("/products/approve/{id}")
     public @ResponseBody
     void approveProduct(@PathVariable("id") long id) {
         adminService.approveProduct(id);
     }
 
-    // deleteExtension (/admin/products/delete/{name})
     @DeleteMapping("/products/delete/{id}")
     public @ResponseBody void deleteProduct(@PathVariable("id") long id){
         productService.deleteProduct(id);
     }
 
-    // edit extension (/admin/products/edit/{id})
     @PutMapping("/products/edit/{id}")
     public @ResponseBody void updateProduct(@PathVariable("id") long id, Product updateProduct){
         productService.updateProduct(id, updateProduct);
     }
 
-    // enable-disable user (/admin/users/{id})
     @PutMapping("/users/{id}")
     public @ResponseBody
     void changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {

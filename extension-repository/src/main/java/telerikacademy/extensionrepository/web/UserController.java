@@ -23,20 +23,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody User findById(@PathVariable("id") String idString){
-        long id = Long.parseLong(idString);
+    public @ResponseBody User findById(@PathVariable("id") long id){
         return userService.getUserById(id);
     }
-
-    @GetMapping("/{username}")
-    public @ResponseBody User getUserByUsername(@PathVariable String username){
-        return userService.getUserByUsername(username);
-    }
-
-//    @PostMapping("/add")
-//    public @ResponseBody User addUser(@RequestBody User user){
-//        return userService.addUser(user);
-//    }
 
     @PutMapping(value = "update")
     public @ResponseBody User updateUser(@RequestBody User user){

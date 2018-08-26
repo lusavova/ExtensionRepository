@@ -13,13 +13,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ProductsRepository extends JpaRepository<Product, Long> {
-
     Product findByName(String name);
-
-    List<Product> findAllByOwner(User owner);
-
-//    @Query("SELECT p FROM Product as p ORDER BY name")
-//    List<Product> getAllOrderByName();
 
     List<Product> findAllByOrderByName();
 

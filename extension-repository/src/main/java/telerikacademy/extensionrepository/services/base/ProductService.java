@@ -10,15 +10,11 @@ public interface ProductService {
 
     Product findById(long id);
 
-    Product findByName(String name);
-
     Product addProduct(Product product);
 
-    Product updateProduct(long id, Product product);
+    Product updateProduct(long id, Product updateProduct);
 
     void deleteProduct(long id);
-
-    List<Product> findAllUserProducts(long id);
 
     List<Product> findAllSortedByName();
 
