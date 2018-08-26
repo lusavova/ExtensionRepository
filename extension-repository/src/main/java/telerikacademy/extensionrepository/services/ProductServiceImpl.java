@@ -3,7 +3,6 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.ProductsRepository;
-import telerikacademy.extensionrepository.exceptions.InvalidNameException;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.services.base.GithubService;
 import telerikacademy.extensionrepository.services.base.ProductService;
@@ -100,10 +99,10 @@ public class ProductServiceImpl implements ProductService {
                 .anyMatch(p -> p.getSourceRepositoryLink().equals(product.getSourceRepositoryLink()));
 
         if (isNamePresent) {
-            throw new InvalidNameException("Product name already exist");
+            throw new IllegalArgumentException("Product name already exist");
         }
         if (isRepoLinkPresent) {
-            throw  new InvalidNameException("Source repository link already exist");
+            throw  new IllegalArgumentException("Source repository link already exist");
         }
     }
 }

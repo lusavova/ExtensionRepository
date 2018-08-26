@@ -17,6 +17,16 @@ public class User {
     private Long id;
 
     @NotNull
+    @Size(min=2, message="First name should be atleast 2 characters long")
+    @Column(nullable = false)
+    private String firstName;
+
+    @NotNull
+    @Size(min=2, message="Last name should be atleast 2 characters long")
+    @Column(nullable = false)
+    private String lastName;
+
+    @NotNull
     @Size(min=3, message="Username should be atleast 3 characters long")
     @Column(nullable = false)
     private String username;
@@ -86,5 +96,21 @@ public class User {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "downloadLink", "sourceRepositoryLink"})})
@@ -51,7 +48,11 @@ public class Product {
     @Column(columnDefinition = "VARCHAR(50) DEFAULT 'pending'", nullable = false)
     private String productState;
 
+    @ManyToMany
+    private List<Tag> tags;
+
     public Product() {
+        this.tags= new ArrayList<>();
     }
 
     public Long getId() {
@@ -156,5 +157,13 @@ public class Product {
 
     public void setProductState(String productState) {
         this.productState = productState;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

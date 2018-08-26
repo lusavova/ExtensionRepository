@@ -32,20 +32,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
-        if (isUserValid(user)) {
-            return userRepository.save(user);
-        } else {
-            throw new IllegalArgumentException("Invalid user");
+        if (!isValidEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Invalid email");
         }
+
+        if (!isUsernameAndPasswordValid(user)) {
+            throw new IllegalArgumentException("Invalid usernameOrPassword");
+        }
+
+        return userRepository.save(user);
     }
 
     @Override
     public User updateUser(User user) {
-        if (isUserValid(user)) {
-            return userRepository.save(user);
-        } else {
-            throw new IllegalArgumentException("Invalid user");
+        if (!isValidEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Invalid email");
         }
+
+        if (!isUsernameAndPasswordValid(user)) {
+            throw new IllegalArgumentException("Invalid usernameOrPassword");
+        }
+
+        return userRepository.save(user);
     }
 
     @Override
@@ -53,9 +61,8 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    private boolean isUserValid(User user) {
-        return isValidEmail(user.getEmail()) ||
-                isUsernameValid(user.getUsername()) ||
+    private boolean isUsernameAndPasswordValid(User user) {
+        return isUsernameValid(user.getUsername()) &&
                 isPasswordValid(user.getPassword());
     }
 
