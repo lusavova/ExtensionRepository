@@ -3,11 +3,12 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.UserRepository;
-import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,17 +32,52 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
-        return userRepository.save(user);
+        if (isUserValid(user)) {
+            return userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Invalid user");
+        }
     }
 
     @Override
     public User updateUser(User user) {
-        userRepository.save(user);
-        return user;
+        if (isUserValid(user)) {
+            return userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Invalid user");
+        }
     }
 
     @Override
     public void deleteUser(long id) {
         userRepository.deleteById(id);
+    }
+
+    private boolean isUserValid(User user) {
+        return isValidEmail(user.getEmail()) ||
+                isUsernameValid(user.getUsername()) ||
+                isPasswordValid(user.getPassword());
+    }
+
+    //  (?=.*[0-9])       # a digit must occur at least once
+//  (?=.*[a-z])       # a lower case letter must occur at least once
+//  (?=.*[A-Z])       # an upper case letter must occur at least once
+//  (?=\S+$)          # no whitespace allowed in the entire string
+    private boolean isPasswordValid(String password) {
+        Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$)$");
+        Matcher matcher = pattern.matcher(password);
+        return matcher.find();
+    }
+
+    private boolean isUsernameValid(String username) {
+        Pattern pattern = Pattern.compile("^[A-Z0-9a-z_][A-Za-z0-9_\\.\\-]+$");
+        Matcher matcher = pattern.matcher(username);
+        return matcher.find();
+    }
+
+    private boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.find();
     }
 }

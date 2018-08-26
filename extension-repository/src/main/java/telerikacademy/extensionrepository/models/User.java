@@ -3,6 +3,9 @@ package telerikacademy.extensionrepository.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +16,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min=3, message="Username should be atleast 3 characters long")
     @Column(nullable = false)
     private String username;
 
+    @NotNull
+    @Size(min=8,message="Password should be atleast 8 characters long")
     @Column(nullable = false)
     private String password;
 
+    @Email
     @Column(nullable = false)
     private String email;
 
