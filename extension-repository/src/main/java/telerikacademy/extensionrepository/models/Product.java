@@ -51,6 +51,9 @@ public class Product {
     @ManyToMany
     private List<Tag> tags;
 
+    @OneToOne(optional = false)
+    private File file;
+
     public Product() {
         this.tags= new ArrayList<>();
     }
@@ -165,5 +168,13 @@ public class Product {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }

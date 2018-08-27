@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.models.Tag;
 import telerikacademy.extensionrepository.services.base.TagsService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tags")
 public class TagsController  {
@@ -16,8 +18,8 @@ public class TagsController  {
     }
 
     @GetMapping
-    public void listAllTags(){
-        tagsService.listAll();
+    public List<Tag> listAllTags(){
+        return tagsService.listAll();
     }
 
     @PostMapping("/add")

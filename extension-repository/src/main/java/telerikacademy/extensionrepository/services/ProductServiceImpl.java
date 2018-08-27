@@ -17,7 +17,9 @@ public class ProductServiceImpl implements ProductService {
     private GithubService githubService;
 
     @Autowired
-    public ProductServiceImpl(ProductsRepository productsRepository, GithubService githubService) {
+    public ProductServiceImpl(ProductsRepository productsRepository,
+                              GithubService githubService,
+                              FileSystemStorageService fileSystemStorageService) {
         this.productsRepository = productsRepository;
         this.githubService = githubService;
     }

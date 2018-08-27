@@ -10,4 +10,6 @@ public interface TagsService {
     Tag add(Tag tag);
 
     void delete(long id);
+
+    void addTags(List<Tag> tags);
 }

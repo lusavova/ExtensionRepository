@@ -3,20 +3,23 @@ package telerikacademy.extensionrepository.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.models.Product;
-import telerikacademy.extensionrepository.services.base.GithubService;
+import telerikacademy.extensionrepository.models.Tag;
 import telerikacademy.extensionrepository.services.base.ProductService;
+import telerikacademy.extensionrepository.services.base.TagsService;
 
-import java.io.IOException;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
     private ProductService productService;
+    private TagsService tagsService;
 
     @Autowired
-    public ProductsController(ProductService productService) {
+    public ProductsController(ProductService productService, TagsService tagsService) {
         this.productService = productService;
+        this.tagsService = tagsService;
     }
 
     @GetMapping("/")
@@ -34,6 +37,19 @@ public class ProductsController {
     Product addProduct(@RequestBody Product product) {
 
         return productService.addProduct(product);
+    }
+
+    @PostMapping("/add/{id}/tags")
+    public @ResponseBody
+    void addProductTags(@PathVariable("id") long id, @RequestBody List<Tag> tags){
+        for (Tag tag: tags){
+            System.out.println(tag.getTagName());
+        }
+
+        Product product = productService.findById(id);
+        tagsService.addTags(tags);
+        //???
+        product.setTags(tags);
     }
 
     @PutMapping(value = "/update/{id}")
