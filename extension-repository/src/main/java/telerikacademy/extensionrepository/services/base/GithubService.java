@@ -5,5 +5,5 @@ import telerikacademy.extensionrepository.models.Product;
 import java.io.IOException;
 
 public interface GithubService {
-    void saveGihtubInfo(Product product) throws IOException;
+    void saveGithubProductInfo(Product product) throws IOException;
 }

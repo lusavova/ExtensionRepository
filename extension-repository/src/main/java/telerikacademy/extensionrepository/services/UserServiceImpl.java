@@ -26,18 +26,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(long id) {
-        // VALIDATION
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Can't find user with id = %d", id)));
     }
 
     @Override
     public User addUser(User user) {
         if (!isValidEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Invalid email");
+            throw new IllegalArgumentException("Invalid email.");
         }
 
         if (!isUsernameAndPasswordValid(user)) {
-            throw new IllegalArgumentException("Invalid usernameOrPassword");
+            throw new IllegalArgumentException("Invalid username or password.");
         }
 
         return userRepository.save(user);
@@ -46,11 +47,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         if (!isValidEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Invalid email");
+            throw new IllegalArgumentException("Invalid email.");
         }
 
         if (!isUsernameAndPasswordValid(user)) {
-            throw new IllegalArgumentException("Invalid usernameOrPassword");
+            throw new IllegalArgumentException("Invalid username or password.");
         }
 
         return userRepository.save(user);

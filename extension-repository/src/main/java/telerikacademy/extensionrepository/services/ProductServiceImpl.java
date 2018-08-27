@@ -9,7 +9,6 @@ import telerikacademy.extensionrepository.services.base.ProductService;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 @Service
@@ -86,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
 
     private void addGithubInfo(Product product) {
         try {
-            githubService.saveGihtubInfo(product);
+            githubService.saveGithubProductInfo(product);
         } catch (IOException e) {
             e.printStackTrace();
         }

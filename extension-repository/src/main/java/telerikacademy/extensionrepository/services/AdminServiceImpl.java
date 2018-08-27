@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.ProductsRepository;
 import telerikacademy.extensionrepository.data.UserRepository;
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.AdminService;
 
@@ -28,24 +29,17 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void changeUserStatus(boolean status, String username) {
-        userRepository.changeUserStatus(status, username);
-    }
-
-    @Override
     public void approveProduct(long id) {
-        productsRepository.approveProduct(id);
+        Product product = productsRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Can't find user with id = %d", id)));
+        product.setProductState("approved");
     }
 
     @Override
     public User getById(long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<User> listAllAdmins() {
-        //to do!!!
-        //where role = admin
-        return userRepository.findAll();
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Can't find user with id = %d", id)));
     }
 }

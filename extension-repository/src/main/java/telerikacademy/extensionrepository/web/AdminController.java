@@ -26,12 +26,6 @@ public class AdminController {
         return adminService.getById(id);
     }
 
-    @GetMapping("/listAll")
-    public @ResponseBody
-    List<User> listAllAdmins(){
-        return adminService.listAllAdmins();
-    }
-
     @PutMapping("/products/approve/{id}")
     public @ResponseBody
     void approveProduct(@PathVariable("id") long id) {
@@ -58,19 +52,6 @@ public class AdminController {
                 break;
             case "Disable":
                 adminService.changeUserStatus(false, id);
-                break;
-        }
-    }
-
-    @PutMapping("/users/{username}")
-    public @ResponseBody
-    void changeUserStatus(@PathVariable("username") String username, @RequestParam String status) {
-        switch (status) {
-            case "Enable":
-                adminService.changeUserStatus(true, username);
-                break;
-            case "Disable":
-                adminService.changeUserStatus(false, username);
                 break;
         }
     }
