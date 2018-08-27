@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.models.DTO.ProductDTO;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.Tag;
 import telerikacademy.extensionrepository.services.base.ProductService;
@@ -34,8 +35,7 @@ public class ProductsController {
 
     @PostMapping("/add")
     public @ResponseBody
-    Product addProduct(@RequestBody Product product) {
-
+    Product addProduct(@RequestBody ProductDTO product) {
         return productService.addProduct(product);
     }
 

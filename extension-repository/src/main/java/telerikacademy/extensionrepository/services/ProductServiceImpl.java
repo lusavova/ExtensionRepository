@@ -3,9 +3,14 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.ProductsRepository;
+import telerikacademy.extensionrepository.models.DTO.ProductDTO;
+import telerikacademy.extensionrepository.models.File;
 import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.models.Tag;
+import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.GithubService;
 import telerikacademy.extensionrepository.services.base.ProductService;
+import telerikacademy.extensionrepository.services.base.UserService;
 
 import java.io.IOException;
 import java.util.Date;
@@ -15,13 +20,18 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private ProductsRepository productsRepository;
     private GithubService githubService;
+    private UserService userService;
+    private FileSystemStorageService fileSystemStorageService;
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
                               GithubService githubService,
+                              UserService userService,
                               FileSystemStorageService fileSystemStorageService) {
         this.productsRepository = productsRepository;
         this.githubService = githubService;
+        this.userService = userService;
+        this.fileSystemStorageService = fileSystemStorageService;
     }
 
     @Override
@@ -35,18 +45,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(Product product) {
-        validateProduct(product);
+    public Product addProduct(ProductDTO productDTO) {
+        validateProduct(productDTO);
+
+        Product product = bindProductDTOtoProduct(productDTO);
+
         Date uploadDate = new Date();
         product.setUploadDate(uploadDate);
         product.setProductState("pending");
         addGithubInfo(product);
+
         return productsRepository.saveAndFlush(product);
     }
 
     @Override
     public Product updateProduct(long id, Product updateProduct) {
-        validateProduct(updateProduct);
+//        validateProduct(updateProduct);
         return productsRepository.saveAndFlush(updateProduct);
     }
 
@@ -93,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private void validateProduct(Product product){
+    private void validateProduct(ProductDTO product){
         List<Product> products = productsRepository.findAll();
         boolean isNamePresent = products.stream().anyMatch(p -> p.getName().equals(product.getName()));
         boolean isRepoLinkPresent = products.stream()
@@ -105,5 +119,28 @@ public class ProductServiceImpl implements ProductService {
         if (isRepoLinkPresent) {
             throw  new IllegalArgumentException("Source repository link already exist");
         }
+    }
+
+    private Product bindProductDTOtoProduct(ProductDTO productDTO){
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setVersion(productDTO.getVersion());
+
+        User user = userService.getUserById(productDTO.getOwnerId());
+        product.setOwner(user);
+
+        product.setNumberOfDownloads(productDTO.getNumberOfDownloads());
+        product.setDownloadLink(productDTO.getDownloadLink());
+        product.setSourceRepositoryLink(productDTO.getSourceRepositoryLink());
+
+        // create FILE
+        //File file = fileSystemStorageService.c
+        //TO DO
+        product.setFile(new File());
+
+        product.setTags(productDTO.getTags());
+
+        return product;
     }
 }

@@ -1,5 +1,6 @@
 package telerikacademy.extensionrepository.services.base;
 
+import telerikacademy.extensionrepository.models.DTO.ProductDTO;
 import telerikacademy.extensionrepository.models.Product;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface ProductService {
 
     Product findById(long id);
 
-    Product addProduct(Product product);
+    Product addProduct(ProductDTO product);
 
     Product updateProduct(long id, Product updateProduct);
 

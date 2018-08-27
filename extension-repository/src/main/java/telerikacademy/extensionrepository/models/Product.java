@@ -27,8 +27,8 @@ public class Product {
 
     private Date uploadDate;
 
-    @Column(nullable = false)
-    private String ownerId;
+    @OneToOne(optional = false)
+    private User owner;
 
     @Column(columnDefinition = "INT DEFAULT 0")
     private long numberOfDownloads;
@@ -98,12 +98,12 @@ public class Product {
         this.uploadDate = uploadDate;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public long getNumberOfDownloads() {

@@ -8,7 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,25 +19,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import telerikacademy.extensionrepository.config.StorageProperties;
+import telerikacademy.extensionrepository.data.FileRepository;
 import telerikacademy.extensionrepository.exceptions.StorageException;
 import telerikacademy.extensionrepository.exceptions.StorageFileNotFoundException;
+import telerikacademy.extensionrepository.models.File;
+import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.StorageService;
+import telerikacademy.extensionrepository.services.base.UserService;
 
 @Service
 public class FileSystemStorageService implements StorageService {
-
-    private final Path rootLocation;
+    private Path rootLocation;
+    private FileRepository fileRepository;
+    private UserService userService;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
+    public FileSystemStorageService(StorageProperties properties,
+                                    FileRepository fileRepository,
+                                    UserService userService) {
         this.rootLocation = Paths.get(properties.getLocation());
+        this.fileRepository = fileRepository;
+        this.userService = userService;
     }
 
     @Override
-    public void store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+    public void store(MultipartFile multipartFile, long id) {
+        User user = userService.getUserById(id);
+
+        if (user == null){
+            throw new IllegalArgumentException("Cannot find user with id = " + id);
+        }
+
+        String filename = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try {
-            if (file.isEmpty()) {
+            if (multipartFile.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
             }
             if (filename.contains("..")) {
@@ -43,10 +61,31 @@ public class FileSystemStorageService implements StorageService {
                                 + filename);
             }
 
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(filename),
+            String username = user.getUsername();
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Path path = this.rootLocation.resolve(filename);
+                if (!Files.exists(path)) {
+                    boolean createDirectory = new java.io.File(rootLocation + "/" + username).mkdirs();
+
+                    if (!createDirectory){
+                        throw new IllegalArgumentException("Cannot create directory with name = " + username);
+                    }
+                }
+
+                long size = multipartFile.getSize();
+                int lastIndexOfDot = filename.lastIndexOf('.');
+                String type = filename.substring(lastIndexOfDot + 1);
+                String location = rootLocation + "\\" + username;
+                rootLocation = Paths.get(location);
+                File file = new File(filename, type, size, location);
+
+//                System.out.println(file.toString());
+
+                Files.copy(inputStream,
+                        this.rootLocation.resolve(file.getFileName()),
                         StandardCopyOption.REPLACE_EXISTING);
             }
+
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
