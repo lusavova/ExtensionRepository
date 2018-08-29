@@ -6,13 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Path;
 
 public interface StorageService {
-
-    void init();
-
     void store(MultipartFile file, long id);
 
-    Path load(String filename);
+    Path load(long id, String filename);
 
-    Resource loadAsResource(String filename);
+    Resource loadAsResource(long id, String filename);
 
 }

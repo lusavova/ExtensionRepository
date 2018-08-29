@@ -5,7 +5,7 @@ import telerikacademy.extensionrepository.models.User;
 import java.util.List;
 
 public interface AdminService {
-    void changeUserStatus(boolean status, long id);
+    void changeUserStatus(String status, long id);
 
     void approveProduct(long id);
 

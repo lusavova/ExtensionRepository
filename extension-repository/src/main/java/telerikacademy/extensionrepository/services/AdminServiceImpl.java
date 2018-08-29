@@ -24,8 +24,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void changeUserStatus(boolean status, long id) {
-        userRepository.changeUserStatus(status, id);
+    public void changeUserStatus(String status, long id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find user with id = " + id));
+        user.setUserStatus(status);
     }
 
     @Override
