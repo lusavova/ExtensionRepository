@@ -7,11 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -24,29 +23,34 @@ import telerikacademy.extensionrepository.exceptions.StorageException;
 import telerikacademy.extensionrepository.exceptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.models.File;
 import telerikacademy.extensionrepository.models.User;
-import telerikacademy.extensionrepository.services.base.StorageService;
+import telerikacademy.extensionrepository.services.base.FileStorageService;
 import telerikacademy.extensionrepository.services.base.UserService;
-import telerikacademy.extensionrepository.validator.ZipValidator;
 
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileStorageServiceImpl implements FileStorageService {
     private Path rootLocation;
     private FileRepository fileRepository;
     private UserService userService;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties,
-                                    FileRepository fileRepository,
-                                    UserService userService) {
+    public FileStorageServiceImpl(StorageProperties properties,
+                                  FileRepository fileRepository,
+                                  UserService userService) {
         this.rootLocation = Paths.get(properties.getLocation());
         this.fileRepository = fileRepository;
         this.userService = userService;
     }
 
+
+    @Override
+    public File getById(long id) {
+        return fileRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No such file."));
+    }
+
     @Override
     public void store(MultipartFile multipartFile, long id) {
         User user = checkUser(id);
-
         String filename = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try {
             if (multipartFile.isEmpty()) {
@@ -79,12 +83,12 @@ public class FileSystemStorageService implements StorageService {
                 String downloadLink = location + "\\" + filename;
 
                 File file = new File(filename, type, size, location, downloadLink);
+                file.setOwner(user);
                 Files.copy(inputStream,
                         path.resolve(file.getFileName()),
                         StandardCopyOption.REPLACE_EXISTING);
 
                 fileRepository.save(file);
-
 
                 System.out.println("DEBUG");
             }
@@ -105,17 +109,20 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Path load(long id, String filename) {
-        return Paths.get(Objects.requireNonNull(fileRepository.findAll().stream()
-                .filter(x -> x.getOwner().getId() == id
-                        && x.getFileName().equals(filename))
-                .findFirst().orElse(null)).getDownloadLink());
-    }
+    public Path load(long userId, String filename) {
+        List<File> userFiles = fileRepository.findAll()
+                .stream()
+                .filter(f -> f.getOwner().getId() == userId)
+                .collect(Collectors.toList());
 
-//    @Override
-//    public Path load(String filename) {
-//        return rootLocation.resolve(filename);
-//    }
+        File file = userFiles
+                .stream()
+                .filter(x->x.getFileName().equals(filename))
+                .findFirst()
+                .orElseThrow(() ->new IllegalArgumentException("No such file."));
+
+        return Paths.get(file.getDownloadLink());
+    }
 
     @Override
     public Resource loadAsResource(long id, String filename) {

@@ -24,8 +24,4 @@ public interface ProductsRepository extends JpaRepository<Product, Long> {
     List<Product> findTop10ByOrderByNumberOfDownloadsDesc();
 
     List<Product> findTop10ByOrderByUploadDateDesc();
-
-//    @Modifying
-//    @Query("update Product as p set p.productState = 'approved' where p.id =?1")
-//    void approveProduct(long id);
 }

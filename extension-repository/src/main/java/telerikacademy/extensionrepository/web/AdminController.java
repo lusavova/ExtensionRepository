@@ -2,13 +2,10 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import telerikacademy.extensionrepository.data.UserRepository;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.AdminService;
 import telerikacademy.extensionrepository.services.base.ProductService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -28,35 +25,42 @@ public class AdminController {
         return adminService.getById(id);
     }
 
+
+    //•	Administrators COULD approve extension
     @PutMapping("/products/approve/{id}")
     public @ResponseBody
-    void approveProduct(@PathVariable("id") long id) {
+    String approveProduct(@PathVariable("id") long id) {
         adminService.approveProduct(id);
+        return "Successfully approved!";
     }
 
+    //•	Administrators COULD delete/edit all extensions
     @DeleteMapping("/products/delete/{id}")
     public @ResponseBody
-    void deleteProduct(@PathVariable("id") long id) {
+    String deleteProduct(@PathVariable("id") long id) {
         productService.deleteProduct(id);
+        return "Successfully deleted!";
     }
 
     @PutMapping("/products/edit/{id}")
     public @ResponseBody
-    void updateProduct(@PathVariable("id") long id, Product updateProduct) {
-        productService.updateProduct(id, updateProduct);
+    String editProduct(@PathVariable("id") long id, Product product) {
+        productService.updateProduct(id, product);
+        return "Successfully updated!";
     }
 
     @PutMapping("/users/{id}")
     public @ResponseBody
-    void changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
-
+    String changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
         switch (status) {
             case "Enable":
                 adminService.changeUserStatus(status, id);
-                break;
+                return "Enabled user";
             case "Disable":
                 adminService.changeUserStatus(status, id);
-                break;
+                return "Disabled user";
         }
+
+        return "Wrong status!";
     }
 }

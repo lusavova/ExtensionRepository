@@ -6,10 +6,10 @@ import telerikacademy.extensionrepository.data.ProductsRepository;
 import telerikacademy.extensionrepository.models.DTO.ProductDTO;
 import telerikacademy.extensionrepository.models.File;
 import telerikacademy.extensionrepository.models.Product;
-import telerikacademy.extensionrepository.models.Tag;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.GithubService;
 import telerikacademy.extensionrepository.services.base.ProductService;
+import telerikacademy.extensionrepository.services.base.FileStorageService;
 import telerikacademy.extensionrepository.services.base.UserService;
 
 import java.io.IOException;
@@ -21,17 +21,16 @@ public class ProductServiceImpl implements ProductService {
     private ProductsRepository productsRepository;
     private GithubService githubService;
     private UserService userService;
-    private FileSystemStorageService fileSystemStorageService;
+    private FileStorageService fileStorageService;
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
                               GithubService githubService,
-                              UserService userService,
-                              FileSystemStorageService fileSystemStorageService) {
+                              UserService userService, FileStorageService fileStorageService) {
         this.productsRepository = productsRepository;
         this.githubService = githubService;
         this.userService = userService;
-        this.fileSystemStorageService = fileSystemStorageService;
+        this.fileStorageService = fileStorageService;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(long id) {
-        return productsRepository.getOne(id);
+        return productsRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Cannot find product with id = " + id));
     }
 
     @Override
@@ -134,10 +133,8 @@ public class ProductServiceImpl implements ProductService {
         product.setDownloadLink(productDTO.getDownloadLink());
         product.setSourceRepositoryLink(productDTO.getSourceRepositoryLink());
 
-        // create FILE
-        //File file = fileSystemStorageService.c
-        //TO DO
-        product.setFile(new File());
+        File file = fileStorageService.getById(productDTO.getFileId());
+        product.setFile(file);
 
         product.setTags(productDTO.getTags());
 
