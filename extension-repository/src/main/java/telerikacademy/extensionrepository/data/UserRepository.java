@@ -8,11 +8,4 @@ import telerikacademy.extensionrepository.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Modifying
-    @Query("update  User u set u.userStatus = ?1 where  u.id = ?2")
-    void changeUserStatus(boolean status, long id);
-
-    @Modifying
-    @Query("update User u set u.userStatus = ?1 where  u.username = ?2")
-    void changeUserStatus(boolean status, String username);
 }

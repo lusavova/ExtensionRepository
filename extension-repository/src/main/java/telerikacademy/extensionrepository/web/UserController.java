@@ -27,13 +27,14 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping(value = "update")
-    public @ResponseBody User updateUser(@RequestBody User user){
-        return userService.updateUser(user);
+    @PutMapping(value = "/update")
+    public @ResponseBody User updateUser(@RequestBody User updateUser){
+        return userService.updateUser(updateUser);
     }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody void deleteUser(@PathVariable long id){
+    public @ResponseBody String deleteUser(@PathVariable long id){
         userService.deleteUser(id);
+        return "Successfully deleted!";
     }
 }

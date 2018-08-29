@@ -40,7 +40,7 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'active'")
+    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'disable'")
     private String userStatus;
 
     @OneToMany

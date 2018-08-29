@@ -1,6 +1,7 @@
 package telerikacademy.extensionrepository.models;
 
 import javax.persistence.*;
+import java.security.acl.Owner;
 
 @Entity
 @Table(name = "files")
@@ -21,14 +22,21 @@ public class File {
     @Column(nullable = false)
     private String fileLocation;
 
+    @Column(nullable = false)
+    private String downloadLink;
+
+    @OneToOne
+    private User owner;
+
     public File() {
     }
 
-    public File(String fileName, String type, long size, String fileLocation) {
+    public File(String fileName, String type, long size, String fileLocation, String downloadLink) {
         setFileName(fileName);
         setType(type);
         setSize(size);
         setFileLocation(fileLocation);
+        setDownloadLink(downloadLink);
     }
 
     public long getId() {
@@ -71,6 +79,22 @@ public class File {
         this.fileLocation = fileLocation;
     }
 
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = downloadLink;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @Transient
     @Override
     public String toString() {
@@ -79,4 +103,6 @@ public class File {
                 "\nSize:" + size +
                 "\nLocation " + fileLocation;
     }
+
+
 }

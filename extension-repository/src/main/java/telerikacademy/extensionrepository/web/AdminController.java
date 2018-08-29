@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.data.UserRepository;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.AdminService;
@@ -22,7 +23,8 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody User getById(@PathVariable("id") long id){
+    public @ResponseBody
+    User getById(@PathVariable("id") long id) {
         return adminService.getById(id);
     }
 
@@ -33,12 +35,14 @@ public class AdminController {
     }
 
     @DeleteMapping("/products/delete/{id}")
-    public @ResponseBody void deleteProduct(@PathVariable("id") long id){
+    public @ResponseBody
+    void deleteProduct(@PathVariable("id") long id) {
         productService.deleteProduct(id);
     }
 
     @PutMapping("/products/edit/{id}")
-    public @ResponseBody void updateProduct(@PathVariable("id") long id, Product updateProduct){
+    public @ResponseBody
+    void updateProduct(@PathVariable("id") long id, Product updateProduct) {
         productService.updateProduct(id, updateProduct);
     }
 
@@ -48,10 +52,10 @@ public class AdminController {
 
         switch (status) {
             case "Enable":
-                adminService.changeUserStatus(true, id);
+                adminService.changeUserStatus(status, id);
                 break;
             case "Disable":
-                adminService.changeUserStatus(false, id);
+                adminService.changeUserStatus(status, id);
                 break;
         }
     }

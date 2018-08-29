@@ -6,5 +6,4 @@ import telerikacademy.extensionrepository.models.File;
 
 @Repository
 public interface FileRepository extends JpaRepository<File, Long> {
-
 }
