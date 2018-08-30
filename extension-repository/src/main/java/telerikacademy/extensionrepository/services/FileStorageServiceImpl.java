@@ -19,11 +19,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import telerikacademy.extensionrepository.config.StorageProperties;
 import telerikacademy.extensionrepository.data.FileRepository;
+import telerikacademy.extensionrepository.data.ProductsRepository;
 import telerikacademy.extensionrepository.exceptions.NoSuchEntityExeption;
 import telerikacademy.extensionrepository.exceptions.NoSuchUserExeption;
 import telerikacademy.extensionrepository.exceptions.StorageException;
 import telerikacademy.extensionrepository.exceptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.models.File;
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.FileStorageService;
 import telerikacademy.extensionrepository.services.base.UserService;
@@ -32,19 +34,24 @@ import telerikacademy.extensionrepository.validator.ZipValidator;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
+    private static final String IMAGE_FOLDER_NAME = "images";
+    private static final String EXTENSIONS_FOLDER_NAME = "extensions";
+
     private Path rootLocation;
     private FileRepository fileRepository;
     private UserService userService;
+    private ProductsRepository productsRepository;
 
     @Autowired
     public FileStorageServiceImpl(StorageProperties properties,
                                   FileRepository fileRepository,
-                                  UserService userService) {
+                                  UserService userService,
+                                  ProductsRepository productsRepository) {
         this.rootLocation = Paths.get(properties.getLocation());
         this.fileRepository = fileRepository;
         this.userService = userService;
+        this.productsRepository = productsRepository;
     }
-
 
     @Override
     public File getById(long id) {
@@ -52,71 +59,49 @@ public class FileStorageServiceImpl implements FileStorageService {
                 .orElseThrow(() -> new NoSuchEntityExeption("Cannot find file with id = " + id));
     }
 
-
     @Override
     public void storeImage(MultipartFile image, long id) {
-        ImageValidator imageValidator = new ImageValidator();
-        imageValidator.validateImage(image);
-
+        ImageValidator.checkImage(image);
         User user = checkUser(id);
-
-        store(image, user, "images");
+        store(image, user, IMAGE_FOLDER_NAME);
     }
 
     @Override
     public void storeFile(MultipartFile file, long id) {
-        ZipValidator zipValidator = new ZipValidator();
-        try {
-            zipValidator.validate(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        ZipValidator.checkFile(file);
         User user = checkUser(id);
-
-        store(file, user, "extensions");
+        store(file, user, EXTENSIONS_FOLDER_NAME);
     }
 
-
-    private User checkUser(long id) {
-        User user = userService.getUserById(id);
-
-        if (user == null) {
-            throw new NoSuchUserExeption("Cannot find user with id = " + id);
-        }
-
-        return user;
-    }
+//    @Override
+//    public Path load(long userId, String filename) {
+//        List<File> userFiles = fileRepository.findAll()
+//                .stream()
+//                .filter(f -> f.getOwner().getId() == userId)
+//                .collect(Collectors.toList());
+//
+//        File file = userFiles
+//                .stream()
+//                .filter(x -> x.getFileName().equals(filename))
+//                .findFirst()
+//                .orElseThrow(() -> new NoSuchEntityExeption("Cannot find file with name: " + filename));
+//
+//        return Paths.get(file.getDownloadLink());
+//    }
 
     @Override
-    public Path load(long userId, String filename) {
-        List<File> userFiles = fileRepository.findAll()
-                .stream()
-                .filter(f -> f.getOwner().getId() == userId)
-                .collect(Collectors.toList());
-
-        File file = userFiles
-                .stream()
-                .filter(x->x.getFileName().equals(filename))
-                .findFirst()
-                .orElseThrow(() ->new NoSuchEntityExeption("Cannot find file with name: " + filename));
-
-        return Paths.get(file.getDownloadLink());
-    }
-
-    @Override
-    public Resource loadAsResource(long id, String filename) {
+    public Resource loadAsResource(long id) {
         try {
-            Path file = load(id, filename);
+            Path file = load(id);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
                 throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
+                        "Could not read file!");
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("Could not read file!", e);
         }
     }
 
@@ -166,4 +151,19 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
     }
 
+    private Path load(long productId) {
+        Product product = productsRepository
+                .findById(productId)
+                .orElseThrow(()->new NoSuchEntityExeption("Cannot find product with id = " + productId));
+        File file = product.getFile();
+        return Paths.get(file.getDownloadLink());
+    }
+
+    private User checkUser(long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            throw new NoSuchUserExeption("Cannot find user with id = " + id);
+        }
+        return user;
+    }
 }

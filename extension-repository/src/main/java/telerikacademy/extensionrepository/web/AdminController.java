@@ -42,7 +42,6 @@ public class AdminController {
         return "Successfully updated!";
     }
 
-
     //•	Administrators COULD disable user accounts
     @PutMapping("/users/{id}")
     public @ResponseBody
@@ -55,7 +54,6 @@ public class AdminController {
                 adminService.changeUserStatus(status, id);
                 return "Disabled user";
         }
-
         return "Wrong status!";
     }
 }

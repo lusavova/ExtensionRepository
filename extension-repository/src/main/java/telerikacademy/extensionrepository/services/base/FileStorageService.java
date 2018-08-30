@@ -13,7 +13,5 @@ public interface FileStorageService {
 
     void storeFile(MultipartFile file, long id);
 
-    Path load(long id, String filename);
-
-    Resource loadAsResource(long id, String filename);
+    Resource loadAsResource(long id);
 }

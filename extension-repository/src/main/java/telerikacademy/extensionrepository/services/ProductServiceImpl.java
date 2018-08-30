@@ -3,14 +3,12 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.ProductsRepository;
+import telerikacademy.extensionrepository.exceptions.NoSuchEntityExeption;
 import telerikacademy.extensionrepository.models.DTO.ProductDTO;
 import telerikacademy.extensionrepository.models.File;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
-import telerikacademy.extensionrepository.services.base.GithubService;
-import telerikacademy.extensionrepository.services.base.ProductService;
-import telerikacademy.extensionrepository.services.base.FileStorageService;
-import telerikacademy.extensionrepository.services.base.UserService;
+import telerikacademy.extensionrepository.services.base.*;
 
 import java.io.IOException;
 import java.util.Date;
@@ -22,15 +20,19 @@ public class ProductServiceImpl implements ProductService {
     private GithubService githubService;
     private UserService userService;
     private FileStorageService fileStorageService;
+    private FileService fileService;
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
                               GithubService githubService,
-                              UserService userService, FileStorageService fileStorageService) {
+                              UserService userService,
+                              FileStorageService fileStorageService,
+                              FileService fileService) {
         this.productsRepository = productsRepository;
         this.githubService = githubService;
         this.userService = userService;
         this.fileStorageService = fileStorageService;
+        this.fileService = fileService;
     }
 
     @Override
@@ -65,6 +67,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(long id) {
+        Product product = productsRepository.findById(id).orElseThrow(()-> new NoSuchEntityExeption("Cannot find product with id = " + id));
+        long fileId = product.getFile().getId();
+        fileService.deleteFile(fileId);
         productsRepository.deleteById(id);
     }
 
@@ -130,11 +135,11 @@ public class ProductServiceImpl implements ProductService {
         product.setOwner(user);
 
         product.setNumberOfDownloads(productDTO.getNumberOfDownloads());
-        product.setDownloadLink(productDTO.getDownloadLink());
         product.setSourceRepositoryLink(productDTO.getSourceRepositoryLink());
 
         File file = fileStorageService.getById(productDTO.getFileId());
         product.setFile(file);
+        product.setDownloadLink(file.getDownloadLink());
 
         product.setTags(productDTO.getTags());
 

@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 @Service
 public class GithubServiceImpl implements GithubService {
     public void saveGithubProductInfo(Product product) throws IOException {
-//        GitHub gitHub = GitHub.connect("lusavova", " a23459f85d0700ea0ec696d685f06912d7b8a7ab");
         GitHub gitHub = GitHub.connect("lusavova", " ad9a241337949205008a490e6ca37e781bcc9374");
 
         String repoLink = product.getSourceRepositoryLink();

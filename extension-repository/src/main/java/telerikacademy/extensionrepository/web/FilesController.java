@@ -11,11 +11,11 @@ import telerikacademy.extensionrepository.exceptions.StorageFileNotFoundExceptio
 import telerikacademy.extensionrepository.services.base.FileStorageService;
 
 @Controller
-public class FileController {
+public class FilesController {
     private final FileStorageService fileStorageService;
 
     @Autowired
-    public FileController(FileStorageService fileStorageService) {
+    public FilesController(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
 
@@ -42,14 +42,15 @@ public class FileController {
             fileStorageService.storeImage(image, id);
         }
     }
-    
+
     //To do: product id, not filename
     //("/files/product/{id}")
-    @GetMapping("/files/{id}/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> downloadFile(@PathVariable String filename ,@PathVariable("id") long id) {
+    @GetMapping("/files/download/product/{id}")
+    public  @ResponseBody
+    ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {
 
-        Resource file = fileStorageService.loadAsResource(id, filename);
+        System.out.println("HERE");
+        Resource file = fileStorageService.loadAsResource(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + file.getFilename() + "\"").body(file);

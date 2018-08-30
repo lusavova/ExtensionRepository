@@ -13,7 +13,7 @@ public class ProductDTO {
     private Date uploadDate;
     private long ownerId;
     private long numberOfDownloads;
-    private String downloadLink;
+//    private String downloadLink;
     private String sourceRepositoryLink;
     private long openIssues;
     private long pullRequests;
@@ -78,13 +78,13 @@ public class ProductDTO {
         this.numberOfDownloads = numberOfDownloads;
     }
 
-    public String getDownloadLink() {
-        return downloadLink;
-    }
-
-    public void setDownloadLink(String downloadLink) {
-        this.downloadLink = downloadLink;
-    }
+//    public String getDownloadLink() {
+//        return downloadLink;
+//    }
+//
+//    public void setDownloadLink(String downloadLink) {
+//        this.downloadLink = downloadLink;
+//    }
 
     public String getSourceRepositoryLink() {
         return sourceRepositoryLink;

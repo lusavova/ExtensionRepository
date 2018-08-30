@@ -54,6 +54,12 @@ public class Product {
     @OneToOne(optional = false)
     private File file;
 
+    @OneToOne(optional = false)
+    private File productPicture;
+
+    @OneToMany
+    private List<File> descriptionPictures;
+
     public Product() {
         this.tags= new ArrayList<>();
     }
@@ -176,5 +182,21 @@ public class Product {
 
     public void setFile(File file) {
         this.file = file;
+    }
+
+    public File getProductPicture() {
+        return productPicture;
+    }
+
+    public void setProductPicture(File productPicture) {
+        this.productPicture = productPicture;
+    }
+
+    public List<File> getDescriptionPictures() {
+        return descriptionPictures;
+    }
+
+    public void setDescriptionPictures(List<File> descriptionPictures) {
+        this.descriptionPictures = descriptionPictures;
     }
 }
