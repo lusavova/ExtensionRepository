@@ -9,10 +9,11 @@ import java.nio.file.Path;
 public interface FileStorageService {
     File getById(long id);
 
-    void store(MultipartFile file, long id);
+    void storeImage(MultipartFile image, long id);
+
+    void storeFile(MultipartFile file, long id);
 
     Path load(long id, String filename);
 
     Resource loadAsResource(long id, String filename);
-
 }

@@ -19,14 +19,32 @@ public class FileController {
         this.fileStorageService = fileStorageService;
     }
 
-    @PostMapping("/file/{id}/add")
+    @PostMapping("/upload/file/{id}")
     public @ResponseBody
     void handleFileUpload(@RequestBody MultipartFile file, @PathVariable long id) {
         System.out.println("FILENAME: " + file.getOriginalFilename());
-        fileStorageService.store(file, id);
+        fileStorageService.storeFile(file, id);
     }
 
+    //userId
+    @PostMapping("/upload/image/{id}")
+    public @ResponseBody
+    void handleImageUpload(@RequestBody MultipartFile image, @PathVariable long id){
+        System.out.println("image" + image.getOriginalFilename());
+        fileStorageService.storeImage(image, id);
+    }
 
+    @PostMapping("/upload/images/{id}")
+    public @ResponseBody
+    void handleImagesUpload(@PathVariable long id, @RequestBody MultipartFile... images){
+        for (MultipartFile image : images) {
+            System.out.println("image" + image.getOriginalFilename());
+            fileStorageService.storeImage(image, id);
+        }
+    }
+    
+    //To do: product id, not filename
+    //("/files/product/{id}")
     @GetMapping("/files/{id}/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename ,@PathVariable("id") long id) {
