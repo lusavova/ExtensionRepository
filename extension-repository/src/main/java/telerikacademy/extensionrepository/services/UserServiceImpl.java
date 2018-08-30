@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.data.UserRepository;
+import telerikacademy.extensionrepository.exceptions.NoSuchUserExeption;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
 
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new NoSuchUserExeption(
                         String.format("Can't find user with id = %d", id)));
     }
 
