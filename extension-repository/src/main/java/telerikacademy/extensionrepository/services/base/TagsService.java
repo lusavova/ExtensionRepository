@@ -1,5 +1,6 @@
 package telerikacademy.extensionrepository.services.base;
 
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.Tag;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface TagsService {
     void delete(long id);
 
     void addTags(List<Tag> tags);
+
+    List<Product> listAllProducts(String tagname);
 }

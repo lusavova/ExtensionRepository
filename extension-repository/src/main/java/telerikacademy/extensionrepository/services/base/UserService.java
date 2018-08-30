@@ -6,7 +6,6 @@ import telerikacademy.extensionrepository.models.User;
 import java.util.List;
 
 public interface UserService {
-
     List<User> listAllUsers();
 
     User getUserById(long id);

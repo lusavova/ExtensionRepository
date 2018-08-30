@@ -6,7 +6,6 @@ import telerikacademy.extensionrepository.models.Product;
 import java.util.List;
 
 public interface ProductService {
-
     List<Product> listAllProducts();
 
     Product findById(long id);

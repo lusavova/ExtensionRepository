@@ -19,13 +19,6 @@ public class AdminController {
         this.productService = productService;
     }
 
-    @GetMapping("/{id}")
-    public @ResponseBody
-    User getById(@PathVariable("id") long id) {
-        return adminService.getById(id);
-    }
-
-
     //•	Administrators COULD approve extension
     @PutMapping("/products/approve/{id}")
     public @ResponseBody
@@ -49,6 +42,8 @@ public class AdminController {
         return "Successfully updated!";
     }
 
+
+    //•	Administrators COULD disable user accounts
     @PutMapping("/users/{id}")
     public @ResponseBody
     String changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
