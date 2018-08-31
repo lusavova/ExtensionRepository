@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping(value = "/{id}")
     @ResponseBody
     public User findById(@PathVariable("id") long id){
-        return userService.getUserById(id);
+        return userService.findById(id);
     }
 
     @PutMapping(value = "/update/{id}")

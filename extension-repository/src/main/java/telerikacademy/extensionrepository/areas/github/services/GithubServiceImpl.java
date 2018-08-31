@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
 
 @Service
 public class GithubServiceImpl implements GithubService {
+    private static final String GITHUB_PATTERN = "(?<remove>https:\\/\\/github\\.com\\/)(?<name>.*)";
+
     public void saveGithubProductInfo(Product product) {
         GitHub gitHub = connectToGitHub();
         String repo = checkRepositoryLink(product.getSourceRepositoryLink());
@@ -25,7 +27,12 @@ public class GithubServiceImpl implements GithubService {
             repository = gitHub.getRepository(repo);
             product.setPullRequests(repository.getPullRequests(GHIssueState.OPEN).size());
             product.setOpenIssues(repository.getIssues(GHIssueState.OPEN).size());
-            Date lastCommitDate = Objects.requireNonNull(repository.listCommits().asList().stream().findFirst().orElse(null)).getCommitDate();
+            Date lastCommitDate = Objects.requireNonNull(repository.listCommits()
+                    .asList()
+                    .stream()
+                    .findFirst()
+                    .orElse(null))
+                    .getCommitDate();
             product.setLastCommitDate(lastCommitDate);
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +50,7 @@ public class GithubServiceImpl implements GithubService {
     }
 
     private String checkRepositoryLink(String repoLink){
-        Pattern pattern = Pattern.compile("(?<remove>https:\\/\\/github\\.com\\/)(?<name>.*)");
+        Pattern pattern = Pattern.compile(GITHUB_PATTERN);
         Matcher matcher = pattern.matcher(repoLink);
         String repo = null;
         if (matcher.find()){

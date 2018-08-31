@@ -98,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productDTO.getDescription());
         product.setVersion(productDTO.getVersion());
 
-        User user = userService.getUserById(productDTO.getOwnerId());
+        User user = userService.findById(productDTO.getOwnerId());
         product.setOwner(user);
 
         product.setNumberOfDownloads(productDTO.getNumberOfDownloads());

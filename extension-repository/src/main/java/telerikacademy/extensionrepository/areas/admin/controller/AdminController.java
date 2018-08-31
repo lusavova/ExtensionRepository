@@ -19,29 +19,29 @@ public class AdminController {
     }
 
     @PutMapping("/products/approve/{id}")
-    public @ResponseBody
-    String approveProduct(@PathVariable("id") long id) {
+    @ResponseBody
+    public String approveProduct(@PathVariable("id") long id) {
         adminService.approveProduct(id);
         return "Successfully approved!";
     }
 
     @DeleteMapping("/products/delete/{id}")
-    public @ResponseBody
-    String deleteProduct(@PathVariable("id") long id) {
+    @ResponseBody
+    public String deleteProduct(@PathVariable("id") long id) {
         productService.deleteProduct(id);
         return "Successfully deleted!";
     }
 
     @PutMapping("/products/edit/{id}")
-    public @ResponseBody
-    String editProduct(@PathVariable("id") long id, Product product) {
+    @ResponseBody
+    public String editProduct(@PathVariable("id") long id, Product product) {
         productService.updateProduct(id, product);
         return "Successfully updated!";
     }
 
     @PutMapping("/users/{id}")
-    public @ResponseBody
-    String changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
+    @ResponseBody
+    public String changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
         switch (status) {
             case "Enable":
                 adminService.changeUserStatus(status, id);

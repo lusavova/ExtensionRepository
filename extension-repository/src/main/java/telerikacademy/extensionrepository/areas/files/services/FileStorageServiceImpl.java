@@ -158,7 +158,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     private User checkUser(long id) {
-        User user = userService.getUserById(id);
+        User user = userService.findById(id);
         if (user == null) {
             throw new NoSuchUserExeption("Cannot find user with id = " + id);
         }

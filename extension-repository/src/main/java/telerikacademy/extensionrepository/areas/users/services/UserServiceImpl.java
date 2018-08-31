@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(long id) {
+    public User findById(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundExeption(
                         String.format("Can't find user with id = %d", id)));
@@ -61,19 +61,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(long id, User updateUser) {
-        getUserById(id);
+        findById(id);
         return userRepository.save(updateUser);
     }
 
     @Override
     public void deleteUser(long id) {
-        getUserById(id);
+        findById(id);
         userRepository.deleteById(id);
     }
 
     @Override
     public List<Product> listAllProducts(long id) {
-        return getUserById(id).getProducts();
+        return findById(id).getProducts();
     }
 
     private User bindUserDTOtoUser(UserDTO userDTO){

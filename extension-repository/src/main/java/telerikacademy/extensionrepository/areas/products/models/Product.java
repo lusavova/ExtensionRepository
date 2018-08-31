@@ -10,14 +10,14 @@ import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
-@Table(name = "products", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "downloadLink", "sourceRepositoryLink"})})
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min=3, message="Product name should be atleast 3 characters long")
+//    @NotNull
+//    @Size(min=3, message="Product name should be atleast 3 characters long")
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -29,7 +29,7 @@ public class Product {
 
     private Date uploadDate;
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private User owner;
 
     @Column(columnDefinition = "INT DEFAULT 0")

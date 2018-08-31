@@ -6,6 +6,7 @@ import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFou
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
+import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
 import telerikacademy.extensionrepository.areas.tags.services.base.TagsService;
 
 import java.util.List;
@@ -24,9 +25,9 @@ public class ProductsTagsController {
 
     @PostMapping("/add/{id}")
     public @ResponseBody
-    void addProductTags(@PathVariable("id") long id, @RequestBody List<Tag> tags){
+    void addProductTags(@PathVariable("id") long id, @RequestBody List<TagDTO> inputTags){
         Product product = productService.findById(id);
-        tagsService.addTags(tags);
+        List<Tag> tags = tagsService.addTags(inputTags);
         product.setTags(tags);
     }
 
