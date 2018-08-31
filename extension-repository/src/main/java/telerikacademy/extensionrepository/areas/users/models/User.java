@@ -1,12 +1,8 @@
 package telerikacademy.extensionrepository.areas.users.models;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,27 +13,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotNull
-//    @Size(min = 2, message = "First name should be atleast 2 characters long")
     @Column(nullable = false)
     private String firstName;
 
-//    @NotNull
-//    @Size(min = 2, message = "Last name should be atleast 2 characters long")
     @Column(nullable = false)
     private String lastName;
 
-//    @NotNull
-//    @Size(min = 3, message = "Username should be atleast 3 characters long")
     @Column(nullable = false)
     private String username;
 
-//    @NotNull
-//    @Size(min = 6, message = "Password should be atleast 6 characters long")
     @Column(nullable = false)
     private String password;
 
-//    @Email
     @Column(nullable = false)
     private String email;
 
