@@ -10,14 +10,8 @@ public class ProductDTO {
     private String name;
     private String description;
     private String version;
-    private Date uploadDate;
     private long ownerId;
-    private long numberOfDownloads;
     private String sourceRepositoryLink;
-    private long openIssues;
-    private long pullRequests;
-    private Date lastCommitDate;
-    private String productState;
     private List<Tag> tags;
     private long fileId;
 
@@ -53,14 +47,6 @@ public class ProductDTO {
         this.version = version;
     }
 
-    public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
     public long getOwnerId() {
         return ownerId;
     }
@@ -69,52 +55,12 @@ public class ProductDTO {
         this.ownerId = ownerId;
     }
 
-    public long getNumberOfDownloads() {
-        return numberOfDownloads;
-    }
-
-    public void setNumberOfDownloads(long numberOfDownloads) {
-        this.numberOfDownloads = numberOfDownloads;
-    }
-
     public String getSourceRepositoryLink() {
         return sourceRepositoryLink;
     }
 
     public void setSourceRepositoryLink(String sourceRepositoryLink) {
         this.sourceRepositoryLink = sourceRepositoryLink;
-    }
-
-    public long getOpenIssues() {
-        return openIssues;
-    }
-
-    public void setOpenIssues(long openIssues) {
-        this.openIssues = openIssues;
-    }
-
-    public long getPullRequests() {
-        return pullRequests;
-    }
-
-    public void setPullRequests(long pullRequests) {
-        this.pullRequests = pullRequests;
-    }
-
-    public Date getLastCommitDate() {
-        return lastCommitDate;
-    }
-
-    public void setLastCommitDate(Date lastCommitDate) {
-        this.lastCommitDate = lastCommitDate;
-    }
-
-    public String getProductState() {
-        return productState;
-    }
-
-    public void setProductState(String productState) {
-        this.productState = productState;
     }
 
     public List<Tag> getTags() {

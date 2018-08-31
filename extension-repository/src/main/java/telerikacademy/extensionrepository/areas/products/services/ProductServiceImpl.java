@@ -54,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = bindProductDTOtoProduct(productDTO);
         product.setUploadDate(new Date());
         product.setProductState("pending");
+        product.setNumberOfDownloads(0);
         addGithubInfo(product);
         return productsRepository.saveAndFlush(product);
     }
@@ -101,7 +102,6 @@ public class ProductServiceImpl implements ProductService {
         User user = userService.findById(productDTO.getOwnerId());
         product.setOwner(user);
 
-        product.setNumberOfDownloads(productDTO.getNumberOfDownloads());
         product.setSourceRepositoryLink(productDTO.getSourceRepositoryLink());
 
         File file = fileStorageService.getById(productDTO.getFileId());
