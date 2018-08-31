@@ -6,7 +6,7 @@ import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.validators.UserValidator;
-import telerikacademy.extensionrepository.exceptions.NoSuchUserExeption;
+import telerikacademy.extensionrepository.areas.files.exeptions.NoSuchUserExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 
@@ -57,8 +57,6 @@ public class UserServiceImpl implements UserService {
                 throw new IllegalArgumentException("Username already exists.");
             }
         }
-
-
     }
 
     @Override
@@ -88,6 +86,4 @@ public class UserServiceImpl implements UserService {
         user.setProducts(userDTO.getProducts());
         return user;
     }
-
-
 }
