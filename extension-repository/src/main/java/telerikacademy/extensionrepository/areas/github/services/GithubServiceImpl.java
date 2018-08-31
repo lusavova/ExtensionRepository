@@ -42,7 +42,7 @@ public class GithubServiceImpl implements GithubService {
     private GitHub connectToGitHub(){
         GitHub gitHub = null;
         try {
-            gitHub = GitHub.connect("lusavova", " ad9a241337949205008a490e6ca37e781bcc9374");
+            gitHub = GitHub.connect("ivanstoykovivanov-telerik", " 3f118f826b409066ada2b9daa4b45a00354a56c2");
         } catch (IOException e) {
             e.printStackTrace();
         }
