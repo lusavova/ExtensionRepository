@@ -1,12 +1,11 @@
 package telerikacademy.extensionrepository.areas.products.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
 import telerikacademy.extensionrepository.areas.users.models.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -53,10 +52,10 @@ public class Product {
     @ManyToMany
     private List<Tag> tags;
 
-    @OneToOne(optional = false)
+    @OneToOne
     private File file;
 
-    @OneToOne(optional = false)
+    @OneToOne
     private File productPicture;
 
     @OneToMany
