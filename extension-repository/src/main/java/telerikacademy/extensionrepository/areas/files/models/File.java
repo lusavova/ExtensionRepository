@@ -95,15 +95,4 @@ public class File {
     public void setOwner(User owner) {
         this.owner = owner;
     }
-
-    @Transient
-    @Override
-    public String toString() {
-        return "Filename:" + fileName +
-                "\nType:" + type +
-                "\nSize:" + size +
-                "\nLocation " + fileLocation;
-    }
-
-
 }

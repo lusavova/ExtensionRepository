@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,13 +18,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import telerikacademy.extensionrepository.areas.files.config.StorageProperties;
 import telerikacademy.extensionrepository.areas.files.data.FileRepository;
-import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
-import telerikacademy.extensionrepository.areas.files.exeptions.NoSuchEntityExeption;
-import telerikacademy.extensionrepository.areas.files.exeptions.NoSuchUserExeption;
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageException;
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.areas.files.models.File;
+import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
+import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.models.Product;
+import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.files.services.base.FileStorageService;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
@@ -36,6 +37,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private static final String EXTENSIONS_FOLDER_NAME = "extensions";
 
     private Path rootLocation;
+
     private FileRepository fileRepository;
     private UserService userService;
     private ProductsRepository productsRepository;
@@ -54,38 +56,22 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public File getById(long id) {
         return fileRepository.findById(id)
-                .orElseThrow(() -> new NoSuchEntityExeption("Cannot find file with id = " + id));
+                .orElseThrow(() -> new StorageFileNotFoundException("Cannot find file with id = " + id));
     }
 
     @Override
     public void storeImage(MultipartFile image, long id) {
         ImageValidator.checkImage(image);
-        User user = checkUser(id);
+        User user = userService.findById(id);
         store(image, user, IMAGE_FOLDER_NAME);
     }
 
     @Override
     public void storeFile(MultipartFile file, long id) {
         ZipValidator.checkFile(file);
-        User user = checkUser(id);
+        User user = userService.findById(id);
         store(file, user, EXTENSIONS_FOLDER_NAME);
     }
-
-//    @Override
-//    public Path load(long userId, String filename) {
-//        List<File> userFiles = fileRepository.findAll()
-//                .stream()
-//                .filter(f -> f.getOwner().getId() == userId)
-//                .collect(Collectors.toList());
-//
-//        File file = userFiles
-//                .stream()
-//                .filter(x -> x.getFileName().equals(filename))
-//                .findFirst()
-//                .orElseThrow(() -> new NoSuchEntityExeption("Cannot find file with name: " + filename));
-//
-//        return Paths.get(file.getDownloadLink());
-//    }
 
     @Override
     public Resource loadAsResource(long id) {
@@ -150,18 +136,9 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     private Path load(long productId) {
-        Product product = productsRepository
-                .findById(productId)
-                .orElseThrow(()->new NoSuchEntityExeption("Cannot find product with id = " + productId));
+        Product product = productsRepository.findById(productId)
+                .orElseThrow(()->new ProductNotFoundExeption("Cannot find product with id = " + productId));
         File file = product.getFile();
         return Paths.get(file.getDownloadLink());
-    }
-
-    private User checkUser(long id) {
-        User user = userService.findById(id);
-        if (user == null) {
-            throw new NoSuchUserExeption("Cannot find user with id = " + id);
-        }
-        return user;
     }
 }
