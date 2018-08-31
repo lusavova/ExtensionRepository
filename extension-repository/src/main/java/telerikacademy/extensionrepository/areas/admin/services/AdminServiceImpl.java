@@ -6,6 +6,7 @@ import telerikacademy.extensionrepository.areas.products.data.ProductsRepository
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
 import telerikacademy.extensionrepository.areas.files.exeptions.NoSuchUserExeption;
 import telerikacademy.extensionrepository.areas.products.models.Product;
+import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.admin.services.base.AdminService;
 
@@ -26,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
     public void changeUserStatus(String status, long id) {
         User user = userRepository
                 .findById(id)
-                .orElseThrow(() -> new NoSuchUserExeption("Cannot find user with id = " + id));
+                .orElseThrow(() -> new UserNotFoundExeption(String.format("Can't find user with id = %d", id)));
         user.setUserStatus(status);
     }
 
@@ -34,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
     public void approveProduct(long id) {
         Product product = productsRepository
                 .findById(id)
-                .orElseThrow(() -> new NoSuchUserExeption(String.format("Can't find user with id = %d", id)));
+                .orElseThrow(() -> new UserNotFoundExeption(String.format("Can't find user with id = %d", id)));
         product.setProductState("approved");
     }
 }

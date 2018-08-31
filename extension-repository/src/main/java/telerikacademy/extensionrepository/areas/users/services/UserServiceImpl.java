@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
+import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.validators.UserValidator;
-import telerikacademy.extensionrepository.areas.files.exeptions.NoSuchUserExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchUserExeption(
+                .orElseThrow(() -> new UserNotFoundExeption(
                         String.format("Can't find user with id = %d", id)));
     }
 
