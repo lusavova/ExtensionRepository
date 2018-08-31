@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.areas.products.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.FileStorageService;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
 import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
@@ -10,7 +11,6 @@ import telerikacademy.extensionrepository.areas.products.services.base.ProductSe
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 import telerikacademy.extensionrepository.exceptions.InvalidArgumentExeption;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
-import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.models.User;
 
@@ -104,11 +104,11 @@ public class ProductServiceImpl implements ProductService {
 
         product.setSourceRepositoryLink(productDTO.getSourceRepositoryLink());
 
+        product.setTags(productDTO.getTags());
+
         File file = fileStorageService.getById(productDTO.getFileId());
         product.setFile(file);
         product.setDownloadLink(file.getDownloadLink());
-
-        product.setTags(productDTO.getTags());
 
         return product;
     }
