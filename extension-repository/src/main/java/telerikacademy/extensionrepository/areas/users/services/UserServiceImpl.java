@@ -73,7 +73,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Product> listAllProducts(long id) {
-        return findById(id).getProducts();
+        List<Product> products = findById(id).getProducts();
+        return products;
     }
 
     private User bindUserDTOtoUser(UserDTO userDTO){

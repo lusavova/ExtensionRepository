@@ -1,5 +1,6 @@
 package telerikacademy.extensionrepository.areas.users.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 
 import javax.persistence.*;
@@ -32,6 +33,8 @@ public class User {
     private String userStatus;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner")
+    @JsonBackReference
     private List<Product> products;
 
     public User() {
