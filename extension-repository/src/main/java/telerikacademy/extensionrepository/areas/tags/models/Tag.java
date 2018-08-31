@@ -1,6 +1,5 @@
 package telerikacademy.extensionrepository.areas.tags.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 
 import javax.persistence.*;
@@ -15,10 +14,9 @@ public class Tag {
     private long id;
 
     @Column(nullable = false)
-    private String tagName;
+    private String tagname;
 
     @ManyToMany (mappedBy = "tags", targetEntity = Product.class)
-    @JsonBackReference
     private List<Product> products;
 
     public Tag() {
@@ -33,12 +31,12 @@ public class Tag {
         this.id = id;
     }
 
-    public String getTagName() {
-        return tagName;
+    public String getTagname() {
+        return tagname;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setTagname(String tagname) {
+        this.tagname = tagname;
     }
 
     public List<Product> getProducts() {
