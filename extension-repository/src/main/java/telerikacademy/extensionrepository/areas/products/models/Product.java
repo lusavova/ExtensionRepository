@@ -49,13 +49,13 @@ public class Product {
     @ManyToMany
     private List<Tag> tags;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private File file;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private File productPicture;
 
-//    @OneToMany
+//    @OneToMany(cascade = CascadeType.ALL)
 //    private List<File> descriptionPictures;
 
     public Product() {
