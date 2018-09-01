@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import telerikacademy.extensionrepository.areas.files.enums.StorageType;
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
@@ -29,14 +30,18 @@ public class FilesController {
     @ResponseBody
     public File uploadFile(@RequestBody MultipartFile file, @PathVariable long userId) {
         ZipValidator.checkFile(file);
-        return storageService.store(file, userId);
+        String type = StorageType.FILE.name();
+        File f = storageService.store(file, userId, type);
+        return f;
     }
 
     @PostMapping("/upload/image/{userId}")
     @ResponseBody
     public File uploadImage(@RequestBody MultipartFile image, @PathVariable long userId) {
         ImageValidator.checkImage(image);
-        return storageService.store(image, userId);
+        String type = StorageType.IMAGE.name();
+        File file = storageService.store(image, userId, type);
+        return file;
     }
 
     @PostMapping("/upload/images/{userId}")
@@ -45,7 +50,9 @@ public class FilesController {
         List<File> imgs = new ArrayList<>();
         for (MultipartFile image : images) {
             ImageValidator.checkImage(image);
-            imgs.add(storageService.store(image, userId));
+            String type = StorageType.IMAGE.name();
+            File file = storageService.store(image, userId, type);
+            imgs.add(file);
         }
         return imgs;
     }
@@ -53,7 +60,6 @@ public class FilesController {
     @GetMapping("/files/download/product/{id}")
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {
-
         Resource file = storageService.loadAsResource(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,

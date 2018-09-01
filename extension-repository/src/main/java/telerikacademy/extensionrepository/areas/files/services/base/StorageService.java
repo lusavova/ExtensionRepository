@@ -10,7 +10,7 @@ public interface StorageService {
 
     void createDirectory(Path path);
 
-    File store(MultipartFile multipartFile, long userId);
+    File store(MultipartFile multipartFile, long userId, String type);
 
     Path load(long id);
 

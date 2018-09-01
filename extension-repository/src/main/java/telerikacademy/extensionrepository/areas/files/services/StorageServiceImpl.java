@@ -65,7 +65,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public File store(MultipartFile multipartFile, long userId) {
+    public File store(MultipartFile multipartFile, long userId, String type) {
         File file = null;
         if (multipartFile.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
@@ -83,7 +83,7 @@ public class StorageServiceImpl implements StorageService {
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
             createDirectory(path);
-            file = createFile(multipartFile, path, user);
+            file = createFile(multipartFile, path, user, type);
             Files.copy(inputStream,
                     path.resolve(file.getFileName()),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -97,7 +97,8 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Path load(long productId) {
-        Product product = productsRepository.findById(productId)
+        Product product = productsRepository
+                .findById(productId)
                 .orElseThrow(() -> new ProductNotFoundExeption("Cannot find product with id = " + productId));
         File file = product.getFile();
         return Paths.get(file.getDownloadLink());
@@ -119,14 +120,12 @@ public class StorageServiceImpl implements StorageService {
         }
     }
 
-    private File createFile(MultipartFile multipartFile, Path path, User user) {
+    private File createFile(MultipartFile multipartFile, Path path, User user, String type) {
         String filename = multipartFile.getOriginalFilename();
         long size = multipartFile.getSize();
-        int lastIndexOfDot = filename.lastIndexOf('.');
-        String type = filename.substring(lastIndexOfDot + 1);
         String location = path.toString();
         String downloadLink = location + "\\" + filename;
-        File file = new File(filename, type, size, location, downloadLink);
+        File file = new File(filename, type , size, location, downloadLink);
         file.setOwner(user);
         return file;
     }

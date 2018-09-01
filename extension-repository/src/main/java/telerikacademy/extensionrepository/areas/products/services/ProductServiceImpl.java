@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.areas.products.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import telerikacademy.extensionrepository.areas.files.enums.StorageType;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
@@ -9,13 +10,13 @@ import telerikacademy.extensionrepository.areas.products.data.ProductsRepository
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+import telerikacademy.extensionrepository.exceptions.FormatExeption;
 import telerikacademy.extensionrepository.exceptions.InvalidArgumentExeption;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.models.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,15 +109,21 @@ public class ProductServiceImpl implements ProductService {
         product.setTags(productDTO.getTags());
 
         File file = storageService.getById(productDTO.getFileId());
+        if (!file.getType().equals(StorageType.FILE.name())){
+            throw new FormatExeption("Not a file.");
+        }
         product.setFile(file);
         product.setDownloadLink(file.getDownloadLink());
 
         File productImage = storageService.getById(productDTO.getProductPictureId());
         if (productImage == null) {
-
-            //use default picture TO DO
+            // user default picture
+        } else {
+            if (!productImage.getType().equals(StorageType.IMAGE.name())){
+                throw new FormatExeption("Not an image.");
+            }
+            product.setProductPicture(productImage);
         }
-        product.setProductPicture(productImage);
         return product;
     }
 }
