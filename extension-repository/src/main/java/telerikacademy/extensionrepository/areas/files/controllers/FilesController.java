@@ -8,44 +8,53 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
-import telerikacademy.extensionrepository.areas.files.services.base.FileStorageService;
+import telerikacademy.extensionrepository.areas.files.models.File;
+import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
+import telerikacademy.extensionrepository.areas.files.validator.ImageValidator;
+import telerikacademy.extensionrepository.areas.files.validator.ZipValidator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class FilesController {
-    private final FileStorageService fileStorageService;
+    private StorageService storageService;
 
     @Autowired
-    public FilesController(FileStorageService fileStorageService) {
-        this.fileStorageService = fileStorageService;
+    public FilesController(StorageService storageService) {
+        this.storageService = storageService;
     }
 
-    @PostMapping("/upload/file/{id}")
-    public @ResponseBody
-    void handleFileUpload(@RequestBody MultipartFile file, @PathVariable long id) {
-        fileStorageService.storeFile(file, id);
+    @PostMapping("/upload/file/{userId}")
+    @ResponseBody
+    public File uploadFile(@RequestBody MultipartFile file, @PathVariable long userId) {
+        ZipValidator.checkFile(file);
+        return storageService.store(file, userId);
     }
 
-    //userId
-    @PostMapping("/upload/image/{id}")
-    public @ResponseBody
-    void handleImageUpload(@RequestBody MultipartFile image, @PathVariable long id){
-        fileStorageService.storeImage(image, id);
+    @PostMapping("/upload/image/{userId}")
+    @ResponseBody
+    public File uploadImage(@RequestBody MultipartFile image, @PathVariable long userId) {
+        ImageValidator.checkImage(image);
+        return storageService.store(image, userId);
     }
 
-    @PostMapping("/upload/images/{id}")
-    public @ResponseBody
-    void handleImagesUpload(@PathVariable long id, @RequestBody MultipartFile... images){
+    @PostMapping("/upload/images/{userId}")
+    @ResponseBody
+    public List<File> uploadImages(@PathVariable long userId, @RequestBody MultipartFile... images) {
+        List<File> imgs = new ArrayList<>();
         for (MultipartFile image : images) {
-            System.out.println("image" + image.getOriginalFilename());
-            fileStorageService.storeImage(image, id);
+            ImageValidator.checkImage(image);
+            imgs.add(storageService.store(image, userId));
         }
+        return imgs;
     }
 
     @GetMapping("/files/download/product/{id}")
-    public  @ResponseBody
-    ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {
 
-        Resource file = fileStorageService.loadAsResource(id);
+        Resource file = storageService.loadAsResource(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + file.getFilename() + "\"").body(file);

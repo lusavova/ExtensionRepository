@@ -3,7 +3,7 @@ package telerikacademy.extensionrepository.areas.products.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.areas.files.models.File;
-import telerikacademy.extensionrepository.areas.files.services.base.FileStorageService;
+import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
 import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
@@ -15,6 +15,7 @@ import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.models.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,17 +24,17 @@ public class ProductServiceImpl implements ProductService {
     private ProductsRepository productsRepository;
     private GithubService githubService;
     private UserService userService;
-    private FileStorageService fileStorageService;
+    private StorageService storageService;
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
                               GithubService githubService,
                               UserService userService,
-                              FileStorageService fileStorageService) {
+                              StorageService storageService) {
         this.productsRepository = productsRepository;
         this.githubService = githubService;
         this.userService = userService;
-        this.fileStorageService = fileStorageService;
+        this.storageService = storageService;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     public Product findById(long id) {
         return productsRepository
                 .findById(id)
-                .orElseThrow(()->new ProductNotFoundExeption("Cannot find product with id = " + id));
+                .orElseThrow(() -> new ProductNotFoundExeption("Cannot find product with id = " + id));
     }
 
     @Override
@@ -78,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private void validateProduct(ProductDTO product){
+    private void validateProduct(ProductDTO product) {
         List<Product> products = productsRepository.findAll();
         boolean isNamePresent = products.stream().anyMatch(p -> p.getName().equals(product.getName()));
         boolean isRepositoryLinkPresent = products.stream()
@@ -88,12 +89,12 @@ public class ProductServiceImpl implements ProductService {
             //Exeption type???
             throw new InvalidArgumentExeption("Product name already exist");
         }
-        if (isRepositoryLinkPresent ) {
-            throw  new InvalidArgumentExeption("Source repository link already exist");
+        if (isRepositoryLinkPresent) {
+            throw new InvalidArgumentExeption("Source repository link already exist");
         }
     }
 
-    private Product bindProductDTOtoProduct(ProductDTO productDTO){
+    private Product bindProductDTOtoProduct(ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
@@ -106,10 +107,16 @@ public class ProductServiceImpl implements ProductService {
 
         product.setTags(productDTO.getTags());
 
-        File file = fileStorageService.getById(productDTO.getFileId());
+        File file = storageService.getById(productDTO.getFileId());
         product.setFile(file);
         product.setDownloadLink(file.getDownloadLink());
 
+        File productImage = storageService.getById(productDTO.getProductPictureId());
+        if (productImage == null) {
+
+            //use default picture TO DO
+        }
+        product.setProductPicture(productImage);
         return product;
     }
 }

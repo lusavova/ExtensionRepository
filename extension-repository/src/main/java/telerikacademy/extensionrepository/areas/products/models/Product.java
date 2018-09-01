@@ -1,6 +1,5 @@
 package telerikacademy.extensionrepository.areas.products.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
 import telerikacademy.extensionrepository.areas.users.models.User;
@@ -15,8 +14,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotNull
-//    @Size(min=3, message="Product name should be atleast 3 characters long")
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -28,7 +25,7 @@ public class Product {
 
     private Date uploadDate;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User owner;
 
     @Column(columnDefinition = "INT DEFAULT 0")
@@ -58,8 +55,8 @@ public class Product {
     @OneToOne
     private File productPicture;
 
-    @OneToMany
-    private List<File> descriptionPictures;
+//    @OneToMany
+//    private List<File> descriptionPictures;
 
     public Product() {
         this.tags= new ArrayList<>();
@@ -193,11 +190,11 @@ public class Product {
         this.productPicture = productPicture;
     }
 
-    public List<File> getDescriptionPictures() {
-        return descriptionPictures;
-    }
-
-    public void setDescriptionPictures(List<File> descriptionPictures) {
-        this.descriptionPictures = descriptionPictures;
-    }
+//    public List<File> getDescriptionPictures() {
+//        return descriptionPictures;
+//    }
+//
+//    public void setDescriptionPictures(List<File> descriptionPictures) {
+//        this.descriptionPictures = descriptionPictures;
+//    }
 }

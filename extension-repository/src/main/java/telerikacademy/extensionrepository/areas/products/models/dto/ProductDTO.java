@@ -13,6 +13,8 @@ public class ProductDTO {
     private String sourceRepositoryLink;
     private List<Tag> tags;
     private long fileId;
+    private long productPictureId;
+//    private List<Long> productPictures;
 
     public String getName() {
         return name;
@@ -69,4 +71,20 @@ public class ProductDTO {
     public void setFileId(long fileId) {
         this.fileId = fileId;
     }
+
+    public long getProductPictureId() {
+        return productPictureId;
+    }
+
+    public void setProductPictureId(long productPictureId) {
+        this.productPictureId = productPictureId;
+    }
+
+//    public List<Long> getProductPictures() {
+//        return productPictures;
+//    }
+//
+//    public void setProductPictures(List<Long> productPictures) {
+//        this.productPictures = productPictures;
+//    }
 }

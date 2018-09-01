@@ -34,10 +34,6 @@ public class ZipValidator {
         }
 
         String result = bytesHexString.toString().trim();
-        System.out.println(result);
-        if (result.equals(type)) {
-            return true;
-        }
-        return false;
+        return result.equals(type);
     }
 }
