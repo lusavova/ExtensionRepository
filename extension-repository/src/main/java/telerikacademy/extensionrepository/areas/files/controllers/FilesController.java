@@ -11,8 +11,6 @@ import telerikacademy.extensionrepository.areas.files.enums.StorageType;
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
-import telerikacademy.extensionrepository.areas.files.validator.ImageValidator;
-import telerikacademy.extensionrepository.areas.files.validator.ZipValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,6 @@ public class FilesController {
     @PostMapping("/upload/file/{userId}")
     @ResponseBody
     public File uploadFile(@RequestBody MultipartFile file, @PathVariable long userId) {
-        ZipValidator.checkFile(file);
         String type = StorageType.FILE.name();
         File f = storageService.store(file, userId, type);
         return f;
@@ -38,7 +35,6 @@ public class FilesController {
     @PostMapping("/upload/image/{userId}")
     @ResponseBody
     public File uploadImage(@RequestBody MultipartFile image, @PathVariable long userId) {
-        ImageValidator.checkImage(image);
         String type = StorageType.IMAGE.name();
         File file = storageService.store(image, userId, type);
         return file;
@@ -49,7 +45,6 @@ public class FilesController {
     public List<File> uploadImages(@PathVariable long userId, @RequestBody MultipartFile... images) {
         List<File> imgs = new ArrayList<>();
         for (MultipartFile image : images) {
-            ImageValidator.checkImage(image);
             String type = StorageType.IMAGE.name();
             File file = storageService.store(image, userId, type);
             imgs.add(file);

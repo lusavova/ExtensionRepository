@@ -1,12 +1,11 @@
 package telerikacademy.extensionrepository.areas.github.services;
 
-import com.sun.media.sound.InvalidFormatException;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Service;
-import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
+import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import java.io.IOException;
@@ -19,21 +18,26 @@ import java.util.regex.Pattern;
 public class GithubServiceImpl implements GithubService {
     private static final String GITHUB_PATTERN = "(?<remove>https:\\/\\/github\\.com\\/)(?<name>.*)";
 
-    public void saveGithubProductInfo(Product product) {
+    @Override
+    public void getGithubInfo(Product product) {
         GitHub gitHub = connectToGitHub();
         String repo = checkRepositoryLink(product.getSourceRepositoryLink());
-        GHRepository repository = null;
+        GHRepository repository;
         try {
             repository = gitHub.getRepository(repo);
-            product.setPullRequests(repository.getPullRequests(GHIssueState.OPEN).size());
-            product.setOpenIssues(repository.getIssues(GHIssueState.OPEN).size());
+            long pullRequest = repository.getPullRequests(GHIssueState.OPEN).size();
+            long openIssues = repository.getIssues(GHIssueState.OPEN).size();
             Date lastCommitDate = Objects.requireNonNull(repository.listCommits()
                     .asList()
                     .stream()
                     .findFirst()
                     .orElse(null))
                     .getCommitDate();
+
+            product.setPullRequests(pullRequest);
+            product.setOpenIssues(openIssues);
             product.setLastCommitDate(lastCommitDate);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,7 +46,7 @@ public class GithubServiceImpl implements GithubService {
     private GitHub connectToGitHub(){
         GitHub gitHub = null;
         try {
-            gitHub = GitHub.connect("ivanstoykovivanov-telerik", " 3f118f826b409066ada2b9daa4b45a00354a56c2");
+            gitHub = GitHub.connect("lusavova", " ad03b2f1cb2d5125f8aeabb4cc3b73a99f2e1cdc");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,7 +56,7 @@ public class GithubServiceImpl implements GithubService {
     private String checkRepositoryLink(String repoLink){
         Pattern pattern = Pattern.compile(GITHUB_PATTERN);
         Matcher matcher = pattern.matcher(repoLink);
-        String repo = null;
+        String repo;
         if (matcher.find()){
             repo = matcher.group("name");
         } else {

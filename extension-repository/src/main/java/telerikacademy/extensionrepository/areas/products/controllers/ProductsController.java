@@ -49,9 +49,9 @@ public class ProductsController {
         productService.deleteProduct(id);
     }
 
-    @ExceptionHandler(ProductNotFoundExeption.class)
-    public String catchProductNotFoundExeption(){
-        return "Product Not Found!";
+    @ExceptionHandler
+    public String catchProductNotFoundExeption(ProductNotFoundExeption ex){
+        return ex.getMessage();
     }
 
     @ExceptionHandler(InvalidArgumentExeption.class)

@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
         product.setUploadDate(new Date());
         product.setProductState("pending");
         product.setNumberOfDownloads(0);
-        addGithubInfo(product);
+//        addGithubInfo(product);
         return productsRepository.saveAndFlush(product);
     }
 
@@ -71,14 +71,14 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long id) {
         productsRepository.deleteById(id);
     }
-
-    private void addGithubInfo(Product product) {
-        try {
-            githubService.saveGithubProductInfo(product);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    private void addGithubInfo(Product product) {
+//        try {
+//            githubService.saveGithubProductInfo(product);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void validateProduct(ProductDTO product) {
         List<Product> products = productsRepository.findAll();
@@ -105,6 +105,12 @@ public class ProductServiceImpl implements ProductService {
         product.setOwner(user);
 
         product.setSourceRepositoryLink(productDTO.getSourceRepositoryLink());
+
+        try {
+            githubService.getGithubInfo(product);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         product.setTags(productDTO.getTags());
 

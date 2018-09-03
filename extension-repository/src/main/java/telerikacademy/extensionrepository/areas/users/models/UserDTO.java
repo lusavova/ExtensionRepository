@@ -2,14 +2,31 @@ package telerikacademy.extensionrepository.areas.users.models;
 
 import telerikacademy.extensionrepository.areas.products.models.Product;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class UserDTO {
+    @NotNull
+    @Size(min = 2, message = "First name should have atleast 2 characters long")
     private String firstName;
+
+    @NotNull
+    @Size(min = 2, message = "Last name should have atleast 2 characters long")
     private String lastName;
+
+    @NotNull
+    @Size(min = 3, message = "Username should have atleast 3 characters long")
     private String username;
+
+    @NotNull
+    @Size(min = 6, message = "Password must be atleast 6 characters long")
     private String password;
+
+    @Email
     private String email;
+
     private List<Product> products;
 
     public String getFirstName() {

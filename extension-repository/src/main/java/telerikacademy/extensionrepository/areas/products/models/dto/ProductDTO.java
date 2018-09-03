@@ -2,17 +2,22 @@ package telerikacademy.extensionrepository.areas.products.models.dto;
 
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
 
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class ProductDTO {
+    @NotNull
     private String name;
     private String description;
     private String version;
+    //@NumberFormat
     private long ownerId;
+    //unique-custom
     private String sourceRepositoryLink;
     private List<Tag> tags;
+    //number
     private long fileId;
+    //number
     private long productPictureId;
 //    private List<Long> productPictures;
 
