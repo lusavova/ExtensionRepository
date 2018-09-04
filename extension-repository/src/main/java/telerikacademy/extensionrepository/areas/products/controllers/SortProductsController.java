@@ -31,8 +31,7 @@ public class SortProductsController {
             case "UpdatedDate":
                 return sortProductsService.findAllSortedByLastCommitDateDesc();
             default:
-                //THROW EXEPTION???
-                return null;
+                return sortProductsService.findAllSortedByName();
         }
     }
 
