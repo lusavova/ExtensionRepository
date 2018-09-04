@@ -7,6 +7,7 @@ import telerikacademy.extensionrepository.areas.products.services.base.SortProdu
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/products")
 public class SortProductsController {
