@@ -7,5 +7,4 @@ import telerikacademy.extensionrepository.areas.users.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserByUsername(String username);
 }

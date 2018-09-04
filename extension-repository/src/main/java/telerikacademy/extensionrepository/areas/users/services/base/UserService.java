@@ -10,8 +10,6 @@ import java.util.List;
 public interface UserService extends FieldValueExists {
     List<User> listAllUsers();
 
-    User find(String username);
-
     User findById(long id);
 
     User addUser(UserDTO user);

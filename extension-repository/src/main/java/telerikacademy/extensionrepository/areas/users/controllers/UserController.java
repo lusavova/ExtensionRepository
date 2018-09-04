@@ -2,7 +2,6 @@ package telerikacademy.extensionrepository.areas.users.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
@@ -26,9 +25,22 @@ public class UserController {
         return userService.listAllUsers();
     }
 
+    @GetMapping
+    public @ResponseBody
+    User findBy(@RequestParam String param) {
+        switch (param) {
+            case "Username":
+                return userService.findByUsername(param);
+            case "Id":
+                return userService.findById(Long.parseLong(param));
+        }
+        return null;
+    }
+
+
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public User findById(@PathVariable("id") long id){
+    public User findById(@PathVariable long id){
         return userService.findById(id);
     }
 
