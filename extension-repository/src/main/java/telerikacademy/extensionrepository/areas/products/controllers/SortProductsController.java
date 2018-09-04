@@ -7,6 +7,7 @@ import telerikacademy.extensionrepository.areas.products.services.base.SortProdu
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/products")
 public class SortProductsController {
@@ -30,8 +31,7 @@ public class SortProductsController {
             case "UpdatedDate":
                 return sortProductsService.findAllSortedByLastCommitDateDesc();
             default:
-                //THROW EXEPTION???
-                return null;
+                return sortProductsService.findAllSortedByName();
         }
     }
 

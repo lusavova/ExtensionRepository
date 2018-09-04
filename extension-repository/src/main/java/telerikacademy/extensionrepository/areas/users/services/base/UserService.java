@@ -9,6 +9,8 @@ import java.util.List;
 public interface UserService {
     List<User> listAllUsers();
 
+    User find(String username);
+
     User findById(long id);
 
     User addUser(UserDTO user);

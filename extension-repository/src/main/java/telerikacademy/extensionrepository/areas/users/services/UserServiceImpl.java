@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
+    @Override
+    public User find(String username) {
+        return null;
+    }
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
