@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.areas.users.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
@@ -53,5 +54,10 @@ public class UserController {
     @ExceptionHandler(UserNotFoundExeption.class)
     public String catchUserNotFoundExeption(){
         return "User Not Found.";
+    }
+
+    @ExceptionHandler
+    public String catchUserNotFoundExeption(UserNotFoundExeption ex){
+        return ex.getMessage();
     }
 }
