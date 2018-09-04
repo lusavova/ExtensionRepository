@@ -72,6 +72,12 @@ public class MapperService {
 
     public User mapUserDTOToUser(UserDTO userDTO) {
         User user = new User();
-        return user;
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
+        user.setProducts(userDTO.getProducts());
+        return null;
     }
 }

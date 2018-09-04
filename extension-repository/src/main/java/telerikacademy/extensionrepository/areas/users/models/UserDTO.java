@@ -1,6 +1,8 @@
 package telerikacademy.extensionrepository.areas.users.models;
 
+import telerikacademy.extensionrepository.anotations.Unique;
 import telerikacademy.extensionrepository.areas.products.models.Product;
+import telerikacademy.extensionrepository.areas.users.services.UserServiceImpl;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ public class UserDTO {
 
     @NotNull
     @Size(min = 3, message = "Username should have atleast 3 characters long")
+    @Unique(service = UserServiceImpl.class, fieldName = "username", message = "Username already exists.")
     private String username;
 
     @NotNull
@@ -25,6 +28,7 @@ public class UserDTO {
     private String password;
 
     @Email
+    @Unique(service = UserServiceImpl.class, fieldName = "email", message = "Email already exists.")
     private String email;
 
     private List<Product> products;
