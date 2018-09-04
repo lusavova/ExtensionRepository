@@ -1,7 +1,6 @@
 package telerikacademy.extensionrepository.areas.users.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.users.models.User;
@@ -27,7 +26,7 @@ public class RegisterController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handleException(MethodArgumentNotValidException ex) {
+    public String handleValidationException(MethodArgumentNotValidException ex) {
         return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
     }
 }
