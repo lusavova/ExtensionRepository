@@ -3,7 +3,7 @@ package telerikacademy.extensionrepository.areas.users.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import telerikacademy.extensionrepository.areas.mapper.MapperService;
+import telerikacademy.extensionrepository.areas.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
 import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
@@ -19,10 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
+    private UserDTOMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserDTOMapper mapper) {
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -39,8 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(UserDTO userDTO) {
-        MapperService mapperService = new MapperService();
-        User user = mapperService.mapUserDTOToUser(userDTO);
+        User user = mapper.mapUserDTOToUser(userDTO);
         user.setUserStatus(Constants.PENDING_USER_STATUS);
         return userRepository.save(user);
     }

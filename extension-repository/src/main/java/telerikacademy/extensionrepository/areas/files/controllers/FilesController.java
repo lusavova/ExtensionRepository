@@ -52,6 +52,12 @@ public class FilesController {
         return imgs;
     }
 
+    @GetMapping("/file/get/{id}")
+    @ResponseBody
+    public File findById(@PathVariable long id) {
+        return storageService.findById(id);
+    }
+
     @GetMapping("/files/download/product/{id}")
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {

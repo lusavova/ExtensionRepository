@@ -2,7 +2,8 @@ package telerikacademy.extensionrepository.areas.products.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import telerikacademy.extensionrepository.areas.mapper.MapperService;
+import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.areas.mapper.ProductDTOMapper;
 import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
@@ -11,17 +12,19 @@ import telerikacademy.extensionrepository.areas.products.models.Product;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private ProductsRepository productsRepository;
-    private MapperService mapperService;
+    private ProductDTOMapper mapper;
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
-                              MapperService mapperService) {
+                              ProductDTOMapper mapper) {
         this.productsRepository = productsRepository;
-        this.mapperService = mapperService;
+        this.mapper = mapper;
     }
 
     @Override
@@ -38,18 +41,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(ProductDTO productDTO) {
-        //validateProduct(productDTO);
-        Product product = mapperService.mapProductDTOToProduct(productDTO);
+        Product product = mapper.mapProductDTOToProduct(productDTO);
         product.setUploadDate(new Date());
         product.setProductState("pending");
         product.setNumberOfDownloads(0);
-//        addGithubInfo(product);
         return productsRepository.saveAndFlush(product);
     }
 
     @Override
     public Product updateProduct(long id, Product updateProduct) {
-//        validateProduct(updateProduct);
         return productsRepository.saveAndFlush(updateProduct);
     }
 
@@ -57,27 +57,38 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long id) {
         productsRepository.deleteById(id);
     }
-//
-//    private void addGithubInfo(Product product) {
-//        try {
-//            githubService.saveGithubProductInfo(product);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
-//    private void validateProduct(ProductDTO product) {
-//        List<Product> products = productsRepository.findAll();
-//        boolean isNamePresent = products.stream().anyMatch(p -> p.getName().equals(product.getName()));
-//        boolean isRepositoryLinkPresent = products.stream()
-//                .anyMatch(p -> p.getSourceRepositoryLink().equals(product.getSourceRepositoryLink()));
-//
-//        if (isNamePresent) {
-//            //Exeption type???
-//            throw new InvalidArgumentExeption("Product name already exist");
-//        }
-//        if (isRepositoryLinkPresent) {
-//            throw new InvalidArgumentExeption("Source repository link already exist");
-//        }
-//    }
+    @Override
+    public boolean fieldValueExists(Object value, String fieldName) {
+        Assert.notNull(fieldName, String.format("%s already exist....", formatField(fieldName)));
+
+        if (value == null) {
+            return false;
+        }
+
+        return setOfValues(fieldName).contains(value);
+    }
+
+    private Set<Object> setOfValues(Object fieldName) {
+        Set<Object> values;
+        if (fieldName.equals("sourceRepositoryLink")) {
+            values = productsRepository.findAll().stream()
+                    .map(Product::getSourceRepositoryLink)
+                    .collect(Collectors.toSet());
+        } else if (fieldName.equals("name")) {
+            values = productsRepository.findAll().stream()
+                    .map(Product::getName)
+                    .collect(Collectors.toSet());
+        } else {
+            throw new IllegalArgumentException("No such user field.");
+        }
+
+        return values;
+    }
+
+    private String formatField(String fieldName) {
+        char firstLetter = fieldName.toUpperCase().charAt(0);
+        String resultLetters = fieldName.substring(1).toLowerCase();
+        return firstLetter + resultLetters;
+    }
 }

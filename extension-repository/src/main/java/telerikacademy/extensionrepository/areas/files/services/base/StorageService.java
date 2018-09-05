@@ -6,7 +6,7 @@ import telerikacademy.extensionrepository.areas.files.models.File;
 import java.nio.file.Path;
 
 public interface StorageService {
-    File getById(long id);
+    File findById(long id);
 
     void createDirectory(Path path);
 

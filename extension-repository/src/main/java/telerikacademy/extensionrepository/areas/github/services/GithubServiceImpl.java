@@ -4,8 +4,10 @@ import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Service;
+import telerikacademy.extensionrepository.areas.github.GitHubDTO;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
 import telerikacademy.extensionrepository.areas.products.models.Product;
+import telerikacademy.extensionrepository.constants.Constants;
 import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import java.io.IOException;
@@ -16,15 +18,14 @@ import java.util.regex.Pattern;
 
 @Service
 public class GithubServiceImpl implements GithubService {
-    private static final String GITHUB_PATTERN = "(?<remove>https:\\/\\/github\\.com\\/)(?<name>.*)";
-
     @Override
-    public void getGithubInfo(Product product) {
+    public GitHubDTO getGithubInfo(String repositoryLink) {
+        GitHubDTO gitHubDTO = new GitHubDTO();
         GitHub gitHub = connectToGitHub();
-        String repo = checkRepositoryLink(product.getSourceRepositoryLink());
         GHRepository repository;
         try {
-            repository = gitHub.getRepository(repo);
+            repository = gitHub.getRepository(repositoryLink);
+
             long pullRequest = repository.getPullRequests(GHIssueState.OPEN).size();
             long openIssues = repository.getIssues(GHIssueState.OPEN).size();
             Date lastCommitDate = Objects.requireNonNull(repository.listCommits()
@@ -34,34 +35,23 @@ public class GithubServiceImpl implements GithubService {
                     .orElse(null))
                     .getCommitDate();
 
-            product.setPullRequests(pullRequest);
-            product.setOpenIssues(openIssues);
-            product.setLastCommitDate(lastCommitDate);
+            gitHubDTO.setPullRequest(pullRequest);
+            gitHubDTO.setOpenIssues(openIssues);
+            gitHubDTO.setLastCommitDate(lastCommitDate);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return gitHubDTO;
     }
 
     private GitHub connectToGitHub(){
         GitHub gitHub = null;
         try {
-            gitHub = GitHub.connect("lusavova", " ad03b2f1cb2d5125f8aeabb4cc3b73a99f2e1cdc");
+            gitHub = GitHub.connectUsingOAuth("574926a0d8bcc1224bf0d35aaa3973c00ca2939d");
         } catch (IOException e) {
             e.printStackTrace();
         }
         return gitHub;
-    }
-
-    private String checkRepositoryLink(String repoLink){
-        Pattern pattern = Pattern.compile(GITHUB_PATTERN);
-        Matcher matcher = pattern.matcher(repoLink);
-        String repo;
-        if (matcher.find()){
-            repo = matcher.group("name");
-        } else {
-            throw new FormatExeption("Invalid repository link.");
-        }
-        return repo;
     }
 }

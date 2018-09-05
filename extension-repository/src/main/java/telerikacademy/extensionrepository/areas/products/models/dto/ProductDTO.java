@@ -1,24 +1,44 @@
 package telerikacademy.extensionrepository.areas.products.models.dto;
 
+import org.springframework.format.annotation.NumberFormat;
+import telerikacademy.extensionrepository.anotations.Unique;
+import telerikacademy.extensionrepository.areas.products.services.ProductServiceImpl;
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
+import telerikacademy.extensionrepository.constants.Constants;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 public class ProductDTO {
     @NotNull
+    @Unique(service = ProductServiceImpl.class, fieldName = "name", message = "Product name already exists.")
     private String name;
+
+    @NotNull
     private String description;
+
+    @NotNull
     private String version;
-    //@NumberFormat
+
+    @NotNull
+    @NumberFormat
     private long ownerId;
-    //unique-custom
+
+    @Unique(service = ProductServiceImpl.class, fieldName = "sourceRepositoryLink", message = "Repository link already exists.")
+    @Pattern(regexp = Constants.GITHUB_PATTERN, message = "Invalid source repository link!")
     private String sourceRepositoryLink;
+
+    //TO DO :STRING
     private List<Tag> tags;
-    //number
+
+    @NotNull
+    @NumberFormat
     private long fileId;
-    //number
+
+    @NumberFormat
     private long productPictureId;
+
 //    private List<Long> productPictures;
 
     public String getName() {
