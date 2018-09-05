@@ -1,10 +1,14 @@
 package telerikacademy.extensionrepository.areas.users.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/register")
@@ -17,7 +21,13 @@ public class RegisterController {
     }
 
     @PostMapping
-    @ResponseBody public User registerUser(@RequestBody UserDTO user) {
+    @ResponseBody
+    public User registerUser(@RequestBody @Valid UserDTO user) {
         return userService.addUser(user);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handleException(MethodArgumentNotValidException ex) {
+        return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
     }
 }

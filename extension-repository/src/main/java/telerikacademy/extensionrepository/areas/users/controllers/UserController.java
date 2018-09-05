@@ -25,9 +25,22 @@ public class UserController {
         return userService.listAllUsers();
     }
 
+    @GetMapping
+    public @ResponseBody
+    User findBy(@RequestParam String param) {
+        switch (param) {
+            case "Username":
+                return userService.findByUsername(param);
+            case "Id":
+                return userService.findById(Long.parseLong(param));
+        }
+        return null;
+    }
+
+
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public User findById(@PathVariable("id") long id){
+    public User findById(@PathVariable long id){
         return userService.findById(id);
     }
 
@@ -53,5 +66,10 @@ public class UserController {
     @ExceptionHandler(UserNotFoundExeption.class)
     public String catchUserNotFoundExeption(){
         return "User Not Found.";
+    }
+
+    @ExceptionHandler
+    public String catchUserNotFoundExeption(UserNotFoundExeption ex){
+        return ex.getMessage();
     }
 }

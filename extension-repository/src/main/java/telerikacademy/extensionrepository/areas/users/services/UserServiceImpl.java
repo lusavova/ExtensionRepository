@@ -2,26 +2,24 @@ package telerikacademy.extensionrepository.areas.users.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.areas.mapper.MapperService;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
 import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
-import telerikacademy.extensionrepository.areas.users.validators.UserValidator;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+import telerikacademy.extensionrepository.constants.Constants;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final String PENDING_USER_STATUS = "pending";
-
+    private MapperService mapperService;
     private UserRepository userRepository;
-
-    @Override
-    public User find(String username) {
-        return null;
-    }
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -42,26 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(UserDTO userDTO) {
-        User user = bindUserDTOtoUser(userDTO);
-        user.setUserStatus(PENDING_USER_STATUS);
-        checkUser(user);
+        User user = mapperService.mapUserDTOToUser(userDTO);
+        user.setUserStatus(Constants.PENDING_USER_STATUS);
         return userRepository.save(user);
-    }
-
-    private void checkUser(User user) {
-        UserValidator userValidator = new UserValidator();
-        userValidator.checkUserDataFormat(user);
-
-        List<User> users = listAllUsers();
-
-        for (User u : users) {
-            if (u.getEmail().equals(user.getEmail())){
-                throw new IllegalArgumentException("Email already exists.");
-            }
-            if (u.getUsername().equals(user.getUsername())){
-                throw new IllegalArgumentException("Username already exists.");
-            }
-        }
     }
 
     @Override
@@ -78,18 +59,47 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Product> listAllProducts(long id) {
-        List<Product> products = findById(id).getProducts();
-        return products;
+        return findById(id).getProducts();
     }
 
-    private User bindUserDTOtoUser(UserDTO userDTO){
-        User user = new User();
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        user.setProducts(userDTO.getProducts());
-        return user;
+    @Override
+    public boolean fieldValueExists(Object value, String fieldName) {
+        Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
+
+        if (value == null) {
+            return false;
+        }
+
+        return setOfValues(fieldName).contains(value);
+    }
+
+    private Set<Object> setOfValues(Object fieldName) {
+//        Field[] fields = User.class.getFields();
+//        Set<String> fieldNames = Arrays.stream(fields).map(Field::getName).collect(Collectors.toSet());
+//
+//        if (!fieldNames.contains(fieldName)){
+//            throw new IllegalArgumentException("Cannot find field with name: " + fieldName);
+//        }
+
+        Set<Object> values;
+        if (fieldName.equals("username")) {
+            values = userRepository.findAll().stream()
+                    .map(User::getUsername)
+                    .collect(Collectors.toSet());
+        } else if (fieldName.equals("email")) {
+            values = userRepository.findAll().stream()
+                    .map(User::getEmail)
+                    .collect(Collectors.toSet());
+        } else {
+            throw new IllegalArgumentException("No such user field.");
+        }
+
+        return values;
+    }
+
+    private String formatField(String fieldName) {
+        char firstLetter = fieldName.toUpperCase().charAt(0);
+        String resultLetters = fieldName.substring(1).toLowerCase();
+        return firstLetter + resultLetters;
     }
 }
