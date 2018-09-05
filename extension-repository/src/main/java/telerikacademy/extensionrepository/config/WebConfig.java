@@ -67,9 +67,12 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                         "/logout",
                         "/account",
                         "/account/save",
-                        "/products",
                         "/tags",
-                        "/tags/add"
+                        "/tags/add",
+                        "/users/products/*",
+                        "/products",
+                        "/products/add",
+                        "/products/update/*"
                         ).permitAll()
                 // authenticate all remaining URLS
                 .anyRequest()
