@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private MapperService mapperService;
     private UserRepository userRepository;
 
     @Autowired
@@ -40,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(UserDTO userDTO) {
+        MapperService mapperService = new MapperService();
         User user = mapperService.mapUserDTOToUser(userDTO);
         user.setUserStatus(Constants.PENDING_USER_STATUS);
         return userRepository.save(user);
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean fieldValueExists(Object value, String fieldName) {
-        Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
+        Assert.notNull(fieldName, String.format("%s already exist....", formatField(fieldName)));
 
         if (value == null) {
             return false;

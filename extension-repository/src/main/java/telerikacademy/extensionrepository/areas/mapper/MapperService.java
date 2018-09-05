@@ -12,6 +12,7 @@ import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+import telerikacademy.extensionrepository.constants.Constants;
 import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import java.io.IOException;
@@ -21,6 +22,9 @@ public class MapperService {
     private GithubService githubService;
     private UserService userService;
     private StorageService storageService;
+
+    public MapperService() {
+    }
 
     @Autowired
     public MapperService(GithubService githubService,
@@ -78,6 +82,6 @@ public class MapperService {
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
         user.setProducts(userDTO.getProducts());
-        return null;
+        return user;
     }
 }
