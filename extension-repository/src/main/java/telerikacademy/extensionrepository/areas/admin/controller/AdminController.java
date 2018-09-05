@@ -41,16 +41,16 @@ public class AdminController {
 
     @PutMapping("/users/{id}")
     @ResponseBody
-    public String changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
+    public void changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
         switch (status) {
             case "Enable":
                 adminService.changeUserStatus(status, id);
-                return "Enabled user";
+//                return "Enabled user";
+                break;
             case "Disable":
                 adminService.changeUserStatus(status, id);
-                return "Disabled user";
+//                return "Disabled user";
+                break;
         }
-        // Validation????
-        return "Wrong status!";
     }
 }

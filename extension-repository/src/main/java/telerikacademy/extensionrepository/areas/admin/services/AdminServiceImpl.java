@@ -7,11 +7,10 @@ import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.admin.services.base.AdminService;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+import telerikacademy.extensionrepository.constants.Constants;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-    private static final String APPROVED_USER_STATUS = "approved";
-
     private UserService userService;
     private ProductService productService;
 
@@ -31,6 +30,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void approveProduct(long id) {
         Product product = productService.findById(id);
-        product.setProductState("approved");
+        product.setProductState(Constants.APPROVED_USER_STATUS);
     }
 }

@@ -2,7 +2,6 @@ package telerikacademy.extensionrepository.areas.products.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
@@ -31,8 +30,8 @@ public class ProductsTagsController {
         product.setTags(tags);
     }
 
-    @ExceptionHandler(ProductNotFoundExeption.class)
-    public String catchProductNotFoundExeption(){
-        return "Product Not Found!";
-    }
+//    @ExceptionHandler(ProductNotFoundExeption.class)
+//    public String catchProductNotFoundExeption(){
+//        return "Product Not Found!";
+//    }
 }
