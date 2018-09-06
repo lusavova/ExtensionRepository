@@ -1,5 +1,6 @@
 package telerikacademy.extensionrepository.areas.files.services;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -22,10 +23,7 @@ import telerikacademy.extensionrepository.constants.Constants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -38,17 +36,14 @@ public class StorageServiceImpl implements StorageService {
     private final String rootLocation;
     private FileRepository fileRepository;
     private ProductsRepository productsRepository;
-    private UserService userService;
 
     @Autowired
     public StorageServiceImpl(StorageProperties storageProperties,
                               FileRepository fileRepository,
-                              ProductsRepository productsRepository,
-                              UserService userService) {
+                              ProductsRepository productsRepository) {
         this.rootLocation = storageProperties.getLocation();
         this.fileRepository = fileRepository;
         this.productsRepository = productsRepository;
-        this.userService = userService;
     }
 
     @Override
@@ -72,7 +67,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public File store(MultipartFile multipartFile, long userId, String type) {
+    public File store(MultipartFile multipartFile, User user, String type) {
         File file;
         if (multipartFile.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
@@ -83,8 +78,6 @@ public class StorageServiceImpl implements StorageService {
             throw new StorageException(
                     "Cannot store file with relative path outside current directory.");
         }
-
-        User user = userService.findById(userId);
 
         Path path = Paths.get(rootLocation + "\\" + user.getUsername());
 
@@ -147,5 +140,24 @@ public class StorageServiceImpl implements StorageService {
         File file = new File(filename, type, size, location, downloadLink);
         file.setOwner(user);
         return file;
+    }
+
+    @Override
+    public void deleteAllUserFilesFromSystem(User user){
+        String username = user.getUsername();
+        Path path = Paths.get(Constants.FILE_LOCATION + '/' + username);
+        deleteFilesFromSystem(path);
+    }
+
+    @Override
+    public void deleteFilesFromSystem(Path path){
+        try {
+            java.io.File file = new java.io.File(path.toString());
+            FileUtils.deleteDirectory(file);
+        } catch (NoSuchFileException ex) {
+            System.err.format("%s: no such" + " file or directory%n", path);
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
     }
 }

@@ -11,6 +11,10 @@ import telerikacademy.extensionrepository.areas.files.enums.StorageType;
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
+import telerikacademy.extensionrepository.areas.files.validator.ImageValidator;
+import telerikacademy.extensionrepository.areas.files.validator.ZipValidator;
+import telerikacademy.extensionrepository.areas.users.models.User;
+import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
 @Controller
 public class FilesController {
     private StorageService storageService;
+    private UserService userService;
 
     @Autowired
     public FilesController(StorageService storageService) {
@@ -28,7 +33,9 @@ public class FilesController {
     @ResponseBody
     public File uploadFile(@RequestBody MultipartFile file, @PathVariable long userId) {
         String type = StorageType.FILE.name();
-        File f = storageService.store(file, userId, type);
+        new ZipValidator().checkFile(file);
+        User user = userService.findById(userId);
+        File f = storageService.store(file, user, type);
         return f;
     }
 
@@ -36,7 +43,9 @@ public class FilesController {
     @ResponseBody
     public File uploadImage(@RequestBody MultipartFile image, @PathVariable long userId) {
         String type = StorageType.IMAGE.name();
-        File file = storageService.store(image, userId, type);
+        new ImageValidator().checkImage(image);
+        User user = userService.findById(userId);
+        File file = storageService.store(image, user, type);
         return file;
     }
 
@@ -46,7 +55,9 @@ public class FilesController {
         List<File> imgs = new ArrayList<>();
         for (MultipartFile image : images) {
             String type = StorageType.IMAGE.name();
-            File file = storageService.store(image, userId, type);
+            new ImageValidator().checkImage(image);
+            User user = userService.findById(userId);
+            File file = storageService.store(image, user, type);
             imgs.add(file);
         }
         return imgs;

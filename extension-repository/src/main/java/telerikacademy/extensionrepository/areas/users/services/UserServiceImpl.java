@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.areas.users.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
@@ -12,6 +13,7 @@ import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 import telerikacademy.extensionrepository.constants.Constants;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,12 +22,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserDTOMapper mapper;
+    private StorageService storageService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           UserDTOMapper mapper) {
+                           UserDTOMapper mapper,
+                           StorageService storageService) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.storageService = storageService;
     }
 
     @Override
@@ -55,7 +60,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(long id) {
-        findById(id);
+        User user = findById(id);
+        storageService.deleteAllUserFilesFromSystem(user);
         userRepository.deleteById(id);
     }
 
