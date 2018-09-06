@@ -25,8 +25,10 @@ public class FilesController {
     private UserService userService;
 
     @Autowired
-    public FilesController(StorageService storageService) {
+    public FilesController(StorageService storageService,
+                            UserService userService) {
         this.storageService = storageService;
+        this.userService = userService;
     }
 
     @PostMapping("/upload/file/{userId}")

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductDTO {
     @NotNull
-//    @Unique(service = ProductServiceImpl.class, fieldName = "name", message = "Name already exists.")
+    @Unique(service = ProductServiceImpl.class, fieldName = "name", message = "Name already exists.")
     private String name;
 
     @NotNull
@@ -26,7 +26,7 @@ public class ProductDTO {
     private long ownerId;
 
     @Pattern(regexp = Constants.GITHUB_PATTERN, message = "Invalid source repository link!")
-//    @Unique(service = ProductServiceImpl.class, fieldName = "sourceRepositoryLink", message = "Repository link already exists.")
+    @Unique(service = ProductServiceImpl.class, fieldName = "sourceRepositoryLink", message = "Repository link already exists.")
     private String sourceRepositoryLink;
 
     //TO DO :STRING
@@ -34,11 +34,11 @@ public class ProductDTO {
 
     @NotNull
     @NumberFormat
-//    @Unique(service = ProductServiceImpl.class, fieldName = "fileId", message = "File already exists.")
+    @Unique(service = ProductServiceImpl.class, fieldName = "fileId", message = "File already exists.")
     private long fileId;
 
     @NumberFormat
-//    @Unique(service = ProductServiceImpl.class, fieldName = "productPictureId", message = "Picture already exists.")
+    @Unique(service = ProductServiceImpl.class, fieldName = "productPictureId", message = "Picture already exists.")
     private long productPictureId;
 
 //    private List<Long> productPictures;
