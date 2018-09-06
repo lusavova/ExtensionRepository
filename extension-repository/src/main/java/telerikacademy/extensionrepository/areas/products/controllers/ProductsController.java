@@ -36,6 +36,10 @@ public class ProductsController {
     @PostMapping("/add")
     @ResponseBody
     public Product addProduct(@RequestBody @Valid ProductDTO product) {
+        System.out.println("***************");
+        System.out.println(product.toString());
+        System.out.println("***************");
+
         return productService.addProduct(product);
     }
 

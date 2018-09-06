@@ -114,4 +114,19 @@ public class ProductDTO {
 //    public void setProductPictures(List<Long> productPictures) {
 //        this.productPictures = productPictures;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", version='" + version + '\'' +
+                ", ownerId=" + ownerId +
+                ", sourceRepositoryLink='" + sourceRepositoryLink + '\'' +
+                ", tags=" + tags +
+                ", fileId=" + fileId +
+                ", productPictureId=" + productPictureId +
+                '}';
+    }
 }
