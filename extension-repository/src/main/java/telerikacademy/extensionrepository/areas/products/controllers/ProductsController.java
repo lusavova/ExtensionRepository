@@ -6,6 +6,7 @@ import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFou
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
+import telerikacademy.extensionrepository.exceptions.FormatExeption;
 import telerikacademy.extensionrepository.exceptions.InvalidArgumentExeption;
 
 import javax.validation.Valid;
@@ -43,7 +44,7 @@ public class ProductsController {
         return productService.addProduct(product);
     }
 
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     @ResponseBody
     public Product updateProduct(@RequestBody Product product, @PathVariable long id) {
         return productService.updateProduct(id, product);
@@ -61,6 +62,11 @@ public class ProductsController {
 
     @ExceptionHandler
     public String catchInvalidArgumentExeption(InvalidArgumentExeption ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler
+    public String catchFormatExeption(FormatExeption ex) {
         return ex.getMessage();
     }
 }

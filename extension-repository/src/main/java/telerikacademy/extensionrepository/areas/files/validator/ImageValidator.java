@@ -15,6 +15,7 @@ public class ImageValidator {
                 //only BMP, GIF, JPG and PNG
                 ImageIO.read(input).toString();
             } catch (Exception e) {
+                System.out.println("NOT AN IMAGE");
                throw new StorageException("Not an image!");
             }
         } catch (IOException e) {

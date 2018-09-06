@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.areas.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import telerikacademy.extensionrepository.areas.files.enums.StorageType;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.github.GitHubDTO;
@@ -13,6 +14,7 @@ import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
 import telerikacademy.extensionrepository.areas.tags.services.base.TagsService;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import java.util.List;
 import java.util.Set;
@@ -50,10 +52,16 @@ public class ProductDTOMapper {
         product.setSourceRepositoryLink(repositoryLink);
 
         File file = storageService.findById(productDTO.getFileId());
+        if (!file.getType().equals(StorageType.FILE.name())){
+            throw new FormatExeption("Not a file");
+        }
         product.setFile(file);
 
         if (productDTO.getProductPictureId() != 0) {
             File productPicture = storageService.findById(productDTO.getProductPictureId());
+            if (!productPicture.getType().equals(StorageType.IMAGE.name())){
+                throw new FormatExeption("Not an image");
+            }
             product.setProductPicture(productPicture);
         }
 
@@ -73,6 +81,7 @@ public class ProductDTOMapper {
 //        }
 
 //        product.setTags(productDTO.getTags());
+
 
         product.setDownloadLink(file.getDownloadLink());
         return product;
