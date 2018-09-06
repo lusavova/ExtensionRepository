@@ -8,6 +8,9 @@ import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.admin.services.base.AdminService;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 import telerikacademy.extensionrepository.constants.Constants;
+import telerikacademy.extensionrepository.enums.UserStatus;
+
+import static telerikacademy.extensionrepository.enums.UserStatus.*;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -24,12 +27,18 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void changeUserStatus(String status, long id) {
         User user = userService.findById(id);
-        user.setUserStatus(status);
+        user.setUserStatus(UserStatus.ENABLE.toString());
     }
 
     @Override
     public void approveProduct(long id) {
         Product product = productService.findById(id);
-        product.setProductState(Constants.APPROVED_USER_STATUS);
+        product.setProductStatus(Constants.APPROVED_USER_STATUS);
+    }
+
+    @Override
+    public void featureProduct(long id) {
+        Product product = productService.findById(id);
+        product.setFeaturedProduct(true);
     }
 }

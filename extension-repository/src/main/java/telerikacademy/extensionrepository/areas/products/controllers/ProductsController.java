@@ -8,6 +8,7 @@ import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.exceptions.InvalidArgumentExeption;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,7 @@ public class ProductsController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Product addProduct(@RequestBody ProductDTO product) {
+    public Product addProduct(@RequestBody @Valid ProductDTO product) {
         return productService.addProduct(product);
     }
 

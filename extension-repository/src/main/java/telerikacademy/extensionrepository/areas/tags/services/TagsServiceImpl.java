@@ -12,6 +12,7 @@ import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,11 +73,11 @@ public class TagsServiceImpl implements TagsService {
         return tags;
     }
 
-    @Override
-    public List<Product> listAllProducts(String tagname) {
-        Tag tag = findTagByName(tagname);
-        return tag.getProducts();
-    }
+//    @Override
+//    public List<Product> listAllProducts(String tagname) {
+//        Tag tag = findTagByName(tagname);
+//        return tag.getProducts();
+//    }
 
     private Tag findById(long id) {
         return tagsRepository

@@ -6,7 +6,7 @@ import telerikacademy.extensionrepository.common.FieldValueExists;
 
 import java.util.List;
 
-public interface ProductService extends FieldValueExists {
+public interface ProductService {
     List<Product> listAllProducts();
 
     Product findById(long id);

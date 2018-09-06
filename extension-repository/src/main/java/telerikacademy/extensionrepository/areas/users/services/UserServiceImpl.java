@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean fieldValueExists(Object value, String fieldName) {
-        Assert.notNull(fieldName, String.format("%s already exist....", formatField(fieldName)));
+        Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
 
         if (value == null) {
             return false;

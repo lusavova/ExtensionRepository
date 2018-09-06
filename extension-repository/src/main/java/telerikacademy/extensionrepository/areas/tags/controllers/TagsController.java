@@ -8,6 +8,7 @@ import telerikacademy.extensionrepository.areas.tags.models.Tag;
 import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
 import telerikacademy.extensionrepository.areas.tags.services.base.TagsService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class TagsController  {
     }
 
     @PostMapping("/add")
-    public @ResponseBody Tag add(@RequestBody TagDTO tagDTO){
+    public @ResponseBody Tag add(@RequestBody @Valid TagDTO tagDTO){
         return tagsService.add(tagDTO);
     }
 
@@ -40,10 +41,10 @@ public class TagsController  {
         tagsService.delete(id);
     }
 
-    @GetMapping("/products")
-    public List<Product> listAllProducts(String tagname){
-        return tagsService.listAllProducts(tagname);
-    }
+//    @GetMapping("/products")
+//    public List<Product> listAllProducts(String tagname){
+//        return tagsService.listAllProducts(tagname);
+//    }
 
     @ExceptionHandler(TagNotFoundExeption.class)
     public String catchUserNotFoundExeption(){

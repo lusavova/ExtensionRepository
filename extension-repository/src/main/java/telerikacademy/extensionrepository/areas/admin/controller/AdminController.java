@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.admin.services.base.AdminService;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
+import telerikacademy.extensionrepository.constants.Constants;
+import telerikacademy.extensionrepository.enums.UserStatus;
 
 @RestController
 @RequestMapping("/admin")
@@ -39,18 +41,34 @@ public class AdminController {
         return "Successfully updated!";
     }
 
-    @PutMapping("/users/{id}")
+//    @PutMapping("/users/{id}")
+//    @ResponseBody
+//    public void changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
+//        switch (status) {
+//            case "Enable":
+//                adminService.changeUserStatus(status, id);
+//                break;
+//            case "Disable":
+//                adminService.changeUserStatus(status, id);
+//                break;
+//        }
+//    }
+
+    @PutMapping("/enableUser/{id}")
     @ResponseBody
-    public void changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
-        switch (status) {
-            case "Enable":
-                adminService.changeUserStatus(status, id);
-//                return "Enabled user";
-                break;
-            case "Disable":
-                adminService.changeUserStatus(status, id);
-//                return "Disabled user";
-                break;
-        }
+    public void enableUser(@PathVariable("id") long id) {
+        adminService.changeUserStatus(UserStatus.ENABLE.name(), id);
+    }
+
+    @PutMapping("/disableUser/{id}")
+    @ResponseBody
+    public void disableUser(@PathVariable("id") long id) {
+        adminService.changeUserStatus(UserStatus.DISABLE.name(), id);
+    }
+
+    @PutMapping("/products/feature/{id}")
+    @ResponseBody
+    public void featureProduct(@PathVariable("id") long id) {
+        adminService.featureProduct(id);
     }
 }

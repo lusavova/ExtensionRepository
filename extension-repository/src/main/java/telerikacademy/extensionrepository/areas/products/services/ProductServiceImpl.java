@@ -10,6 +10,7 @@ import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFou
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.areas.products.models.Product;
+import telerikacademy.extensionrepository.areas.users.models.User;
 
 import java.util.Date;
 import java.util.List;
@@ -59,47 +60,4 @@ public class ProductServiceImpl implements ProductService {
         productsRepository.deleteById(id);
     }
 
-    @Override
-    public boolean fieldValueExists(Object value, String fieldName) {
-        Assert.notNull(fieldName, String.format("%s already exist....", formatField(fieldName)));
-
-        if (value == null) {
-            return false;
-        }
-
-        return setOfValues(fieldName).contains(value);
-    }
-
-    private Set<Object> setOfValues(Object fieldName) {
-        Set<Object> values;
-        if (fieldName.equals("sourceRepositoryLink")) {
-            values = productsRepository.findAll().stream()
-                    .map(Product::getSourceRepositoryLink)
-                    .collect(Collectors.toSet());
-        } else if (fieldName.equals("name")) {
-            values = productsRepository.findAll().stream()
-                    .map(Product::getName)
-                    .collect(Collectors.toSet());
-        } else if (fieldName.equals("fileId")) {
-            values = productsRepository.findAll().stream()
-                    .map(Product::getFile)
-                    .map(File::getId)
-                    .collect(Collectors.toSet());
-        } else if (fieldName.equals("productPictureId")) {
-            values = productsRepository.findAll().stream()
-                    .map(Product::getProductPicture)
-                    .map(File::getId)
-                    .collect(Collectors.toSet());
-        } else {
-            throw new IllegalArgumentException("No such user field.");
-        }
-
-        return values;
-    }
-
-    private String formatField(String fieldName) {
-        char firstLetter = fieldName.toUpperCase().charAt(0);
-        String resultLetters = fieldName.substring(1).toLowerCase();
-        return firstLetter + resultLetters;
-    }
 }

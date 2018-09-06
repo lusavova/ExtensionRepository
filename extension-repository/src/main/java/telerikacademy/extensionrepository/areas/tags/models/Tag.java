@@ -16,11 +16,11 @@ public class Tag {
     @Column(nullable = false)
     private String tagname;
 
-    @ManyToMany (mappedBy = "tags", targetEntity = Product.class)
-    private List<Product> products;
+//    @ManyToMany (mappedBy = "tags", targetEntity = Product.class)
+//    private List<Product> products;
 
     public Tag() {
-        products = new ArrayList<>();
+//        products = new ArrayList<>();
     }
 
     public long getId() {
@@ -38,12 +38,12 @@ public class Tag {
     public void setTagname(String tagname) {
         this.tagname = tagname;
     }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+//
+//    public List<Product> getProducts() {
+//        return products;
+//    }
+//
+//    public void setProducts(List<Product> products) {
+//        this.products = products;
+//    }
 }
