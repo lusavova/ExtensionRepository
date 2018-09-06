@@ -19,7 +19,9 @@ import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+
+@RestController
+@RequestMapping("/files")
 public class FilesController {
     private StorageService storageService;
     private UserService userService;

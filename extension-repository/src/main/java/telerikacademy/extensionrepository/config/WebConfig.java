@@ -73,7 +73,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                         "/products",
                         "/products/add",
                         "/products/update/*",
-                        "/upload/file/*"
+                        "/files/upload/file/*"
                         ).permitAll()
                 // authenticate all remaining URLS
                 .anyRequest()
