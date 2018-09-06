@@ -44,7 +44,7 @@ public class Product {
     private Date lastCommitDate;
 
     @Column(columnDefinition = "VARCHAR(50) DEFAULT 'pending'", nullable = false)
-    private String productState;
+    private String productStatus;
 
     @ManyToMany
     private List<Tag> tags;
@@ -54,6 +54,8 @@ public class Product {
 
     @OneToOne(cascade = CascadeType.ALL)
     private File productPicture;
+
+    private boolean featuredProduct;
 
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private List<File> descriptionPictures;
@@ -158,12 +160,12 @@ public class Product {
         this.lastCommitDate = lastCommitDate;
     }
 
-    public String getProductState() {
-        return productState;
+    public String getProductStatus() {
+        return productStatus;
     }
 
-    public void setProductState(String productState) {
-        this.productState = productState;
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
     }
 
     public List<Tag> getTags() {
@@ -190,7 +192,15 @@ public class Product {
         this.productPicture = productPicture;
     }
 
-//    public List<File> getDescriptionPictures() {
+    public boolean isFeaturedProduct() {
+        return featuredProduct;
+    }
+
+    public void setFeaturedProduct(boolean featuredProduct) {
+        this.featuredProduct = featuredProduct;
+    }
+
+    //    public List<File> getDescriptionPictures() {
 //        return descriptionPictures;
 //    }
 //

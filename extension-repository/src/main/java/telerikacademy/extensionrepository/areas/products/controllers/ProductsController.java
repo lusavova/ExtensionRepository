@@ -50,13 +50,12 @@ public class ProductsController {
     }
 
     @ExceptionHandler
-    public String catchProductNotFoundExeption(ProductNotFoundExeption ex){
+    public String catchProductNotFoundExeption(ProductNotFoundExeption ex) {
         return ex.getMessage();
     }
 
-    @ExceptionHandler(InvalidArgumentExeption.class)
-    public String catchInvalidArgumentExeption(){
-
-        return "Invalid argument";
+    @ExceptionHandler
+    public String catchInvalidArgumentExeption(InvalidArgumentExeption ex) {
+        return ex.getMessage();
     }
 }

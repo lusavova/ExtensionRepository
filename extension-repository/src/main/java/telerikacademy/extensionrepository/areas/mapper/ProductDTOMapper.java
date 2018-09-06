@@ -8,22 +8,32 @@ import telerikacademy.extensionrepository.areas.github.GitHubDTO;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
+import telerikacademy.extensionrepository.areas.tags.models.Tag;
+import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
+import telerikacademy.extensionrepository.areas.tags.services.base.TagsService;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductDTOMapper {
     private GithubService githubService;
     private UserService userService;
     private StorageService storageService;
+    private TagsService tagsService;
 
     @Autowired
     public ProductDTOMapper(GithubService githubService,
                             UserService userService,
-                            StorageService storageService) {
+                            StorageService storageService,
+                            TagsService tagsService) {
         this.githubService = githubService;
         this.userService = userService;
         this.storageService = storageService;
+        this.tagsService = tagsService;
     }
 
     public Product mapProductDTOToProduct(ProductDTO productDTO) {
@@ -52,7 +62,17 @@ public class ProductDTOMapper {
         product.setPullRequests(gitHubDTO.getPullRequest());
         product.setLastCommitDate(gitHubDTO.getLastCommitDate());
 
-        product.setTags(productDTO.getTags());
+//        Set<String> allTagnames = tagsService.listAll().stream().map(Tag::getTagname).collect(Collectors.toSet());
+//
+//        for (String tagname : productDTO.getTags()) {
+//            if (allTagnames.contains(tagname)){
+//                continue;
+//            }
+//            TagDTO tagDTO = new TagDTO(tagname);
+//            tagsService.add(tagDTO);
+//        }
+
+//        product.setTags(productDTO.getTags());
 
         product.setDownloadLink(file.getDownloadLink());
         return product;

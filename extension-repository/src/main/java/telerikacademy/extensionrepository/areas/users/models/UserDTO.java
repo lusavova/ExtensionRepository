@@ -33,8 +33,6 @@ public class UserDTO {
     @Unique(service = UserServiceImpl.class, fieldName = "email", message = "Email already exists.")
     private String email;
 
-    private List<Product> products;
-
     public String getFirstName() {
         return firstName;
     }
@@ -73,13 +71,5 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 }

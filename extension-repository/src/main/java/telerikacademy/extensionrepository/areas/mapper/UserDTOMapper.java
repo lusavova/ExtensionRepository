@@ -13,7 +13,7 @@ public class UserDTOMapper {
         user.setEmail(userDTO.getEmail());
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
-        user.setProducts(userDTO.getProducts());
+        //user.setProducts(userDTO.getProducts());
         return user;
     }
 }

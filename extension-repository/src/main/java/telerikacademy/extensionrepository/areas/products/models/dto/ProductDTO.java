@@ -30,12 +30,14 @@ public class ProductDTO {
     private String sourceRepositoryLink;
 
     //TO DO :STRING
-    private List<Tag> tags;
+    private List<String> tags;
 
     @NotNull
     @NumberFormat
+    @Unique(service = ProductServiceImpl.class, fieldName = "fileId", message = "File already exists.")
     private long fileId;
 
+    @Unique(service = ProductServiceImpl.class, fieldName = "productPictureId", message = "Product picture already exists.")
     @NumberFormat
     private long productPictureId;
 
@@ -81,11 +83,11 @@ public class ProductDTO {
         this.sourceRepositoryLink = sourceRepositoryLink;
     }
 
-    public List<Tag> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 

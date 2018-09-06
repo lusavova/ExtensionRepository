@@ -39,6 +39,8 @@ public class SortProductsController {
     public @ResponseBody
     List<Product> findTop10Products(@RequestParam String top10) {
         switch (top10) {
+            case "Featured":
+                return null;
             case "Newest":
                 return sortProductsService.findTop10SortedByUploadDateDesc();
             case "Downloaded":

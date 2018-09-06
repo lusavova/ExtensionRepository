@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.areas.products.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.mapper.ProductDTOMapper;
 import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
@@ -43,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(ProductDTO productDTO) {
         Product product = mapper.mapProductDTOToProduct(productDTO);
         product.setUploadDate(new Date());
-        product.setProductState("pending");
+        product.setProductStatus("pending");
         product.setNumberOfDownloads(0);
         return productsRepository.saveAndFlush(product);
     }
@@ -78,6 +79,16 @@ public class ProductServiceImpl implements ProductService {
         } else if (fieldName.equals("name")) {
             values = productsRepository.findAll().stream()
                     .map(Product::getName)
+                    .collect(Collectors.toSet());
+        } else if (fieldName.equals("fileId")) {
+            values = productsRepository.findAll().stream()
+                    .map(Product::getFile)
+                    .map(File::getId)
+                    .collect(Collectors.toSet());
+        } else if (fieldName.equals("productPictureId")) {
+            values = productsRepository.findAll().stream()
+                    .map(Product::getProductPicture)
+                    .map(File::getId)
                     .collect(Collectors.toSet());
         } else {
             throw new IllegalArgumentException("No such user field.");

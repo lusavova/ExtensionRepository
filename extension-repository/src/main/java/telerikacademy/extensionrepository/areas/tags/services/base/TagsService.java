@@ -17,5 +17,5 @@ public interface TagsService {
 
     List<Tag> addTags(List<TagDTO> tags);
 
-    List<Product> listAllProducts(String tagname);
+//    List<Product> listAllProducts(String tagname);
 }
