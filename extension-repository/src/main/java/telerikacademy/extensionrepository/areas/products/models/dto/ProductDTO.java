@@ -37,7 +37,7 @@ public class ProductDTO {
     private long fileId;
 
     @NumberFormat
-    @Unique(service = ProductServiceImpl.class, fieldName = "productPictureId", message = "Picture already exists.")
+//    @Unique(service = ProductServiceImpl.class, fieldName = "productPictureId", message = "Picture already exists.")
     private long productPictureId;
 
 //    private List<Long> productPictures;
