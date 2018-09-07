@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.admin.services.base.AdminService;
+import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.constants.Constants;
 import telerikacademy.extensionrepository.enums.UserStatus;
@@ -34,10 +35,10 @@ public class AdminController {
         return "Successfully deleted!";
     }
 
-    @PutMapping("/products/edit/{id}")
+    @PutMapping("/products/edit")
     @ResponseBody
-    public String editProduct(@PathVariable("id") long id, Product product) {
-        productService.updateProduct(id, product);
+    public String editProduct(ProductDTO product) {
+        productService.updateProduct(product);
         return "Successfully updated!";
     }
 
