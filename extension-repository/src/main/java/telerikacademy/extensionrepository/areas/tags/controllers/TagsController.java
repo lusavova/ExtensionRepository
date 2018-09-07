@@ -41,10 +41,10 @@ public class TagsController  {
         tagsService.delete(id);
     }
 
-//    @GetMapping("/products")
-//    public List<Product> listAllProducts(String tagname){
-//        return tagsService.listAllProducts(tagname);
-//    }
+    @PostMapping("/products")
+    public List<Product> listAllProducts(String tagname){
+        return tagsService.listAllProducts(tagname);
+    }
 
     @ExceptionHandler(TagNotFoundExeption.class)
     public String catchUserNotFoundExeption(){

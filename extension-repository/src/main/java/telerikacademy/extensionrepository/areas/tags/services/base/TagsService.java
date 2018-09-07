@@ -18,5 +18,5 @@ public interface TagsService extends FieldValueExists {
 
     List<Tag> addTags(List<TagDTO> tags);
 
-//    List<Product> listAllProducts(String tagname);
+    List<Product> listAllProducts(String tagname);
 }

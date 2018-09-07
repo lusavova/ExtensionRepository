@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.mapper.TagDTOMapper;
+import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
 import telerikacademy.extensionrepository.areas.tags.data.TagsRepository;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.tags.exeptions.TagNotFoundExeption;
@@ -25,11 +26,15 @@ import java.util.stream.Collectors;
 public class TagsServiceImpl implements TagsService {
     private TagsRepository tagsRepository;
     private TagDTOMapper mapper;
+    private ProductsRepository productsRepository;
 
     @Autowired
-    public TagsServiceImpl(TagsRepository tagsRepository, TagDTOMapper mapper) {
+    public TagsServiceImpl(TagsRepository tagsRepository,
+                           TagDTOMapper mapper,
+                           ProductsRepository productsRepository) {
         this.tagsRepository = tagsRepository;
         this.mapper = mapper;
+        this.productsRepository = productsRepository;
     }
 
     @Override
@@ -40,7 +45,7 @@ public class TagsServiceImpl implements TagsService {
     @Override
     public Tag add(TagDTO tagDTO) {
         if (!isTagValid(tagDTO.getTagname())) {
-            throw new FormatExeption("Invalid format");
+            throw new FormatExeption("Invalid tag format.");
         }
 
         Tag tag = mapper.mapTagDTOToTag(tagDTO);
@@ -74,27 +79,25 @@ public class TagsServiceImpl implements TagsService {
         return tags;
     }
 
-//    @Override
-//    public List<Product> listAllProducts(String tagname) {
-//        Tag tag = findTagByName(tagname);
-//        return tag.getProducts();
-//    }
+    @Override
+    public List<Product> listAllProducts(String tagname) {
+        List<Product> allProducts = productsRepository.findAll();
+        List<Product> filterProducts = allProducts.stream()
+                .filter(pr -> {
+                    Set<String> tags = pr.getTags()
+                            .stream()
+                            .map(Tag::getTagname)
+                            .collect(Collectors.toSet());
+                    return tags.contains(tagname);
+                }).collect(Collectors.toList());
+        return filterProducts;
+    }
 
     private Tag findById(long id) {
         return tagsRepository
                 .findById(id)
                 .orElseThrow(() -> new TagNotFoundExeption("Cannot find tag with id = " + id));
     }
-
-    private Tag findTagByName(String tagname) {
-        return tagsRepository
-                .findAll()
-                .stream()
-                .filter(t -> t.getTagname().equals(tagname))
-                .findFirst()
-                .orElseThrow(() -> new TagNotFoundExeption("Cannot find tag with name: " + tagname));
-    }
-
 
     private boolean isTagValid(String tagName) {
         Pattern pattern = Pattern.compile(Constants.TAG_PATTERN);
