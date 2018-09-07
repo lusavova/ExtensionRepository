@@ -45,10 +45,10 @@ public class ProductsController {
         return productService.addProduct(product);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/update")
     @ResponseBody
-    public Product updateProduct(@RequestBody Product product, @PathVariable long id) {
-        return productService.updateProduct(id, product);
+    public Product updateProduct(@RequestBody @Valid ProductDTO product) {
+        return productService.updateProduct(product);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
+import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     private UserService userService;
 
     @Autowired
@@ -32,10 +34,10 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/update")
     @ResponseBody
-    public User updateUser(@RequestBody User updateUser, @PathVariable("id") long id){
-        return userService.updateUser(id, updateUser);
+    public User updateUser(@RequestBody UserDTO updateUser){
+        return userService.updateUser(updateUser);
     }
 
     @DeleteMapping("/delete/{id}")

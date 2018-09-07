@@ -34,7 +34,7 @@ public class TagsController  {
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody Tag tag){
+    public void update(@RequestBody @Valid TagDTO tag){
         tagsService.update(tag);
     }
 

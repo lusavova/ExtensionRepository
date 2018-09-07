@@ -13,7 +13,7 @@ public interface ProductService extends FieldValueExists {
 
     Product addProduct(ProductDTO product);
 
-    Product updateProduct(long id, Product updateProduct);
+    Product updateProduct(ProductDTO updateProduct);
 
     void deleteProduct(long id);
 }

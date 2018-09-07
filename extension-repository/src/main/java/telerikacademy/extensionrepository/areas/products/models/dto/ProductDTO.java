@@ -3,12 +3,10 @@ package telerikacademy.extensionrepository.areas.products.models.dto;
 import org.springframework.format.annotation.NumberFormat;
 import telerikacademy.extensionrepository.anotations.Unique;
 import telerikacademy.extensionrepository.areas.products.services.ProductServiceImpl;
-import telerikacademy.extensionrepository.areas.tags.models.Tag;
 import telerikacademy.extensionrepository.constants.Constants;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 
 public class ProductDTO {
     @NotNull

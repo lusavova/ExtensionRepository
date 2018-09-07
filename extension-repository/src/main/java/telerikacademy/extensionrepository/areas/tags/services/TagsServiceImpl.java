@@ -59,10 +59,11 @@ public class TagsServiceImpl implements TagsService {
     }
 
     @Override
-    public void update(Tag tag) {
-        if (!isTagValid(tag.getTagname())) {
+    public void update(TagDTO tagDTO) {
+        if (!isTagValid(tagDTO.getTagname())) {
             throw new FormatExeption("Invalid format");
         }
+        Tag tag = mapper.mapTagDTOToTag(tagDTO);
         tagsRepository.saveAndFlush(tag);
     }
 

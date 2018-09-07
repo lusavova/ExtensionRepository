@@ -51,9 +51,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(long id, Product updateProduct) {
-        Product product = findById(id);
-        return productsRepository.saveAndFlush(updateProduct);
+    public Product updateProduct(ProductDTO updateProduct) {
+        Product product = mapper.mapProductDTOToProduct(updateProduct);
+        return productsRepository.saveAndFlush(product);
     }
 
     @Override

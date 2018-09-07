@@ -14,7 +14,7 @@ public interface TagsService extends FieldValueExists {
 
     void delete(long id);
 
-    void update(Tag tag);
+    void update(TagDTO tag);
 
     List<Tag> addTags(List<TagDTO> tags);
 
