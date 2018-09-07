@@ -2,12 +2,10 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import telerikacademy.extensionrepository.areas.products.controllers.ProductsController;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
 
-import java.sql.Struct;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,10 +19,10 @@ public class SearchController {
         this.productService = productService;
     }
 
-    @GetMapping("/search/{text}")
+    @PostMapping("/search")
     @ResponseBody
-    public List<Product> products(@PathVariable String text) {
-        String searchText = text.toLowerCase();
+    public List<Product> products(String text) {
+        String searchText = text.toLowerCase().trim().replaceAll("\\s+", " ");
 
         List<Product> products = productService
                 .listAllProducts()
