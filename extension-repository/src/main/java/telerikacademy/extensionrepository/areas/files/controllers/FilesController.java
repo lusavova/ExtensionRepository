@@ -78,7 +78,7 @@ public class FilesController {
         return storageService.findById(id);
     }
 
-    @GetMapping("/files/download/product/{id}")
+    @GetMapping("/download/product/{id}")
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {
         Resource file = storageService.loadAsResource(id);
