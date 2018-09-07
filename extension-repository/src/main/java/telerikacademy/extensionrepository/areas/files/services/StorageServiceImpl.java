@@ -51,7 +51,8 @@ public class StorageServiceImpl implements StorageService {
         System.out.println(fileRepository.existsById(id));
 
         System.out.println();
-        return fileRepository.findById(id).orElseThrow(() -> new StorageFileNotFoundException("Cannot find file with id = " + id));
+        return fileRepository.findById(id)
+                .orElseThrow(() -> new StorageFileNotFoundException("Cannot find file with id = " + id));
     }
 
     @Override
@@ -61,7 +62,7 @@ public class StorageServiceImpl implements StorageService {
             boolean createDirectory = new java.io.File(pathname).mkdirs();
 
             if (!createDirectory) {
-                throw new IllegalArgumentException("Cannot create directory");
+                throw new IllegalArgumentException("Cannot create directory.");
             }
         }
     }
