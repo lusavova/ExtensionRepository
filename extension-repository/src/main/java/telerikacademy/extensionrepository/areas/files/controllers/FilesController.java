@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import telerikacademy.extensionrepository.areas.files.enums.StorageType;
@@ -36,6 +35,9 @@ public class FilesController {
     @PostMapping("/upload/file/{userId}")
     @ResponseBody
     public File uploadFile(@RequestBody MultipartFile file, @PathVariable long userId) {
+        if (file == null){
+            throw new IllegalArgumentException("File cannot be null.");
+        }
         String type = StorageType.FILE.name();
         new ZipValidator().checkFile(file);
         User user = userService.findById(userId);
@@ -46,6 +48,9 @@ public class FilesController {
     @PostMapping("/upload/image/{userId}")
     @ResponseBody
     public File uploadImage(@RequestBody MultipartFile image, @PathVariable long userId) {
+        if (image == null){
+            throw new IllegalArgumentException("Image file cannot be null.");
+        }
         String type = StorageType.IMAGE.name();
         new ImageValidator().checkImage(image);
         User user = userService.findById(userId);
@@ -58,6 +63,9 @@ public class FilesController {
     public List<File> uploadImages(@PathVariable long userId, @RequestBody MultipartFile... images) {
         List<File> imgs = new ArrayList<>();
         for (MultipartFile image : images) {
+            if (image == null){
+                throw new IllegalArgumentException("Image file cannot be null.");
+            }
             String type = StorageType.IMAGE.name();
             new ImageValidator().checkImage(image);
             User user = userService.findById(userId);
@@ -85,5 +93,10 @@ public class FilesController {
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler
+    public String catchIllegalArgumentExceptions(IllegalArgumentException ex) {
+        return ex.getMessage();
     }
 }

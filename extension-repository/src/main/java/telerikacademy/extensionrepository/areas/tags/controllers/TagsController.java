@@ -7,6 +7,7 @@ import telerikacademy.extensionrepository.areas.tags.exeptions.TagNotFoundExepti
 import telerikacademy.extensionrepository.areas.tags.models.Tag;
 import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
 import telerikacademy.extensionrepository.areas.tags.services.base.TagsService;
+import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,5 +50,16 @@ public class TagsController  {
     @ExceptionHandler(TagNotFoundExeption.class)
     public String catchUserNotFoundExeption(){
         return "Tag Not Found.";
+    }
+
+
+    @ExceptionHandler
+    public String catchFormatExeptions(FormatExeption ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler
+    public String catchIllegalArgumentExceptions(IllegalArgumentException ex) {
+        return ex.getMessage();
     }
 }
