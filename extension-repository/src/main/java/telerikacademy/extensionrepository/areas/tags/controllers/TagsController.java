@@ -46,20 +46,4 @@ public class TagsController  {
     public List<Product> listAllProducts(String tagname){
         return tagsService.listAllProducts(tagname);
     }
-
-    @ExceptionHandler(TagNotFoundExeption.class)
-    public String catchUserNotFoundExeption(){
-        return "Tag Not Found.";
-    }
-
-
-    @ExceptionHandler
-    public String catchFormatExeptions(FormatExeption ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler
-    public String catchIllegalArgumentExceptions(IllegalArgumentException ex) {
-        return ex.getMessage();
-    }
 }

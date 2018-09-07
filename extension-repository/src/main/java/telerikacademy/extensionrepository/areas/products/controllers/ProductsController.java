@@ -54,19 +54,4 @@ public class ProductsController {
     public void deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
     }
-
-    @ExceptionHandler
-    public String catchProductNotFoundExeption(ProductNotFoundExeption ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler
-    public String catchInvalidArgumentExeption(InvalidArgumentExeption ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler
-    public String catchFormatExeption(FormatExeption ex) {
-        return ex.getMessage();
-    }
 }

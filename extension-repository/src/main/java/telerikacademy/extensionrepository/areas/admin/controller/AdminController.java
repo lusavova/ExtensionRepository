@@ -41,19 +41,6 @@ public class AdminController {
         return "Successfully updated!";
     }
 
-//    @PutMapping("/users/{id}")
-//    @ResponseBody
-//    public void changeUserStatus(@PathVariable("id") long id, @RequestParam String status) {
-//        switch (status) {
-//            case "Enable":
-//                adminService.changeUserStatus(status, id);
-//                break;
-//            case "Disable":
-//                adminService.changeUserStatus(status, id);
-//                break;
-//        }
-//    }
-
     @PutMapping("/enableUser/{id}")
     @ResponseBody
     public void enableUser(@PathVariable("id") long id) {

@@ -10,8 +10,6 @@ import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 import telerikacademy.extensionrepository.constants.Constants;
 import telerikacademy.extensionrepository.enums.UserStatus;
 
-import static telerikacademy.extensionrepository.enums.UserStatus.*;
-
 @Service
 public class AdminServiceImpl implements AdminService {
     private UserService userService;

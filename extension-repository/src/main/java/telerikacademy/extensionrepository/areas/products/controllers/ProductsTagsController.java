@@ -29,9 +29,4 @@ public class ProductsTagsController {
         List<Tag> tags = tagsService.addTags(inputTags);
         product.setTags(tags);
     }
-
-//    @ExceptionHandler(ProductNotFoundExeption.class)
-//    public String catchProductNotFoundExeption(){
-//        return "Product Not Found!";
-//    }
 }

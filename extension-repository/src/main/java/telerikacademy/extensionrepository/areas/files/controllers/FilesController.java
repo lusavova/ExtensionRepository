@@ -7,19 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import telerikacademy.extensionrepository.areas.files.enums.StorageType;
-import telerikacademy.extensionrepository.areas.files.exeptions.StorageException;
-import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.files.validator.ImageValidator;
 import telerikacademy.extensionrepository.areas.files.validator.ZipValidator;
-import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/files")
@@ -89,25 +85,5 @@ public class FilesController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
-    @ExceptionHandler
-    public String handleProductNotFoundExeption(ProductNotFoundExeption ex){
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler
-    public String handleStorageException(StorageException ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler
-    public String handleStorageFileNotFound(StorageFileNotFoundException ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler
-    public String catchIllegalArgumentExceptions(IllegalArgumentException ex) {
-        return ex.getMessage();
     }
 }

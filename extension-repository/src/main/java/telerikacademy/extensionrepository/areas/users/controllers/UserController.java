@@ -49,14 +49,4 @@ public class UserController {
     public List<Product> listAllUserProducts(@PathVariable("id") long id){
         return userService.listAllProducts(id);
     }
-
-//    @ExceptionHandler(UserNotFoundExeption.class)
-//    public String catchUserNotFoundExeption(){
-//        return "User Not Found.";
-//    }
-
-    @ExceptionHandler
-    public String catchUserNotFoundExeption(UserNotFoundExeption ex){
-        return ex.getMessage();
-    }
 }
