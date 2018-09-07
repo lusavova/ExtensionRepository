@@ -53,6 +53,11 @@ public class ProductDTOMapper {
         product.setSourceRepositoryLink(repositoryLink);
 
         File file = storageService.findById(productDTO.getFileId());
+        long fileOwnerId = file.getOwner().getId();
+        if (fileOwnerId != user.getId()){
+            throw new IllegalArgumentException("File owner id is not the same as product owner id.");
+        }
+
         if (!file.getType().equals(StorageType.FILE.name())) {
             throw new FormatExeption("Not a file");
         }
@@ -60,6 +65,9 @@ public class ProductDTOMapper {
 
         if (productDTO.getProductPictureId() != 0) {
             File productPicture = storageService.findById(productDTO.getProductPictureId());
+            if (productPicture.getOwner().getId() != user.getId()){
+                throw new IllegalArgumentException("Image owner id is not the same as product owner id.");
+            }
             if (!productPicture.getType().equals(StorageType.IMAGE.name())) {
                 throw new FormatExeption("Not an image");
             }
