@@ -1,6 +1,7 @@
 package telerikacademy.extensionrepository.areas.products.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
@@ -53,5 +54,11 @@ public class ProductsController {
     @DeleteMapping("/delete/{id}")
     public void deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
+    }
+
+    @ExceptionHandler
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        String message =  ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return message;
     }
 }

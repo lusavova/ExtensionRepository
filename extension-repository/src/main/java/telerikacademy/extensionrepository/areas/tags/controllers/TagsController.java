@@ -1,6 +1,7 @@
 package telerikacademy.extensionrepository.areas.tags.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.tags.exeptions.TagNotFoundExeption;
@@ -45,5 +46,10 @@ public class TagsController  {
     @PostMapping("/products")
     public List<Product> listAllProducts(String tagname){
         return tagsService.listAllProducts(tagname);
+    }
+
+    @ExceptionHandler
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
     }
 }

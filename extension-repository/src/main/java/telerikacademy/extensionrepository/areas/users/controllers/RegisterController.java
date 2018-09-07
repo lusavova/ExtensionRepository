@@ -24,4 +24,11 @@ public class RegisterController {
     public User registerUser(@RequestBody @Valid UserDTO user) {
         return userService.addUser(user);
     }
+
+
+    @ExceptionHandler
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        String message =  ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        return message;
+    }
 }

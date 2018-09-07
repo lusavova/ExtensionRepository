@@ -2,7 +2,6 @@ package telerikacademy.extensionrepository.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,22 +83,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public final String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-//        return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-//    }
-
     @ExceptionHandler(UserNotFoundExeption.class)
     public final ResponseEntity<ErrorDetails> handlecatchUserNotFoundExeption(UserNotFoundExeption ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
-
-
-
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public String handleValidationException(MethodArgumentNotValidException ex) {
-//        return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-//    }
-
 }
