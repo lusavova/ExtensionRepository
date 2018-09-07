@@ -1,10 +1,11 @@
 package telerikacademy.extensionrepository.areas.mapper;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 
-@Service
+@Component
 public class UserDTOMapper {
     public User mapUserDTOToUser(UserDTO userDTO) {
         User user = new User();

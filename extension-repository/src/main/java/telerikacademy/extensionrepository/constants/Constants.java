@@ -10,4 +10,6 @@ public class Constants {
     public static final String OAUTH_ACCESS_TOKEN = "e9e6d224388129819c52834be0999826803ce5b3";
     public static final String GITHUB_USERNAME = "lusavova";
     public static final String FILE_LOCATION = "../FILES";
+
+    public static final String TAG_PATTERN = "[a-zA-Z0-9_]{2,}";
 }

@@ -16,6 +16,7 @@ import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
 import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,14 +53,14 @@ public class ProductDTOMapper {
         product.setSourceRepositoryLink(repositoryLink);
 
         File file = storageService.findById(productDTO.getFileId());
-        if (!file.getType().equals(StorageType.FILE.name())){
+        if (!file.getType().equals(StorageType.FILE.name())) {
             throw new FormatExeption("Not a file");
         }
         product.setFile(file);
 
         if (productDTO.getProductPictureId() != 0) {
             File productPicture = storageService.findById(productDTO.getProductPictureId());
-            if (!productPicture.getType().equals(StorageType.IMAGE.name())){
+            if (!productPicture.getType().equals(StorageType.IMAGE.name())) {
                 throw new FormatExeption("Not an image");
             }
             product.setProductPicture(productPicture);
@@ -70,18 +71,23 @@ public class ProductDTOMapper {
         product.setPullRequests(gitHubDTO.getPullRequest());
         product.setLastCommitDate(gitHubDTO.getLastCommitDate());
 
-//        Set<String> allTagnames = tagsService.listAll().stream().map(Tag::getTagname).collect(Collectors.toSet());
-//
-//        for (String tagname : productDTO.getTags()) {
-//            if (allTagnames.contains(tagname)){
-//                continue;
-//            }
-//            TagDTO tagDTO = new TagDTO(tagname);
-//            tagsService.add(tagDTO);
-//        }
+        Set<String> allTagnames = tagsService.listAll()
+                .stream()
+                .map(Tag::getTagname)
+                .collect(Collectors.toSet());
 
-//        product.setTags(productDTO.getTags());
+        List<Tag> productTags = new ArrayList<>();
 
+        String[] tags = productDTO.getTags();
+
+        for (String tagname : productDTO.getTags()) {
+            if (allTagnames.contains(tagname)) {
+                continue;
+            }
+            TagDTO tagDTO = new TagDTO(tagname);
+            productTags.add(tagsService.add(tagDTO));
+        }
+        product.setTags(productTags);
 
         product.setDownloadLink(file.getDownloadLink());
         return product;

@@ -29,8 +29,7 @@ public class ProductDTO {
     @Unique(service = ProductServiceImpl.class, fieldName = "sourceRepositoryLink", message = "Repository link already exists.")
     private String sourceRepositoryLink;
 
-    //TO DO :STRING
-    private List<String> tags;
+    private String[] tags;
 
     @NotNull
     @NumberFormat
@@ -83,14 +82,6 @@ public class ProductDTO {
         this.sourceRepositoryLink = sourceRepositoryLink;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
     public long getFileId() {
         return fileId;
     }
@@ -107,7 +98,15 @@ public class ProductDTO {
         this.productPictureId = productPictureId;
     }
 
-//    public List<Long> getProductPictures() {
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    //    public List<Long> getProductPictures() {
 //        return productPictures;
 //    }
 //
