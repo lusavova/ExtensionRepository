@@ -47,15 +47,12 @@ public class FilesController {
 
     @PostMapping("/upload/image/{userId}")
     @ResponseBody
-    public File uploadImage(@RequestBody MultipartFile image, @PathVariable long userId) {
-        if (image == null){
-            throw new IllegalArgumentException("Image file cannot be null.");
-        }
+    public File uploadImage(@RequestBody MultipartFile file, @PathVariable long userId) {
         String type = StorageType.IMAGE.name();
-        new ImageValidator().checkImage(image);
+        new ImageValidator().checkImage(file);
         User user = userService.findById(userId);
-        File file = storageService.store(image, user, type);
-        return file;
+        File f = storageService.store(file, user, type);
+        return f;
     }
 
     @PostMapping("/upload/images/{userId}")
