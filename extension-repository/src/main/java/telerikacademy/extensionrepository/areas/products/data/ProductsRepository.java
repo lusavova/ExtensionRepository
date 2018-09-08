@@ -11,8 +11,16 @@ import java.util.List;
 public interface ProductsRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByOrderByName();
 
-    @Query("select p from Product p inner join User u on u.id = p.owner where u.userStatus = 'ENABLE'")
-    List<Product> findAllEnableProducts();
+//    @Query("select p from Product p inner join User u on u.id = p.owner where u.userStatus = 'ENABLED'")
+
+    @Query("select p from Product p where p.productStatus = 'DISABLED'")
+    List<Product> listAllDisabledProducts();
+
+    @Query("select p from Product p where p.productStatus = 'ENABLED'")
+    List<Product> listAllActiveProducts();
+
+    @Query("select p from Product p where p.productStatus = 'PENDING'")
+    List<Product> listAllPendingProducts();
 
     List<Product> findAllByOrderByNumberOfDownloadsDesc();
 

@@ -7,8 +7,6 @@ import telerikacademy.extensionrepository.common.FieldValueExists;
 import java.util.List;
 
 public interface ProductService extends FieldValueExists {
-    List<Product> listAllProducts();
-
     Product findById(long id);
 
     Product addProduct(ProductDTO product);
@@ -16,6 +14,18 @@ public interface ProductService extends FieldValueExists {
     Product updateProduct(ProductDTO updateProduct);
 
     void deleteProduct(long id);
+
+    List<Product> listAllProducts();
+
+    List<Product> listAllDisabledProducts();
+
+    List<Product> listAllActiveProducts();
+
+    List<Product> listAllPendingProducts();
+
+    void changeProductStatus(long id, String status);
+
+    void changeFeatureProductStatus(long id, boolean status);
 
     boolean githubRepoAlreadyExists(String account);
 }

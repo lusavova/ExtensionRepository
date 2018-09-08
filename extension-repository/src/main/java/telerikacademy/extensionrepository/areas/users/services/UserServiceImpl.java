@@ -11,9 +11,8 @@ import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExep
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
-import telerikacademy.extensionrepository.constants.Constants;
+import telerikacademy.extensionrepository.enums.UserStatus;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,6 +38,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> listAllBlockedUsers() {
+        return userRepository.listAllBlockedUsers();
+    }
+
+    @Override
+    public List<User> listAllActiveUsers() {
+        return userRepository.listAllActiveUsers();
+    }
+
+    @Override
     public User findById(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundExeption(
@@ -48,14 +57,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(UserDTO userDTO) {
         User user = mapper.mapUserDTOToUser(userDTO);
-        user.setUserStatus(Constants.PENDING_USER_STATUS);
+        user.setUserStatus(UserStatus.ENABLED.name());
         return userRepository.save(user);
     }
 
     @Override
     public User updateUser(UserDTO updateUser) {
         User user = mapper.mapUserDTOToUser(updateUser);
-        return userRepository.save(user);
+        return saveUser(user);
     }
 
     @Override
@@ -89,6 +98,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changeUserStatus(long id, String status) {
+        User user = findById(id);
+        user.setUserStatus(status);
+        saveUser(user);
+    }
+
+    @Override
     public boolean fieldValueExists(Object value, String fieldName) {
         Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
 
@@ -98,6 +114,8 @@ public class UserServiceImpl implements UserService {
 
         return setOfValues(fieldName).contains(value);
     }
+
+
 
     private Set<Object> setOfValues(Object fieldName) {
 //        Field[] fields = User.class.getFields();
@@ -128,4 +146,12 @@ public class UserServiceImpl implements UserService {
         String resultLetters = fieldName.substring(1).toLowerCase();
         return firstLetter + resultLetters;
     }
+
+    private User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+
 }
+
+

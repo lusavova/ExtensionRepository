@@ -43,7 +43,7 @@ public class Product {
 
     private Date lastCommitDate;
 
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'pending'", nullable = false)
+    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'PENDING'", nullable = false)
     private String productStatus;
 
     @ManyToMany

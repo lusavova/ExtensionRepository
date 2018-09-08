@@ -7,10 +7,9 @@ import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.mapper.ProductDTOMapper;
 import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
-import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
+import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
 import telerikacademy.extensionrepository.areas.products.models.Product;
-import telerikacademy.extensionrepository.areas.users.models.User;
 
 import java.util.Date;
 import java.util.List;
@@ -24,14 +23,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
-                              ProductDTOMapper mapper) {
+                                  ProductDTOMapper mapper) {
         this.productsRepository = productsRepository;
         this.mapper = mapper;
-    }
-
-    @Override
-    public List<Product> listAllProducts() {
-        return productsRepository.findAll();
     }
 
     @Override
@@ -47,18 +41,63 @@ public class ProductServiceImpl implements ProductService {
         product.setUploadDate(new Date());
         product.setProductStatus("pending");
         product.setNumberOfDownloads(0);
-        return productsRepository.saveAndFlush(product);
+        return save(product);
     }
 
     @Override
     public Product updateProduct(ProductDTO updateProduct) {
         Product product = mapper.mapProductDTOToProduct(updateProduct);
-        return productsRepository.saveAndFlush(product);
+        return save(product);
     }
 
     @Override
     public void deleteProduct(long id) {
         productsRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean fieldValueExists(Object value, String fieldName) {
+        Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
+
+        if (value == null) {
+            return false;
+        }
+
+        return setOfValues(fieldName).contains(value);
+    }
+
+    @Override
+    public List<Product> listAllProducts() {
+        return productsRepository.findAll();
+    }
+
+    @Override
+    public List<Product> listAllDisabledProducts() {
+        return productsRepository.listAllDisabledProducts();
+    }
+
+    @Override
+    public List<Product> listAllActiveProducts() {
+        return productsRepository.listAllActiveProducts();
+    }
+
+    @Override
+    public List<Product> listAllPendingProducts() {
+        return productsRepository.listAllPendingProducts();
+    }
+
+    @Override
+    public void changeProductStatus(long id, String status) {
+        Product product = findById(id);
+        product.setProductStatus(status);
+        save(product);
+    }
+
+    @Override
+    public void changeFeatureProductStatus(long id, boolean status) {
+        Product product = findById(id);
+        product.setFeaturedProduct(status);
+        save(product);
     }
 
     @Override
@@ -74,15 +113,8 @@ public class ProductServiceImpl implements ProductService {
         return false;
     }
 
-    @Override
-    public boolean fieldValueExists(Object value, String fieldName) {
-        Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
-
-        if (value == null) {
-            return false;
-        }
-
-        return setOfValues(fieldName).contains(value);
+    private Product save(Product product) {
+        return productsRepository.saveAndFlush(product);
     }
 
     private Set<Object> setOfValues(Object fieldName) {
