@@ -62,6 +62,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean githubRepoAlreadyExists(String account) {
+        Set<String> accounts = listAllProducts()
+                .stream()
+                .map(Product::getSourceRepositoryLink)
+                .collect(Collectors.toSet());
+
+        if (accounts.contains(account)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean fieldValueExists(Object value, String fieldName) {
         Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
 

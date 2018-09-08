@@ -16,4 +16,6 @@ public interface ProductService extends FieldValueExists {
     Product updateProduct(ProductDTO updateProduct);
 
     void deleteProduct(long id);
+
+    boolean githubRepoAlreadyExists(String account);
 }

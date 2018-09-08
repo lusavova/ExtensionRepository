@@ -12,6 +12,8 @@ import telerikacademy.extensionrepository.exceptions.InvalidArgumentExeption;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -56,9 +58,14 @@ public class ProductsController {
         productService.deleteProduct(id);
     }
 
+    @PostMapping("/githubRepo")
+    public boolean checkGithubRepo(String repo){
+        return productService.githubRepoAlreadyExists(repo);
+    }
+
     @ExceptionHandler
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        String message =  ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return message;
     }
 }
