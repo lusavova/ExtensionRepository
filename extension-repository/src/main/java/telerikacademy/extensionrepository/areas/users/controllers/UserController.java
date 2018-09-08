@@ -3,8 +3,8 @@ package telerikacademy.extensionrepository.areas.users.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.products.models.Product;
-import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
@@ -16,10 +16,13 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private StorageService storageService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          StorageService storageService) {
         this.userService = userService;
+        this.storageService = storageService;
     }
 
     @GetMapping
@@ -44,6 +47,7 @@ public class UserController {
     @ResponseBody
     public String deleteUser(@PathVariable long id){
         userService.deleteUser(id);
+        storageService.deleteAllUserFilesFromSystem(userService.findById(id));
         return "Successfully deleted!";
     }
 
