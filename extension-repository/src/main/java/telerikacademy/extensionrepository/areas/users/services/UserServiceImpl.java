@@ -71,6 +71,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean usernameAlreadyExists(String username) {
+        Set<String> allUsernames = userRepository.findAll()
+                .stream()
+                .map(User::getUsername)
+                .collect(Collectors.toSet());
+        return allUsernames.contains(username);
+    }
+
+    @Override
+    public boolean emailAlreadyExists(String email) {
+        Set<String> allEmails = userRepository.findAll()
+                .stream()
+                .map(User::getEmail)
+                .collect(Collectors.toSet());
+        return allEmails.contains(email);
+    }
+
+    @Override
     public boolean fieldValueExists(Object value, String fieldName) {
         Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
 

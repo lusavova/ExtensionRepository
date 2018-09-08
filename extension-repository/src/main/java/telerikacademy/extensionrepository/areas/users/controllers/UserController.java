@@ -53,6 +53,18 @@ public class UserController {
         return userService.listAllProducts(id);
     }
 
+    @PostMapping("/user/username")
+    @ResponseBody
+    public boolean usernameAlreadyExists(String username){
+        return userService.usernameAlreadyExists(username);
+    }
+
+    @GetMapping("/user/email")
+    @ResponseBody
+    public boolean emailAlreadyExists(String email){
+        return userService.emailAlreadyExists(email);
+    }
+
     @ExceptionHandler
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         String message =  ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();

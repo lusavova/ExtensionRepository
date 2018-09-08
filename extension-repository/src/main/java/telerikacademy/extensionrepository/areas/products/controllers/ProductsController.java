@@ -59,7 +59,7 @@ public class ProductsController {
     }
 
     @PostMapping("/githubRepo")
-    public boolean checkGithubRepo(String repo){
+    public boolean checkGithubRepo(String repo) {
         return productService.githubRepoAlreadyExists(repo);
     }
 

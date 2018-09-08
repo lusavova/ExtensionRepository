@@ -19,4 +19,8 @@ public interface UserService extends FieldValueExists {
     void deleteUser(long id);
 
     List<Product> listAllProducts(long id);
+
+    boolean usernameAlreadyExists(String username);
+
+    boolean emailAlreadyExists(String email);
 }
