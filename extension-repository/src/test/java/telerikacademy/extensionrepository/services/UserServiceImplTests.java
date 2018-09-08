@@ -26,18 +26,6 @@ public class UserServiceImplTests {
         userService = new UserServiceImpl(mockUserRepository, mockMapper);
     }
 
-//    List<User> listAllBlockedUsers();
-//
-//    List<User> listAllActiveUsers();
-//
-//    List<Product> listAllProducts(long id);
-//
-//    boolean usernameAlreadyExists(String username);
-//
-//    boolean emailAlreadyExists(String email);
-//
-//    void changeUserStatus(long id, String status);
-
     @Test
     public void findById_should_returnOnlyOneUser_when_idExists() {
         long id = 1;
