@@ -4,7 +4,7 @@ import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Service;
-import telerikacademy.extensionrepository.areas.github.GitHubDTO;
+import telerikacademy.extensionrepository.areas.github.models.dto.GitHubDTO;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
 import telerikacademy.extensionrepository.constants.Constants;
 

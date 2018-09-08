@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.mapper.ProductDTOMapper;
 import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
+import telerikacademy.extensionrepository.areas.products.enums.ProductStatus;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
@@ -39,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(ProductDTO productDTO) {
         Product product = mapper.mapProductDTOToProduct(productDTO);
         product.setUploadDate(new Date());
-        product.setProductStatus("pending");
+        product.setProductStatus(ProductStatus.PENDING.name());
         product.setNumberOfDownloads(0);
         return save(product);
     }

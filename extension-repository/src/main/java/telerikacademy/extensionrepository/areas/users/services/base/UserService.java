@@ -5,15 +5,9 @@ import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.common.FieldValueExists;
 
-import java.sql.Statement;
 import java.util.List;
 
 public interface UserService extends FieldValueExists {
-    List<User> listAllUsers();
-
-    List<User> listAllBlockedUsers();
-
-    List<User> listAllActiveUsers();
 
     User findById(long id);
 
@@ -22,6 +16,12 @@ public interface UserService extends FieldValueExists {
     User updateUser(UserDTO updateUser);
 
     void deleteUser(long id);
+
+    List<User> listAllUsers();
+
+    List<User> listAllBlockedUsers();
+
+    List<User> listAllActiveUsers();
 
     List<Product> listAllProducts(long id);
 

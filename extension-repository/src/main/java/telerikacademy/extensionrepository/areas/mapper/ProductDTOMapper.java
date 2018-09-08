@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import telerikacademy.extensionrepository.areas.files.enums.StorageType;
 import telerikacademy.extensionrepository.areas.files.models.File;
 import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
-import telerikacademy.extensionrepository.areas.github.GitHubDTO;
+import telerikacademy.extensionrepository.areas.github.models.dto.GitHubDTO;
 import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
@@ -85,9 +85,6 @@ public class ProductDTOMapper {
                 .collect(Collectors.toSet());
 
         List<Tag> productTags = new ArrayList<>();
-
-        String[] tags = productDTO.getTags();
-
         for (String tagname : productDTO.getTags()) {
             if (allTagnames.contains(tagname)) {
                 continue;

@@ -61,7 +61,7 @@ public class TagsServiceImpl implements TagsService {
     @Override
     public void update(TagDTO tagDTO) {
         if (!isTagValid(tagDTO.getTagname())) {
-            throw new FormatExeption("Invalid format");
+            throw new FormatExeption("Invalid tag format");
         }
         Tag tag = mapper.mapTagDTOToTag(tagDTO);
         tagsRepository.saveAndFlush(tag);
@@ -71,9 +71,6 @@ public class TagsServiceImpl implements TagsService {
     public List<Tag> addTags(List<TagDTO> inputTags) {
         List<Tag> tags = new ArrayList<>();
         for (TagDTO tag : inputTags) {
-            if (!isTagValid(tag.getTagname())) {
-                throw new FormatExeption("Invalid format");
-            }
             Tag t = add(tag);
             tags.add(t);
         }

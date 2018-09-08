@@ -13,7 +13,7 @@ import telerikacademy.extensionrepository.areas.files.exeptions.StorageException
 import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
 import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.areas.tags.exeptions.TagNotFoundExeption;
-import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
+import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -88,8 +88,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserNotFoundExeption.class)
-    public final ResponseEntity<ErrorDetails> handlecatchUserNotFoundExeption(UserNotFoundExeption ex, WebRequest request) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<ErrorDetails> handlecatchUserNotFoundExeption(UserNotFoundException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }

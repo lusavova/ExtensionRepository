@@ -3,15 +3,14 @@ package telerikacademy.extensionrepository.areas.users.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
 import telerikacademy.extensionrepository.areas.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.areas.products.models.Product;
 import telerikacademy.extensionrepository.areas.users.data.UserRepository;
-import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundExeption;
+import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundException;
 import telerikacademy.extensionrepository.areas.users.models.UserDTO;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
-import telerikacademy.extensionrepository.enums.UserStatus;
+import telerikacademy.extensionrepository.areas.users.enums.UserStatus;
 
 import java.util.List;
 import java.util.Set;
@@ -21,36 +20,18 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserDTOMapper mapper;
-    private StorageService storageService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           UserDTOMapper mapper,
-                           StorageService storageService) {
+                           UserDTOMapper mapper) {
         this.userRepository = userRepository;
         this.mapper = mapper;
-        this.storageService = storageService;
     }
-
-    @Override
-    public List<User> listAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public List<User> listAllBlockedUsers() {
-        return userRepository.listAllBlockedUsers();
-    }
-
-    @Override
-    public List<User> listAllActiveUsers() {
-        return userRepository.listAllActiveUsers();
-    }
-
     @Override
     public User findById(long id) {
+
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundExeption(
+                .orElseThrow(() -> new UserNotFoundException(
                         String.format("Can't find user with id = %d", id)));
     }
 
@@ -70,8 +51,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(long id) {
         User user = findById(id);
-        storageService.deleteAllUserFilesFromSystem(user);
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> listAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> listAllBlockedUsers() {
+        return userRepository.listAllBlockedUsers();
+    }
+
+    @Override
+    public List<User> listAllActiveUsers() {
+        return userRepository.listAllActiveUsers();
     }
 
     @Override
@@ -114,8 +109,6 @@ public class UserServiceImpl implements UserService {
 
         return setOfValues(fieldName).contains(value);
     }
-
-
 
     private Set<Object> setOfValues(Object fieldName) {
 //        Field[] fields = User.class.getFields();

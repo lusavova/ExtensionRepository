@@ -33,6 +33,18 @@ public class UserDTO {
     @Unique(service = UserServiceImpl.class, fieldName = "email", message = "Email already exists.")
     private String email;
 
+    public UserDTO(){
+
+    }
+
+    public UserDTO(String firstName, String lastName, String username, String password, String email) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setPassword(password);
+        setEmail(email);
+    }
+
     public String getFirstName() {
         return firstName;
     }

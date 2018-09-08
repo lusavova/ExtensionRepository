@@ -40,6 +40,27 @@ public class ProductDTO {
 
 //    private List<Long> productPictures;
 
+
+    public ProductDTO() {
+    }
+
+    public ProductDTO(String name,
+                      String description,
+                      String version,
+                      long ownerId,
+                      String sourceRepositoryLink, String[] tags,
+                      long fileId,
+                      long productPictureId) {
+        setName(name);
+        setDescription(description);
+        setVersion(version);
+        setOwnerId(ownerId);
+        setSourceRepositoryLink(sourceRepositoryLink);
+        setTags(tags);
+        setFileId(fileId);
+        setProductPictureId(productPictureId);
+    }
+
     public String getName() {
         return name;
     }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.areas.users.models.User;
 import telerikacademy.extensionrepository.areas.users.services.base.UserService;
-import telerikacademy.extensionrepository.enums.UserStatus;
+import telerikacademy.extensionrepository.areas.users.enums.UserStatus;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package telerikacademy.extensionrepository.areas.github;
+package telerikacademy.extensionrepository.areas.github.models.dto;
 
 import java.util.Date;
 
