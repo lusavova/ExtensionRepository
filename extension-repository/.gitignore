@@ -1,6 +1,10 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+WebConfig.java
+application.properties
+pom.xml
+
 ### STS ###
 .apt_generated
 .classpath
