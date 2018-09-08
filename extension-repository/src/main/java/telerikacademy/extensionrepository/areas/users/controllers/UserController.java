@@ -37,7 +37,7 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @PutMapping(value = "/update")
+    @PostMapping(value = "/update")
     @ResponseBody
     public User updateUser(@RequestBody UserDTO updateUser){
         return userService.updateUser(updateUser);
