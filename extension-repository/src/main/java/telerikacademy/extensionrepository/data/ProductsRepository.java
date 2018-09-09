@@ -22,13 +22,12 @@ public interface ProductsRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.productStatus = 'PENDING'")
     List<Product> listAllPendingProducts();
 
+    @Query("select p from Product p where p.productStatus = 'ENABLED' order by p.numberOfDownloads desc ")
     List<Product> findAllByOrderByNumberOfDownloadsDesc();
 
+    @Query("select p from Product p where p.productStatus = 'ENABLED' order by p.uploadDate desc ")
     List<Product> findAllByOrderByUploadDateDesc();
 
+    @Query("select p from Product p where p.productStatus = 'ENABLED' order by p.lastCommitDate desc ")
     List<Product> findAllByOrderByLastCommitDateDesc();
-
-    List<Product> findTop10ByOrderByNumberOfDownloadsDesc();
-
-    List<Product> findTop10ByOrderByUploadDateDesc();
 }

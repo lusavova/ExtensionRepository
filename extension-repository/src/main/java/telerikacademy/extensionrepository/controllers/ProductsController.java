@@ -23,7 +23,7 @@ public class ProductsController {
     @GetMapping("/")
     @ResponseBody
     public List<Product> listAllProducts() {
-        return productService.listAllProducts();
+        return productService.listAllActiveProducts();
     }
 
     @GetMapping(value = "/{id}")
@@ -35,10 +35,6 @@ public class ProductsController {
     @PostMapping("/add")
     @ResponseBody
     public Product addProduct(@RequestBody @Valid ProductDTO product) {
-        System.out.println("***************");
-        System.out.println(product.toString());
-        System.out.println("***************");
-
         return productService.addProduct(product);
     }
 

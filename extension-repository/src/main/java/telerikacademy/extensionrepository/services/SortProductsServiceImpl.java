@@ -40,12 +40,12 @@ public class SortProductsServiceImpl implements SortProductsService {
     }
 
     @Override
-    public List<Product> findTop10SortedByNumberOfDownloadsDesc() {
-        return productsRepository.findTop10ByOrderByNumberOfDownloadsDesc();
+    public List<Product> findTopNSortedByNumberOfDownloadsDesc(int number) {
+        return (List<Product>) productsRepository.findAllByOrderByNumberOfDownloadsDesc().stream().limit(number);
     }
 
     @Override
-    public List<Product> findTop10SortedByUploadDateDesc() {
-        return productsRepository.findTop10ByOrderByUploadDateDesc();
+    public List<Product> findTopNSortedByUploadDateDesc(int number) {
+        return (List<Product>) productsRepository.findAllByOrderByUploadDateDesc().stream().limit(number);
     }
 }

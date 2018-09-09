@@ -14,7 +14,7 @@ public interface SortProductsService {
 
     List<Product> findAllSortedByLastCommitDateDesc();
 
-    List<Product> findTop10SortedByNumberOfDownloadsDesc();
+    List<Product> findTopNSortedByNumberOfDownloadsDesc(int number);
 
-    List<Product> findTop10SortedByUploadDateDesc();
+    List<Product> findTopNSortedByUploadDateDesc(int number);
 }
