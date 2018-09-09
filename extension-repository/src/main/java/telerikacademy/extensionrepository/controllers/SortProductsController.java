@@ -1,7 +1,10 @@
 package telerikacademy.extensionrepository.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.constants.Constants;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.services.base.SortProductsService;
 
@@ -37,18 +40,21 @@ public class SortProductsController {
 
     @GetMapping("/filter")
     public @ResponseBody
-    List<Product> findTop10Products(@RequestParam String topN) {
-        int number = 10;
+    ResponseEntity<List<Product>> findTop10Products(@RequestParam String topN) {
+        int number = Constants.FILTER_PRODUCT_NUMBER;
+        List<Product> products ;
         switch (topN) {
             case "Featured":
-                return null;
+                products = sortProductsService.findTopNFeaturedProducts(number);
+                return new ResponseEntity<>(products, HttpStatus.OK);
             case "Newest":
-                return sortProductsService.findTopNSortedByUploadDateDesc(number);
+                products = sortProductsService.findTopNSortedByUploadDateDesc(number);
+                return new ResponseEntity<>(products, HttpStatus.OK);
             case "Downloaded":
-                return sortProductsService.findTopNSortedByNumberOfDownloadsDesc(number);
+                products =sortProductsService.findTopNSortedByNumberOfDownloadsDesc(number);
+                return new ResponseEntity<>(products, HttpStatus.OK);
             default:
-                // THROW EXEPTION???
-                return null;
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

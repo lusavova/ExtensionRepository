@@ -8,6 +8,7 @@ import telerikacademy.extensionrepository.services.base.SortProductsService;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,27 +26,48 @@ public class SortProductsServiceImpl implements SortProductsService {
     }
 
     @Override
+    public List<Product> findAllFeaturedProducts() {
+        return productsRepository.findAllFeaturedProducts();
+    }
+
+    @Override
     public List<Product> findAllSortedByNumberOfDownloadsDesc() {
-        return productsRepository.findAllByOrderByNumberOfDownloadsDesc();
+        return productsRepository.findAllProductsSortedByNumberOfDownloadsDesc();
     }
 
     @Override
     public List<Product> findAllSortedByUploadDateDesc() {
-        return productsRepository.findAllByOrderByUploadDateDesc();
+        return productsRepository.findAllProductsSortedByUploadDateDesc();
     }
 
     @Override
     public List<Product> findAllSortedByLastCommitDateDesc() {
-        return productsRepository.findAllByOrderByLastCommitDateDesc();
+        return productsRepository.findAllProductsSortedByLastCommitDateDesc();
     }
 
     @Override
     public List<Product> findTopNSortedByNumberOfDownloadsDesc(int number) {
-        return (List<Product>) productsRepository.findAllByOrderByNumberOfDownloadsDesc().stream().limit(number);
+        return productsRepository
+                .findAllProductsSortedByNumberOfDownloadsDesc()
+                .stream()
+                .limit(number)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Product> findTopNSortedByUploadDateDesc(int number) {
-        return (List<Product>) productsRepository.findAllByOrderByUploadDateDesc().stream().limit(number);
+        return productsRepository
+                .findAllProductsSortedByUploadDateDesc()
+                .stream()
+                .limit(number)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> findTopNFeaturedProducts(int number) {
+        return findAllFeaturedProducts()
+                .stream()
+                .limit(number)
+                .collect(Collectors.toList());
     }
 }

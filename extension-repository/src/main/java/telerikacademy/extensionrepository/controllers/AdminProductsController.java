@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.enums.ProductStatus;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.services.base.ProductService;
+import telerikacademy.extensionrepository.services.base.StorageService;
 
 import java.util.List;
 

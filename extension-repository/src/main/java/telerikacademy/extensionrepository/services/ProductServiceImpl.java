@@ -11,7 +11,10 @@ import telerikacademy.extensionrepository.exceptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.services.base.ProductService;
 import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.services.base.StorageService;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -21,12 +24,15 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private ProductsRepository productsRepository;
     private ProductDTOMapper mapper;
+    private StorageService storageService;
 
     @Autowired
     public ProductServiceImpl(ProductsRepository productsRepository,
-                                  ProductDTOMapper mapper) {
+                                  ProductDTOMapper mapper,
+                              StorageService storageService) {
         this.productsRepository = productsRepository;
         this.mapper = mapper;
+        this.storageService = storageService;
     }
 
     @Override
@@ -52,7 +58,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(long id) {
+        Product product =  findById(id);
         productsRepository.deleteById(id);
+        Path path = Paths.get(product.getFile().getDownloadLink());
+        storageService.deleteFilesFromSystem(path);
     }
 
     @Override

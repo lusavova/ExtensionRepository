@@ -23,11 +23,14 @@ public interface ProductsRepository extends JpaRepository<Product, Long> {
     List<Product> listAllPendingProducts();
 
     @Query("select p from Product p where p.productStatus = 'ENABLED' order by p.numberOfDownloads desc ")
-    List<Product> findAllByOrderByNumberOfDownloadsDesc();
+    List<Product> findAllProductsSortedByNumberOfDownloadsDesc();
 
     @Query("select p from Product p where p.productStatus = 'ENABLED' order by p.uploadDate desc ")
-    List<Product> findAllByOrderByUploadDateDesc();
+    List<Product> findAllProductsSortedByUploadDateDesc();
 
     @Query("select p from Product p where p.productStatus = 'ENABLED' order by p.lastCommitDate desc ")
-    List<Product> findAllByOrderByLastCommitDateDesc();
+    List<Product> findAllProductsSortedByLastCommitDateDesc();
+
+    @Query("select p from Product p where p.featuredProduct = true order by p.uploadDate desc")
+    List<Product> findAllFeaturedProducts();
 }

@@ -8,6 +8,8 @@ public interface SortProductsService {
 
     List<Product> findAllSortedByName();
 
+    List<Product> findAllFeaturedProducts();
+
     List<Product> findAllSortedByNumberOfDownloadsDesc();
 
     List<Product> findAllSortedByUploadDateDesc();
@@ -17,4 +19,6 @@ public interface SortProductsService {
     List<Product> findTopNSortedByNumberOfDownloadsDesc(int number);
 
     List<Product> findTopNSortedByUploadDateDesc(int number);
+
+    List<Product> findTopNFeaturedProducts(int number);
 }
