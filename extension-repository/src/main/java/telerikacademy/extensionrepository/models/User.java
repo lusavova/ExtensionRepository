@@ -1,9 +1,16 @@
 package telerikacademy.extensionrepository.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import telerikacademy.extensionrepository.anotations.Unique;
+import telerikacademy.extensionrepository.constants.Constants;
 import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.services.UserServiceImpl;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,18 +21,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 2, message = "First name should have at least 2 characters.")
     @Column(nullable = false)
     private String firstName;
 
+    @NotNull
+    @Size(min = 2, message = "Last name should have at least 2 characters.")
     @Column(nullable = false)
     private String lastName;
 
     @Column(nullable = false)
     private String username;
 
+    @NotNull
+    @Pattern(regexp = Constants.PASSWORD_PATTERN, message = "Invalid password address!")
     @Column(nullable = false)
     private String password;
 
+    @Email
+    @NotNull
     @Column(nullable = false)
     private String email;
 

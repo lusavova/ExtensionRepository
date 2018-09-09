@@ -9,6 +9,7 @@ import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.models.dto.UserDTO;
 import telerikacademy.extensionrepository.services.base.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -37,9 +38,9 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @PostMapping(value = "/update")
+    @PutMapping(value = "/update")
     @ResponseBody
-    public User updateUser(@RequestBody UserDTO updateUser) {
+    public User updateUser(@RequestBody @Valid User updateUser) {
         return userService.updateUser(updateUser);
     }
 
@@ -71,7 +72,6 @@ public class UserController {
 
     @ExceptionHandler
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        return message;
+        return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
     }
 }

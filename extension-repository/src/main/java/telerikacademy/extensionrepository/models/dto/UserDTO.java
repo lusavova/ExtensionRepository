@@ -11,15 +11,15 @@ import javax.validation.constraints.Size;
 
 public class UserDTO {
     @NotNull
-    @Size(min = 2, message = "First name should have at least 2 characters long.")
+    @Size(min = 2, message = "First name should have at least 2 characters.")
     private String firstName;
 
     @NotNull
-    @Size(min = 2, message = "Last name should have at least 2 characters long.")
+    @Size(min = 2, message = "Last name should have at least 2 characters.")
     private String lastName;
 
     @NotNull
-    @Size(min = 3, message = "Username should have at least 3 characters long.")
+    @Size(min = 3, message = "Username should have at least 3 characters.")
     @Unique(service = UserServiceImpl.class, fieldName = "username", message = "Username already exists.")
     private String username;
 

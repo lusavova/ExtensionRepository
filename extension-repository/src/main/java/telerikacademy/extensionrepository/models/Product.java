@@ -1,6 +1,13 @@
 package telerikacademy.extensionrepository.models;
 
+import telerikacademy.extensionrepository.anotations.Unique;
+import telerikacademy.extensionrepository.constants.Constants;
+import telerikacademy.extensionrepository.services.ProductServiceImpl;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -10,6 +17,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 2, message = "Product name should be at least 2 characters long.")
     @Column(nullable = false, unique = true)
     private String name;
 
@@ -30,6 +39,8 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String downloadLink;
 
+    @NotNull
+    @Pattern(regexp = Constants.GITHUB_PATTERN, message = "Invalid source repository link!")
     @Column(nullable = false, unique = true)
     private String sourceRepositoryLink;
 
@@ -52,9 +63,6 @@ public class Product {
     private File productPicture;
 
     private boolean featuredProduct;
-
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<File> descriptionPictures;
 
     public Product() {
         this.tags= new ArrayList<>();
@@ -195,12 +203,4 @@ public class Product {
     public void setFeaturedProduct(boolean featuredProduct) {
         this.featuredProduct = featuredProduct;
     }
-
-    //    public List<File> getDescriptionPictures() {
-//        return descriptionPictures;
-//    }
-//
-//    public void setDescriptionPictures(List<File> descriptionPictures) {
-//        this.descriptionPictures = descriptionPictures;
-//    }
 }

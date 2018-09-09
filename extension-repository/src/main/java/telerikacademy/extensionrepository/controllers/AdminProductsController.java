@@ -39,7 +39,7 @@ public class AdminProductsController {
 
     @PutMapping("/edit")
     @ResponseBody
-    public void editProduct(ProductDTO product) {
+    public void editProduct(Product product) {
         productService.updateProduct(product);
     }
 

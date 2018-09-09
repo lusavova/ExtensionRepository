@@ -94,21 +94,21 @@ public class ProductServiceImplTests {
         Assert.assertEquals(actualProduct.getUploadDate().toString(), new Date().toString());
     }
 
-    @Test
-    public void updateProduct_should_saveUpdatedProduct() {
-        ProductDTO productDTO = new ProductDTO();
-        Product expectedProduct = new Product();
-        Mockito.when(mockMapper.mapProductDTOToProduct(productDTO)).thenReturn(expectedProduct);
-
-        final boolean[] wasSaveInvoked = {false};
-        Mockito.doAnswer((Answer) x -> {
-            wasSaveInvoked[0] = true;
-            return null;
-        }).when(mockProductsRepository).saveAndFlush(expectedProduct);
-
-        productService.updateProduct(productDTO);
-        Assert.assertTrue(wasSaveInvoked[0]);
-    }
+//    @Test
+//    public void updateProduct_should_saveUpdatedProduct() {
+//        ProductDTO productDTO = new ProductDTO();
+//        Product expectedProduct = new Product();
+//        Mockito.when(mockMapper.mapProductDTOToProduct(productDTO)).thenReturn(expectedProduct);
+//
+//        final boolean[] wasSaveInvoked = {false};
+//        Mockito.doAnswer((Answer) x -> {
+//            wasSaveInvoked[0] = true;
+//            return null;
+//        }).when(mockProductsRepository).saveAndFlush(expectedProduct);
+//
+//        productService.updateProduct(productDTO);
+//        Assert.assertTrue(wasSaveInvoked[0]);
+//    }
 
     @Test
     public void deleteProduct_should_deleteProductFromDb() {

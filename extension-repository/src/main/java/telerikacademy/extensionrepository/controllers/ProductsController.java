@@ -44,7 +44,7 @@ public class ProductsController {
 
     @PutMapping(value = "/update")
     @ResponseBody
-    public Product updateProduct(@RequestBody @Valid ProductDTO product) {
+    public Product updateProduct(@RequestBody @Valid Product product) {
         return productService.updateProduct(product);
     }
 

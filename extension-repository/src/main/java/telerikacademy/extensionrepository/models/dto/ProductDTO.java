@@ -7,9 +7,11 @@ import telerikacademy.extensionrepository.constants.Constants;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class ProductDTO {
     @NotNull
+    @Size(min = 2, message = "Product name should be at least 2 characters long.")
     @Unique(service = ProductServiceImpl.class, fieldName = "name", message = "Name already exists.")
     private String name;
 

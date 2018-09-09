@@ -53,9 +53,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(UserDTO updateUser) {
-        User user = mapper.mapUserDTOToUser(updateUser);
-        return saveUser(user);
+    public User updateUser(User updateUser) {
+        return saveUser(updateUser);
     }
 
     @Override

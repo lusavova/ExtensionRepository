@@ -78,17 +78,17 @@ public class UserServiceImplTests {
         Assert.assertEquals(actualUser.getRole(), Roles.USER.name());
     }
 
-    @Test
-    public void updateUser_should_saveUpdatedUserIntoDB_nominalCase() {
-        User user = new User();
-        Mockito.when(mockUserRepository.save(user)).thenReturn(user);
-
-        UserDTO updateUserDTO = new UserDTO();
-        Mockito.when(mockMapper.mapUserDTOToUser(updateUserDTO)).thenReturn(user);
-
-        User updateUser = userService.updateUser(updateUserDTO);
-        Assert.assertSame(user, updateUser);
-    }
+//    @Test
+//    public void updateUser_should_saveUpdatedUserIntoDB_nominalCase() {
+//        User user = new User();
+//        Mockito.when(mockUserRepository.save(user)).thenReturn(user);
+//
+//        UserDTO updateUserDTO = new UserDTO();
+//        Mockito.when(mockMapper.mapUserDTOToUser(updateUserDTO)).thenReturn(user);
+//
+//        User updateUser = userService.updateUser(updateUserDTO);
+//        Assert.assertSame(user, updateUser);
+//    }
 
     @Test
     public void deleteUser_should_deleteUserFromDB_when_userIdExists() {

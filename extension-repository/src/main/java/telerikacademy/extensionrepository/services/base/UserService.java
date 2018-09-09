@@ -15,7 +15,7 @@ public interface UserService extends FieldValueExists {
 
     User addUser(UserDTO user);
 
-    User updateUser(UserDTO updateUser);
+    User updateUser(User updateUser);
 
     void deleteUser(long id);
 

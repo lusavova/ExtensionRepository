@@ -46,9 +46,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(ProductDTO updateProduct) {
-        Product product = mapper.mapProductDTOToProduct(updateProduct);
-        return save(product);
+    public Product updateProduct(Product updateProduct) {
+        return save(updateProduct);
     }
 
     @Override
