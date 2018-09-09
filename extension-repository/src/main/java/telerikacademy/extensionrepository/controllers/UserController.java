@@ -27,25 +27,25 @@ public class UserController {
 
     @GetMapping
     @ResponseBody
-    public List<User> listAllUsers(){
+    public List<User> listAllUsers() {
         return userService.listAllUsers();
     }
 
     @GetMapping(value = "/{id}")
     @ResponseBody
-    public User findById(@PathVariable long id){
+    public User findById(@PathVariable long id) {
         return userService.findById(id);
     }
 
     @PostMapping(value = "/update")
     @ResponseBody
-    public User updateUser(@RequestBody UserDTO updateUser){
+    public User updateUser(@RequestBody UserDTO updateUser) {
         return userService.updateUser(updateUser);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody
-    public String deleteUser(@PathVariable long id){
+    public String deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
         storageService.deleteAllUserFilesFromSystem(userService.findById(id));
         return "Successfully deleted!";
@@ -53,25 +53,25 @@ public class UserController {
 
     @GetMapping("/products/{id}")
     @ResponseBody
-    public List<Product> listAllUserProducts(@PathVariable("id") long id){
+    public List<Product> listAllUserProducts(@PathVariable("id") long id) {
         return userService.listAllProducts(id);
     }
 
     @PostMapping("/user/username")
     @ResponseBody
-    public boolean usernameAlreadyExists(String username){
+    public boolean usernameAlreadyExists(String username) {
         return userService.usernameAlreadyExists(username);
     }
 
     @GetMapping("/user/email")
     @ResponseBody
-    public boolean emailAlreadyExists(String email){
+    public boolean emailAlreadyExists(String email) {
         return userService.emailAlreadyExists(email);
     }
 
     @ExceptionHandler
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        String message =  ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return message;
     }
 }

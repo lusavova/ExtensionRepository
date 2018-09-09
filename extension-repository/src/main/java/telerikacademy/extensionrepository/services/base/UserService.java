@@ -11,6 +11,8 @@ public interface UserService extends FieldValueExists {
 
     User findById(long id);
 
+    User findByUsername(String username);
+
     User addUser(UserDTO user);
 
     User updateUser(UserDTO updateUser);

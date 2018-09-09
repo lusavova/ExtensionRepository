@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
+
     @Query("select u from User as u where u.userStatus = 'DISABLED'")
     List<User> listAllBlockedUsers();
 
