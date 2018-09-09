@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.enums.ProductStatus;
 import telerikacademy.extensionrepository.models.Product;
-import telerikacademy.extensionrepository.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.services.base.ProductService;
 
 import java.util.List;

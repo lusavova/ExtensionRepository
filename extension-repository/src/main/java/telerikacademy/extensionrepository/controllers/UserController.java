@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.services.base.StorageService;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
-import telerikacademy.extensionrepository.models.dto.UserDTO;
 import telerikacademy.extensionrepository.services.base.UserService;
 
 import javax.validation.Valid;
