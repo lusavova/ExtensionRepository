@@ -17,12 +17,23 @@ public class LoginController {
         this.userService = userService;
     }
 
+//    @PostMapping
+//    @ResponseBody
+//    public User loginUser(@RequestBody String username, String password) throws LoginException {
+//        User user = userService.findByUsername(username);
+//        if (user.getPassword().equals(password)){
+//            return user;
+//        } else {
+//            throw new LoginException("Incorrect username or password");
+//        }
+//    }
+
     @PostMapping
-    @ResponseBody
-    public User loginUser(@RequestBody String username, String password) throws LoginException {
-        User user = userService.findByUsername(username);
-        if (user.getPassword().equals(password)){
-            return user;
+    public User loginUser(@RequestBody User user) throws LoginException {
+        System.out.println(user);
+        User userFromDb = userService.findByUsername(user.getUsername());
+        if (userFromDb .getPassword().equals(user.getPassword())){
+            return userFromDb;
         } else {
             throw new LoginException("Incorrect username or password");
         }
