@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.enums.ProductStatus;
 import telerikacademy.extensionrepository.enums.Roles;
 import telerikacademy.extensionrepository.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.models.Product;
@@ -10,6 +11,7 @@ import telerikacademy.extensionrepository.data.UserRepository;
 import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
 import telerikacademy.extensionrepository.models.dto.UserDTO;
 import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.services.base.StorageService;
 import telerikacademy.extensionrepository.services.base.UserService;
 import telerikacademy.extensionrepository.enums.UserStatus;
 
@@ -21,12 +23,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserDTOMapper mapper;
+    private StorageService storageService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           UserDTOMapper mapper) {
+                           UserDTOMapper mapper,
+                           StorageService storageService) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.storageService = storageService;
     }
 
     @Override
@@ -65,6 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(long id) {
         User user = findById(id);
+        storageService.deleteAllUserFilesFromSystem(user);
         userRepository.deleteById(id);
     }
 
@@ -84,8 +90,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Product> listAllProducts(long id) {
-        return findById(id).getProducts();
+    public List<Product> listAllActiveProducts(long id) {
+        List<Product> productList = findById(id).getProducts();
+        List<Product> products = findById(id)
+                .getProducts()
+                .stream()
+                .filter(p -> p.getProductStatus().equals(ProductStatus.ENABLED.name()))
+                .collect(Collectors.toList());
+        return products;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.enums.UserStatus;
 import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
+import telerikacademy.extensionrepository.services.base.ProductService;
 import telerikacademy.extensionrepository.services.base.StorageService;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
@@ -12,19 +13,19 @@ import telerikacademy.extensionrepository.services.base.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
-    private StorageService storageService;
+    private ProductService productService;
 
     @Autowired
-    public UserController(UserService userService,
-                          StorageService storageService) {
+    public UserController(UserService userService, ProductService productService) {
         this.userService = userService;
-        this.storageService = storageService;
+        this.productService = productService;
     }
 
     @GetMapping
@@ -53,14 +54,14 @@ public class UserController {
     @ResponseBody
     public String deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
-        storageService.deleteAllUserFilesFromSystem(userService.findById(id));
         return "Successfully deleted!";
     }
 
     @GetMapping("/products/{id}")
     @ResponseBody
     public List<Product> listAllUserProducts(@PathVariable("id") long id) {
-        return userService.listAllProducts(id);
+        userService.findById(id);
+        return productService.listAllActiveProducts().stream().filter(pr->pr.getOwner().getId() == id).collect(Collectors.toList());
     }
 
     @PostMapping("/user/username")

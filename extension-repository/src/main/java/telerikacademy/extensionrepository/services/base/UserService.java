@@ -25,7 +25,7 @@ public interface UserService extends FieldValueExists {
 
     List<User> listAllActiveUsers();
 
-    List<Product> listAllProducts(long id);
+    List<Product> listAllActiveProducts(long id);
 
     boolean usernameAlreadyExists(String username);
 

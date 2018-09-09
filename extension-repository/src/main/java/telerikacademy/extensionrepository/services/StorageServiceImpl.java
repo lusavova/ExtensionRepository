@@ -46,9 +46,6 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public File findById(long id) {
-        System.out.println(fileRepository.existsById(id));
-
-        System.out.println();
         return fileRepository.findById(id)
                 .orElseThrow(() -> new StorageFileNotFoundException("Cannot find file with id = " + id));
     }

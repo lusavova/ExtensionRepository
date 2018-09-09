@@ -1,7 +1,10 @@
 package telerikacademy.extensionrepository.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import telerikacademy.extensionrepository.anotations.Unique;
 import telerikacademy.extensionrepository.constants.Constants;
+import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.services.UserServiceImpl;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

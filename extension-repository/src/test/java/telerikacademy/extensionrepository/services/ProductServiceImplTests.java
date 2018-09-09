@@ -11,6 +11,7 @@ import telerikacademy.extensionrepository.enums.ProductStatus;
 import telerikacademy.extensionrepository.exceptions.ProductNotFoundExeption;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.dto.ProductDTO;
+import telerikacademy.extensionrepository.services.base.StorageService;
 
 import java.util.*;
 
@@ -18,10 +19,11 @@ public class ProductServiceImplTests {
     private ProductServiceImpl productService;
     private ProductDTOMapper mockMapper = Mockito.mock(ProductDTOMapper.class);
     private ProductsRepository mockProductsRepository = Mockito.mock(ProductsRepository.class);
+    private StorageService mockStorageService;
 
     @Before
     public void setUp() {
-        productService = new ProductServiceImpl(mockProductsRepository, mockMapper);
+        productService = new ProductServiceImpl(mockProductsRepository, mockMapper, mockStorageService);
     }
 
     @Test

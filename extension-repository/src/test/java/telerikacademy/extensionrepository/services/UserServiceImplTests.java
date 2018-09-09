@@ -5,14 +5,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 import telerikacademy.extensionrepository.enums.Roles;
 import telerikacademy.extensionrepository.enums.UserStatus;
 import telerikacademy.extensionrepository.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.data.UserRepository;
 import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
+import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.models.dto.UserDTO;
+import telerikacademy.extensionrepository.services.base.StorageService;
 
+import javax.management.relation.Role;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +25,11 @@ public class UserServiceImplTests {
     private UserServiceImpl userService;
     private UserRepository mockUserRepository = Mockito.mock(UserRepository.class);
     private UserDTOMapper mockMapper = Mockito.mock(UserDTOMapper.class);
+    private StorageService storageService = Mockito.mock(StorageService.class);
 
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(mockUserRepository, mockMapper);
+        userService = new UserServiceImpl(mockUserRepository, mockMapper,storageService);
     }
 
     @Test
@@ -90,27 +95,27 @@ public class UserServiceImplTests {
 //        Assert.assertSame(user, updateUser);
 //    }
 
-    @Test
-    public void deleteUser_should_deleteUserFromDB_when_userIdExists() {
-        long id = 1;
-        User user = new User();
-        Mockito.when(mockUserRepository.findById(id)).thenReturn(java.util.Optional.of(user));
-
-        Mockito.doAnswer(invocation -> {
-            Object arg0 = invocation.getArgument(0);
-            Assert.assertEquals(id, arg0);
-            return null;
-        }).when(mockUserRepository).deleteById(id);
-
-        userService.deleteUser(id);
-    }
-
-    @Test(expected = UserNotFoundException.class)
-    public void deleteUser_should_throwException_when_userIdDoesNotExists() {
-        long id = 1;
-        Mockito.when(mockUserRepository.findById(id)).thenReturn(Optional.empty());
-        userService.deleteUser(id);
-    }
+//    @Test
+//    public void deleteUser_should_deleteUserFromDB_when_userIdExists() {
+//        long id = 1;
+//        User user = new User();
+//        Mockito.when(mockUserRepository.findById(id)).thenReturn(java.util.Optional.of(user));
+//
+//        Mockito.doAnswer(invocation -> {
+//            Object arg0 = invocation.getArgument(0);
+//            Assert.assertEquals(id, arg0);
+//            return null;
+//        }).when(mockUserRepository).deleteById(id);
+//
+//        userService.deleteUser(id);
+//    }
+//
+//    @Test(expected = UserNotFoundException.class)
+//    public void deleteUser_should_throwException_when_userIdDoesNotExists() {
+//        long id = 1;
+//        Mockito.when(mockUserRepository.findById(id)).thenReturn(Optional.empty());
+//        userService.deleteUser(id);
+//    }
 
     @Test
     public void listAllUsers_should_return3_when_countEquals3() {
