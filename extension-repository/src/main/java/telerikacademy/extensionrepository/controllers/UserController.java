@@ -3,6 +3,8 @@ package telerikacademy.extensionrepository.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.enums.UserStatus;
+import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
 import telerikacademy.extensionrepository.services.base.StorageService;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
@@ -34,7 +36,11 @@ public class UserController {
     @GetMapping(value = "/{id}")
     @ResponseBody
     public User findById(@PathVariable long id) {
-        return userService.findById(id);
+        User user = userService.findById(id);
+        if (user.getUserStatus().equals(UserStatus.DISABLED.name())) {
+            throw new UserNotFoundException("Cannot find user with id = " + id);
+        }
+        return user;
     }
 
     @PutMapping(value = "/update/{id}")
