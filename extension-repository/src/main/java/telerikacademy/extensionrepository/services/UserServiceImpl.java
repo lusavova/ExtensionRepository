@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.enums.Roles;
 import telerikacademy.extensionrepository.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.data.UserRepository;
@@ -29,7 +30,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User findById(long id) {
-
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(
                         String.format("Can't find user with id = %d", id)));
@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
     public User addUser(UserDTO userDTO) {
         User user = mapper.mapUserDTOToUser(userDTO);
         user.setUserStatus(UserStatus.ENABLED.name());
+        user.setRole(Roles.USER.name());
         return userRepository.save(user);
     }
 
@@ -120,13 +121,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private Set<Object> setOfValues(Object fieldName) {
-//        Field[] fields = User.class.getFields();
-//        Set<String> fieldNames = Arrays.stream(fields).map(Field::getName).collect(Collectors.toSet());
-//
-//        if (!fieldNames.contains(fieldName)){
-//            throw new IllegalArgumentException("Cannot find field with name: " + fieldName);
-//        }
-
         Set<Object> values;
         if (fieldName.equals("username")) {
             values = userRepository.findAll().stream()
@@ -152,8 +146,6 @@ public class UserServiceImpl implements UserService {
     private User saveUser(User user) {
         return userRepository.save(user);
     }
-
-
 }
 
 

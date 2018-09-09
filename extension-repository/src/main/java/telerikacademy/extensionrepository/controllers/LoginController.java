@@ -34,10 +34,4 @@ public class LoginController {
             throw new LoginException("Incorrect username or password");
         }
     }
-
-    @ExceptionHandler(LoginException.class)
-    public final ResponseEntity<ErrorDetails> handleLoginExeption(LoginException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    }
 }

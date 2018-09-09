@@ -32,6 +32,8 @@ public class User {
     @Column
     private String userStatus;
 
+    private String role;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner")
     @JsonBackReference
@@ -103,5 +105,13 @@ public class User {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
