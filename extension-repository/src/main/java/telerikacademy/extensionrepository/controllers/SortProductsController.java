@@ -37,14 +37,15 @@ public class SortProductsController {
 
     @GetMapping("/filter")
     public @ResponseBody
-    List<Product> findTop10Products(@RequestParam String top10) {
-        switch (top10) {
+    List<Product> findTop10Products(@RequestParam String topN) {
+        int number = 10;
+        switch (topN) {
             case "Featured":
                 return null;
             case "Newest":
-                return sortProductsService.findTop10SortedByUploadDateDesc();
+                return sortProductsService.findTopNSortedByUploadDateDesc(number);
             case "Downloaded":
-                return sortProductsService.findTop10SortedByNumberOfDownloadsDesc();
+                return sortProductsService.findTopNSortedByNumberOfDownloadsDesc(number);
             default:
                 // THROW EXEPTION???
                 return null;
