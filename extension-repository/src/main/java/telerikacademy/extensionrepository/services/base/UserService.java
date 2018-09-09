@@ -32,4 +32,6 @@ public interface UserService extends FieldValueExists {
     boolean emailAlreadyExists(String email);
 
     void changeUserStatus(long id, String status);
+
+    void changeUserRole(long id, String role);
 }

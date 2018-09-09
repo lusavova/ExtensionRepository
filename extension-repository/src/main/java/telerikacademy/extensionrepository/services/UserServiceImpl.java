@@ -109,6 +109,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changeUserRole(long id, String role) {
+        User user = findById(id);
+        user.setRole(role);
+        saveUser(user);
+    }
+
+    @Override
     public boolean fieldValueExists(Object value, String fieldName) {
         Assert.notNull(fieldName, String.format("%s already exist.", formatField(fieldName)));
 

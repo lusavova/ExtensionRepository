@@ -2,6 +2,7 @@ package telerikacademy.extensionrepository.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import telerikacademy.extensionrepository.enums.Roles;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
 import telerikacademy.extensionrepository.enums.UserStatus;
@@ -43,5 +44,11 @@ public class AdminUsersController {
     @ResponseBody
     public void disableUser(@PathVariable("id") long id) {
         userService.changeUserStatus(id, UserStatus.DISABLED.name());
+    }
+
+    @PutMapping("/changeRole/admin/{id}")
+    @ResponseBody
+    public void makeUserAdmin(@PathVariable("id") long id) {
+        userService.changeUserRole(id, Roles.ADMIN.name());
     }
 }
