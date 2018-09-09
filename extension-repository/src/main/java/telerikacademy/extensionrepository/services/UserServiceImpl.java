@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.mapper = mapper;
     }
+
     @Override
     public User findById(long id) {
         return userRepository.findById(id)
@@ -36,9 +37,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        if (user == null){
+        if (user == null) {
             throw new UserNotFoundException(String.format("Can't find user with username: %s", username));
         }
         return user;
@@ -53,7 +54,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User updateUser) {
+    public User updateUser(User updateUser, long id) {
+        findById(id);
+        if (updateUser.getId() != id) {
+            throw new IllegalArgumentException("Updated user id is not the same as given id.");
+        }
         return saveUser(updateUser);
     }
 

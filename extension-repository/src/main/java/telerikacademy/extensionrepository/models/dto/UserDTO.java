@@ -24,7 +24,7 @@ public class UserDTO {
     private String username;
 
     @NotNull
-    @Pattern(regexp = Constants.PASSWORD_PATTERN, message = "Invalid password address!")
+    @Pattern(regexp = Constants.PASSWORD_PATTERN, message = "Invalid data!")
     private String password;
 
     @Email
