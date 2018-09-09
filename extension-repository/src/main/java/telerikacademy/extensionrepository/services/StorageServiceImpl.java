@@ -78,7 +78,7 @@ public class StorageServiceImpl implements StorageService {
                     "Cannot store file with relative path outside current directory.");
         }
 
-        Path path = Paths.get(rootLocation + "\\" + user.getUsername());
+        Path path = Paths.get(rootLocation + java.io.File.separator + user.getUsername());
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
             createDirectory(path);
@@ -121,6 +121,7 @@ public class StorageServiceImpl implements StorageService {
 
     private File createFile(MultipartFile multipartFile, Path path, User user, String type) {
         String filename = multipartFile.getOriginalFilename();
+
         String databaseName = filename;
         String name = filename.substring(0, Objects.requireNonNull(filename).lastIndexOf('.'));
 
@@ -136,7 +137,7 @@ public class StorageServiceImpl implements StorageService {
 
         long size = multipartFile.getSize();
         String location = path.toString();
-        String downloadLink = location + "\\" + filename;
+        String downloadLink = location + java.io.File.separator + filename;
         File file = new File(filename, type, size, location, downloadLink);
         file.setOwner(user);
         return file;
@@ -145,7 +146,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteAllUserFilesFromSystem(User user){
         String username = user.getUsername();
-        Path path = Paths.get(Constants.FILE_LOCATION + '/' + username);
+        Path path = Paths.get(Constants.FILE_LOCATION + java.io.File.separator + username);
         deleteFilesFromSystem(path);
     }
 
