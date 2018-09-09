@@ -5,16 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
-import telerikacademy.extensionrepository.areas.mapper.ProductDTOMapper;
-import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
-import telerikacademy.extensionrepository.areas.products.enums.ProductStatus;
-import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
-import telerikacademy.extensionrepository.areas.products.models.Product;
-import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
-import telerikacademy.extensionrepository.areas.products.services.ProductServiceImpl;
-import telerikacademy.extensionrepository.areas.tags.services.TagsServiceImpl;
+import telerikacademy.extensionrepository.mapper.ProductDTOMapper;
+import telerikacademy.extensionrepository.data.ProductsRepository;
+import telerikacademy.extensionrepository.enums.ProductStatus;
+import telerikacademy.extensionrepository.exceptions.ProductNotFoundExeption;
+import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.models.dto.ProductDTO;
 
-import javax.swing.*;
 import java.util.*;
 
 public class ProductServiceImplTests {

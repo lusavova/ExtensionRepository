@@ -5,7 +5,7 @@
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
-//import telerikacademy.extensionrepository.areas.users.services.base.UserService;
+//import telerikacademy.extensionrepository.services.base.UserService;
 //
 //public class AppUserDetailsService implements UserDetailsService {
 //

@@ -4,12 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import telerikacademy.extensionrepository.areas.mapper.TagDTOMapper;
-import telerikacademy.extensionrepository.areas.products.data.ProductsRepository;
-import telerikacademy.extensionrepository.areas.tags.data.TagsRepository;
-import telerikacademy.extensionrepository.areas.tags.models.Tag;
-import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
-import telerikacademy.extensionrepository.areas.tags.services.TagsServiceImpl;
+import telerikacademy.extensionrepository.mapper.TagDTOMapper;
+import telerikacademy.extensionrepository.data.ProductsRepository;
+import telerikacademy.extensionrepository.data.TagsRepository;
+import telerikacademy.extensionrepository.models.Tag;
+import telerikacademy.extensionrepository.models.dto.TagDTO;
 import telerikacademy.extensionrepository.exceptions.FormatExeption;
 
 import java.util.ArrayList;

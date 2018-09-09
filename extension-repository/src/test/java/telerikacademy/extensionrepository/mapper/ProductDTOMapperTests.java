@@ -4,26 +4,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import telerikacademy.extensionrepository.areas.files.enums.StorageType;
-import telerikacademy.extensionrepository.areas.files.models.File;
-import telerikacademy.extensionrepository.areas.files.services.base.StorageService;
-import telerikacademy.extensionrepository.areas.github.models.dto.GitHubDTO;
-import telerikacademy.extensionrepository.areas.github.services.base.GithubService;
-import telerikacademy.extensionrepository.areas.mapper.ProductDTOMapper;
-import telerikacademy.extensionrepository.areas.products.models.Product;
-import telerikacademy.extensionrepository.areas.products.models.dto.ProductDTO;
-import telerikacademy.extensionrepository.areas.tags.models.Tag;
-import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
-import telerikacademy.extensionrepository.areas.tags.services.base.TagsService;
-import telerikacademy.extensionrepository.areas.users.models.User;
-import telerikacademy.extensionrepository.areas.users.services.base.UserService;
-import telerikacademy.extensionrepository.exceptions.FormatExeption;
+import telerikacademy.extensionrepository.enums.StorageType;
+import telerikacademy.extensionrepository.models.File;
+import telerikacademy.extensionrepository.services.base.StorageService;
+import telerikacademy.extensionrepository.models.dto.GitHubDTO;
+import telerikacademy.extensionrepository.services.base.GithubService;
+import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.models.dto.ProductDTO;
+import telerikacademy.extensionrepository.models.Tag;
+import telerikacademy.extensionrepository.services.base.TagsService;
+import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.services.base.UserService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ProductDTOMapperTests {
     private ProductDTOMapper productMapper;

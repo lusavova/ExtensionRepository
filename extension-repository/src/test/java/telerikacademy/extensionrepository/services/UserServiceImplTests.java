@@ -4,13 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
-import telerikacademy.extensionrepository.areas.mapper.UserDTOMapper;
-import telerikacademy.extensionrepository.areas.users.data.UserRepository;
-import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundException;
-import telerikacademy.extensionrepository.areas.users.models.User;
-import telerikacademy.extensionrepository.areas.users.models.UserDTO;
-import telerikacademy.extensionrepository.areas.users.services.UserServiceImpl;
+import telerikacademy.extensionrepository.mapper.UserDTOMapper;
+import telerikacademy.extensionrepository.data.UserRepository;
+import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
+import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.models.dto.UserDTO;
 
 import java.util.Arrays;
 import java.util.List;

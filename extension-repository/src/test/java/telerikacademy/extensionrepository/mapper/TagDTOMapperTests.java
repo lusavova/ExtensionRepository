@@ -2,9 +2,8 @@ package telerikacademy.extensionrepository.mapper;
 
 import org.junit.Assert;
 import org.junit.Test;
-import telerikacademy.extensionrepository.areas.mapper.TagDTOMapper;
-import telerikacademy.extensionrepository.areas.tags.models.Tag;
-import telerikacademy.extensionrepository.areas.tags.models.dto.TagDTO;
+import telerikacademy.extensionrepository.models.Tag;
+import telerikacademy.extensionrepository.models.dto.TagDTO;
 
 public class TagDTOMapperTests {
     private TagDTOMapper mapper = new TagDTOMapper();

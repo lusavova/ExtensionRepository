@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import telerikacademy.extensionrepository.areas.files.exeptions.StorageException;
-import telerikacademy.extensionrepository.areas.files.exeptions.StorageFileNotFoundException;
-import telerikacademy.extensionrepository.areas.products.exeptions.ProductNotFoundExeption;
-import telerikacademy.extensionrepository.areas.tags.exeptions.TagNotFoundExeption;
-import telerikacademy.extensionrepository.areas.users.exeptions.UserNotFoundException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

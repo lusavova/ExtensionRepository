@@ -2,9 +2,9 @@ package telerikacademy.extensionrepository.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import telerikacademy.extensionrepository.areas.products.models.Product;
-import telerikacademy.extensionrepository.areas.products.services.base.ProductService;
-import telerikacademy.extensionrepository.areas.tags.models.Tag;
+import telerikacademy.extensionrepository.models.Product;
+import telerikacademy.extensionrepository.services.base.ProductService;
+import telerikacademy.extensionrepository.models.Tag;
 
 import java.util.List;
 import java.util.Set;

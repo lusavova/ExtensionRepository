@@ -2,9 +2,8 @@ package telerikacademy.extensionrepository.mapper;
 
 import org.junit.Assert;
 import org.junit.Test;
-import telerikacademy.extensionrepository.areas.mapper.UserDTOMapper;
-import telerikacademy.extensionrepository.areas.users.models.User;
-import telerikacademy.extensionrepository.areas.users.models.UserDTO;
+import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.models.dto.UserDTO;
 
 public class UserDTOMapperTests {
     private UserDTOMapper userMapper = new UserDTOMapper();
