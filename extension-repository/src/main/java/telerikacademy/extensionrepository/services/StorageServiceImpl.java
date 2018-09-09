@@ -121,11 +121,12 @@ public class StorageServiceImpl implements StorageService {
 
     private File createFile(MultipartFile multipartFile, Path path, User user, String type) {
         String filename = multipartFile.getOriginalFilename();
-        String name = filename.substring(0, filename.lastIndexOf('.'));
+        String databaseName = filename;
+        String name = filename.substring(0, Objects.requireNonNull(filename).lastIndexOf('.'));
 
         Set<File> files = fileRepository.findAll()
                 .stream()
-                .filter(f -> f.getFileName().equals(name))
+                .filter(f -> f.getFileName().equals(databaseName))
                 .collect(Collectors.toSet());
         if (files.size() != 0) {
             SimpleDateFormat localDateFormat = new SimpleDateFormat(Constants.FILE_DATE_FORMAT);
