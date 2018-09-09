@@ -1,9 +1,7 @@
 package telerikacademy.extensionrepository.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
 
@@ -20,7 +18,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public User loginUser(String username, String password) throws LoginException {
+    @ResponseBody
+    public User loginUser(@RequestBody String username, String password) throws LoginException {
         User user = userService.findByUsername(username);
         if (user.getPassword().equals(password)){
             return user;
