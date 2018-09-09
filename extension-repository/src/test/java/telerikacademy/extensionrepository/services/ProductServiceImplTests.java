@@ -9,17 +9,20 @@ import telerikacademy.extensionrepository.mapper.ProductDTOMapper;
 import telerikacademy.extensionrepository.data.ProductsRepository;
 import telerikacademy.extensionrepository.enums.ProductStatus;
 import telerikacademy.extensionrepository.exceptions.ProductNotFoundExeption;
+import telerikacademy.extensionrepository.models.File;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.dto.ProductDTO;
 import telerikacademy.extensionrepository.services.base.StorageService;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ProductServiceImplTests {
     private ProductServiceImpl productService;
     private ProductDTOMapper mockMapper = Mockito.mock(ProductDTOMapper.class);
     private ProductsRepository mockProductsRepository = Mockito.mock(ProductsRepository.class);
-    private StorageService mockStorageService;
+    private StorageService mockStorageService = Mockito.mock(StorageService.class);
 
     @Before
     public void setUp() {
@@ -51,7 +54,7 @@ public class ProductServiceImplTests {
         Mockito.when(mockMapper.mapProductDTOToProduct(productDTO)).thenReturn(expectedProduct);
 
         final boolean[] wasSaveInvoked = {false};
-        Mockito.doAnswer((Answer) x -> {
+        Mockito.doAnswer( x -> {
             wasSaveInvoked[0] = true;
             return null;
         }).when(mockProductsRepository).saveAndFlush(expectedProduct);
@@ -96,33 +99,73 @@ public class ProductServiceImplTests {
         Assert.assertEquals(actualProduct.getUploadDate().toString(), new Date().toString());
     }
 
-//    @Test
-//    public void updateProduct_should_saveUpdatedProduct() {
-//        ProductDTO productDTO = new ProductDTO();
-//        Product expectedProduct = new Product();
-//        Mockito.when(mockMapper.mapProductDTOToProduct(productDTO)).thenReturn(expectedProduct);
-//
-//        final boolean[] wasSaveInvoked = {false};
-//        Mockito.doAnswer((Answer) x -> {
-//            wasSaveInvoked[0] = true;
-//            return null;
-//        }).when(mockProductsRepository).saveAndFlush(expectedProduct);
-//
-//        productService.updateProduct(productDTO);
-//        Assert.assertTrue(wasSaveInvoked[0]);
-//    }
+    @Test
+    public void updateProduct_should_saveUpdatedProduct() {
+        long id = 1;
+        Product expectedProduct = new Product();
+        Mockito.when(mockProductsRepository.findById(id)).thenReturn(Optional.of(expectedProduct));
+        Product actualProduct = productService.findById(id);
+        Assert.assertEquals(expectedProduct, actualProduct);
+
+        final boolean[] wasSaveInvoked = {false};
+        Mockito.doAnswer( x -> {
+            wasSaveInvoked[0] = true;
+            return null;
+        }).when(mockProductsRepository).saveAndFlush(expectedProduct);
+
+        productService.updateProduct(expectedProduct, id);
+        Assert.assertTrue(wasSaveInvoked[0]);
+    }
+
+    /*
+    * public void deleteProduct(long id) {
+        Product product =  findById(id);
+        productsRepository.deleteById(id);
+        Path filePath = Paths.get(product.getFile().getDownloadLink());
+        storageService.deleteFilesFromSystem(filePath);
+        Path imagePath = Paths.get(product.getProductPicture().getDownloadLink());
+        storageService.deleteFilesFromSystem(imagePath);
+    }*/
 
     @Test
     public void deleteProduct_should_deleteProductFromDb() {
         long id = 1;
-        final boolean[] wasDeleteInvoked = {false};
-        Mockito.doAnswer((Answer) x -> {
-            wasDeleteInvoked[0] = true;
+        Product expectedProduct = new Product();
+        File file = new File();
+        file.setDownloadLink("testDownloadLink");
+        expectedProduct.setFile(file);
+
+        File productPicture = new File();
+        productPicture.setDownloadLink("testPictureDownloadLink");
+        expectedProduct.setProductPicture(productPicture);
+
+        Mockito.when(mockProductsRepository.findById(id)).thenReturn(Optional.of(expectedProduct));
+
+        final boolean[] wasDeleteByIdInvoked = {false};
+        Mockito.doAnswer(x -> {
+            wasDeleteByIdInvoked[0] = true;
             return null;
         }).when(mockProductsRepository).deleteById(id);
 
+        Path filePath = Paths.get(file.getDownloadLink());
+        final boolean[] wasFileDeleteInvoked = {false};
+        Mockito.doAnswer( x -> {
+            wasFileDeleteInvoked[0] = true;
+            return null;
+        }).when(mockStorageService).deleteFilesFromSystem(filePath);
+
+        Path imagePath = Paths.get(productPicture.getDownloadLink());
+        final boolean[] wasImageDeleteInvoked = {false};
+        Mockito.doAnswer( x -> {
+            wasImageDeleteInvoked[0] = true;
+            return null;
+        }).when(mockStorageService).deleteFilesFromSystem(imagePath);
+
         productService.deleteProduct(id);
-        Assert.assertTrue(wasDeleteInvoked[0]);
+
+        Assert.assertTrue(wasDeleteByIdInvoked[0]);
+        Assert.assertTrue(wasFileDeleteInvoked[0]);
+        Assert.assertTrue(wasImageDeleteInvoked[0]);
     }
 
     @Test
