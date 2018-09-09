@@ -44,7 +44,7 @@ public class UserController {
         return user;
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PostMapping(value = "/update/{id}")
     @ResponseBody
     public User updateUser(@RequestBody @Valid User updateUser, @PathVariable long id) {
         return userService.updateUser(updateUser, id);
@@ -61,7 +61,7 @@ public class UserController {
     @ResponseBody
     public List<Product> listAllUserProducts(@PathVariable("id") long id) {
         userService.findById(id);
-        return productService.listAllActiveProducts().stream().filter(pr->pr.getOwner().getId() == id).collect(Collectors.toList());
+        return  productService.listAllActiveProducts().stream().filter(pr->pr.getOwner().getId() == id).collect(Collectors.toList());
     }
 
     @PostMapping("/user/username")

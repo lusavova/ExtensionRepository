@@ -34,19 +34,19 @@ public class AdminUsersController {
         return userService.listAllActiveUsers();
     }
 
-    @PutMapping("/enableUser/{id}")
+    @PostMapping("/enableUser/{id}")
     @ResponseBody
     public void enableUser(@PathVariable("id") long id) {
         userService.changeUserStatus(id, UserStatus.ENABLED.name());
     }
 
-    @PutMapping("/disableUser/{id}")
+    @PostMapping("/disableUser/{id}")
     @ResponseBody
     public void disableUser(@PathVariable("id") long id) {
         userService.changeUserStatus(id, UserStatus.DISABLED.name());
     }
 
-    @PutMapping("/changeRole/admin/{id}")
+    @PostMapping("/changeRole/admin/{id}")
     @ResponseBody
     public void makeUserAdmin(@PathVariable("id") long id) {
         userService.changeUserRole(id, Roles.ADMIN.name());

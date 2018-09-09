@@ -19,13 +19,13 @@ public class AdminProductsController {
         this.productService = productService;
     }
 
-    @PutMapping("/approve/{id}")
+    @PostMapping("/approve/{id}")
     @ResponseBody
     public void approveProduct(@PathVariable("id") long id) {
         productService.changeProductStatus(id, ProductStatus.ENABLED.name());
     }
 
-    @PutMapping("/disable/{id}")
+    @PostMapping("/disable/{id}")
     @ResponseBody
     public void disableProduct(@PathVariable("id") long id) {
         productService.changeProductStatus(id, ProductStatus.DISABLED.name());
@@ -37,19 +37,19 @@ public class AdminProductsController {
         productService.deleteProduct(id);
     }
 
-    @PutMapping("/edit")
+    @PostMapping("/edit")
     @ResponseBody
     public void editProduct(Product product) {
         productService.updateProduct(product);
     }
 
-    @PutMapping("/feature/{id}")
+    @PostMapping("/feature/{id}")
     @ResponseBody
     public void featureProduct(@PathVariable("id") long id) {
         productService.changeFeatureProductStatus(id, true);
     }
 
-    @PutMapping("/unfeature/{id}")
+    @PostMapping("/unfeature/{id}")
     @ResponseBody
     public void unfeatureProduct(@PathVariable("id") long id) {
         productService.changeFeatureProductStatus(id, false);
