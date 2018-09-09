@@ -3,7 +3,10 @@ package telerikacademy.extensionrepository.services;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import telerikacademy.extensionrepository.enums.Roles;
+import telerikacademy.extensionrepository.enums.UserStatus;
 import telerikacademy.extensionrepository.mapper.UserDTOMapper;
 import telerikacademy.extensionrepository.data.UserRepository;
 import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
@@ -49,6 +52,30 @@ public class UserServiceImplTests {
 
         User addedUser = userService.addUser(userDTO);
         Assert.assertSame(user, addedUser);
+    }
+
+    @Test
+    public void addUser_should_setUserStatusToEnabled() {
+        UserDTO userDTO = new UserDTO();
+        User expectedUser = new User();
+
+        Mockito.when(mockMapper.mapUserDTOToUser(userDTO)).thenReturn(expectedUser);
+        Mockito.when(mockUserRepository.save(expectedUser)).thenReturn(expectedUser);
+
+        User actualUser = userService.addUser(userDTO);
+        Assert.assertEquals(actualUser.getUserStatus(), UserStatus.ENABLED.name());
+    }
+
+    @Test
+    public void addUser_shouldSetRoleToUser() {
+        UserDTO userDTO = new UserDTO();
+        User expectedUser = new User();
+
+        Mockito.when(mockMapper.mapUserDTOToUser(userDTO)).thenReturn(expectedUser);
+        Mockito.when(mockUserRepository.save(expectedUser)).thenReturn(expectedUser);
+
+        User actualUser = userService.addUser(userDTO);
+        Assert.assertEquals(actualUser.getRole(), Roles.USER.name());
     }
 
     @Test
