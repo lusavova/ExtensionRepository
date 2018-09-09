@@ -60,8 +60,10 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long id) {
         Product product =  findById(id);
         productsRepository.deleteById(id);
-        Path path = Paths.get(product.getFile().getDownloadLink());
-        storageService.deleteFilesFromSystem(path);
+        Path filePath = Paths.get(product.getFile().getDownloadLink());
+        storageService.deleteFilesFromSystem(filePath);
+        Path imagePath = Paths.get(product.getProductPicture().getDownloadLink());
+        storageService.deleteFilesFromSystem(imagePath);
     }
 
     @Override
