@@ -19,7 +19,7 @@ public class LoginController {
 
 //    @PostMapping
 //    @ResponseBody
-//    public User loginUser(@RequestBody String username, String password) throws LoginException {
+//    public User loginUser(String username, String password) throws LoginException {
 //        User user = userService.findByUsername(username);
 //        if (user.getPassword().equals(password)){
 //            return user;

@@ -3,6 +3,7 @@ package telerikacademy.extensionrepository.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import telerikacademy.extensionrepository.data.ProductsRepository;
 import telerikacademy.extensionrepository.enums.ProductStatus;
 import telerikacademy.extensionrepository.enums.Roles;
 import telerikacademy.extensionrepository.mapper.UserDTOMapper;
@@ -11,6 +12,7 @@ import telerikacademy.extensionrepository.data.UserRepository;
 import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
 import telerikacademy.extensionrepository.models.dto.UserDTO;
 import telerikacademy.extensionrepository.models.User;
+import telerikacademy.extensionrepository.services.base.ProductService;
 import telerikacademy.extensionrepository.services.base.StorageService;
 import telerikacademy.extensionrepository.services.base.UserService;
 import telerikacademy.extensionrepository.enums.UserStatus;
@@ -24,14 +26,17 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private UserDTOMapper mapper;
     private StorageService storageService;
+    private ProductsRepository productsRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserDTOMapper mapper,
-                           StorageService storageService) {
+                           StorageService storageService,
+                           ProductsRepository productsRepository) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.storageService = storageService;
+        this.productsRepository = productsRepository;
     }
 
     @Override
@@ -89,15 +94,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.listAllActiveUsers();
     }
 
+//    @Override
+//    public List<Product> listAllActiveProducts(long id) {
+//        List<Product> products = findById(id)
+//                .getProducts()
+//                .stream()
+//                .filter(p -> p.getProductStatus().equals(ProductStatus.ENABLED.name()))
+//                .collect(Collectors.toList());
+//        return products;
+//    }
+
     @Override
-    public List<Product> listAllActiveProducts(long id) {
-        List<Product> productList = findById(id).getProducts();
-        List<Product> products = findById(id)
-                .getProducts()
+    public List<Product> listAllUserProducts(long id) {
+        List<Product> allProducts = productsRepository.findAll();
+        List<Product> userProducts =allProducts
                 .stream()
-                .filter(p -> p.getProductStatus().equals(ProductStatus.ENABLED.name()))
+                .filter(p -> p.getOwner().getId() == id)
                 .collect(Collectors.toList());
-        return products;
+
+        return userProducts;
     }
 
     @Override
@@ -123,6 +138,11 @@ public class UserServiceImpl implements UserService {
         User user = findById(id);
         user.setUserStatus(status);
         saveUser(user);
+        List<Product> allUserProducts = listAllUserProducts(id);
+        for (Product product : allUserProducts) {
+            product.setProductStatus(status);
+            productsRepository.save(product);
+        }
     }
 
     @Override

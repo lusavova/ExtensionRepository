@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
+import telerikacademy.extensionrepository.data.ProductsRepository;
 import telerikacademy.extensionrepository.enums.Roles;
 import telerikacademy.extensionrepository.enums.UserStatus;
 import telerikacademy.extensionrepository.mapper.UserDTOMapper;
@@ -14,9 +15,9 @@ import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.models.dto.UserDTO;
+import telerikacademy.extensionrepository.services.base.ProductService;
 import telerikacademy.extensionrepository.services.base.StorageService;
 
-import javax.management.relation.Role;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +27,11 @@ public class UserServiceImplTests {
     private UserRepository mockUserRepository = Mockito.mock(UserRepository.class);
     private UserDTOMapper mockMapper = Mockito.mock(UserDTOMapper.class);
     private StorageService storageService = Mockito.mock(StorageService.class);
+    private ProductsRepository productsRepository = Mockito.mock(ProductsRepository.class);
 
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(mockUserRepository, mockMapper,storageService);
+        userService = new UserServiceImpl(mockUserRepository, mockMapper, storageService, productsRepository);
     }
 
     @Test

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import telerikacademy.extensionrepository.enums.UserStatus;
 import telerikacademy.extensionrepository.exceptions.UserNotFoundException;
 import telerikacademy.extensionrepository.services.base.ProductService;
-import telerikacademy.extensionrepository.services.base.StorageService;
 import telerikacademy.extensionrepository.models.Product;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
@@ -44,7 +43,7 @@ public class UserController {
         return user;
     }
 
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     @ResponseBody
     public User updateUser(@RequestBody @Valid User updateUser, @PathVariable long id) {
         return userService.updateUser(updateUser, id);
@@ -61,7 +60,8 @@ public class UserController {
     @ResponseBody
     public List<Product> listAllUserProducts(@PathVariable("id") long id) {
         userService.findById(id);
-        return  productService.listAllActiveProducts().stream().filter(pr->pr.getOwner().getId() == id).collect(Collectors.toList());
+        List<Product> products = productService.listAllProducts();
+        return  products.stream().filter(pr->pr.getOwner().getId() == id).collect(Collectors.toList());
     }
 
     @PostMapping("/user/username")
@@ -70,7 +70,7 @@ public class UserController {
         return userService.usernameAlreadyExists(username);
     }
 
-    @GetMapping("/user/email")
+    @PostMapping("/user/email")
     @ResponseBody
     public boolean emailAlreadyExists(String email) {
         return userService.emailAlreadyExists(email);

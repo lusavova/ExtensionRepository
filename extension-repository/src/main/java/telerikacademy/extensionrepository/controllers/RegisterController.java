@@ -28,7 +28,6 @@ public class RegisterController {
 
     @ExceptionHandler
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        String message =  ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        return message;
+        return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
     }
 }

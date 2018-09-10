@@ -61,19 +61,19 @@ public class UserControllerTests {
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
-    @Test
-    public void updateUser_should_returnOk_when_userServiceReturnsSuccess() throws Exception {
-        User givenUser = new User();
-        Mockito.when(mockUserService.updateUser(givenUser,1))
-                .thenReturn(givenUser);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/users/update/{id}",1)
-                        .content(new ObjectMapper().writeValueAsString(givenUser))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
+//    @Test
+//    public void updateUser_should_returnOk_when_userServiceReturnsSuccess() throws Exception {
+//        User givenUser = new User();
+//        Mockito.when(mockUserService.updateUser(givenUser,1))
+//                .thenReturn(givenUser);
+//
+//        mockMvc.perform(
+//                MockMvcRequestBuilders.post("/users/update/{id}",1)
+//                        .content(new ObjectMapper().writeValueAsString(givenUser))
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 
     @Test
     public void deleteUser_should_returnOk_when_userServiceReturnsSuccess() throws Exception {
