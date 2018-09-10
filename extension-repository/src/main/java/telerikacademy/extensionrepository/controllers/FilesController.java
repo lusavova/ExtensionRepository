@@ -14,9 +14,6 @@ import telerikacademy.extensionrepository.validators.ZipValidator;
 import telerikacademy.extensionrepository.models.User;
 import telerikacademy.extensionrepository.services.base.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 @RequestMapping("/files")
 public class FilesController {
@@ -55,35 +52,9 @@ public class FilesController {
         return f;
     }
 
-    @PostMapping("/upload/images/{userId}")
-    @ResponseBody
-    public List<File> uploadImages(@PathVariable long userId, @RequestBody MultipartFile... files) {
-        List<File> imgs = new ArrayList<>();
-        for (MultipartFile image : files) {
-            if (image == null) {
-                throw new IllegalArgumentException("Image file cannot be null.");
-            }
-            String type = StorageType.IMAGE.name();
-            new ImageValidator().checkImage(image);
-            User user = userService.findById(userId);
-            File file = storageService.store(image, user, type);
-            imgs.add(file);
-        }
-        return imgs;
-    }
-
     @GetMapping("/file/get/{id}")
     @ResponseBody
     public File findById(@PathVariable long id) {
         return storageService.findById(id);
-    }
-
-    @GetMapping("/download/product/{id}")
-    @ResponseBody
-    public ResponseEntity<Resource> downloadFile(@PathVariable("id") long id) {
-        Resource file = storageService.loadAsResource(id);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 }

@@ -9,7 +9,7 @@ public class Constants {
     public static final String GITHUB_USERNAME = "lusavova";
     public static final String FILE_LOCATION = "../FILES";
 
-    public static final int FILTER_PRODUCT_NUMBER = 10;
+    public static final int FILTER_PRODUCT_NUMBER = 8;
 
     public static final String TAG_PATTERN = "^[a-zA-Z0-9_]{2,}$";
 }

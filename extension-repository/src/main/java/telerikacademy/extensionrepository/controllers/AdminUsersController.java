@@ -35,24 +35,24 @@ public class AdminUsersController {
         return userService.listAllBlockedUsers();
     }
 
-    @GetMapping("/listAll/active")
-    public List<User> listAllActiveUsers() {
-        return userService.listAllActiveUsers();
-    }
-
-    @PostMapping("/enableUser/{id}")
+    @PutMapping("/enableUser/{id}")
     @ResponseBody
     public void enableUser(@PathVariable("id") long id) {
         userService.changeUserStatus(id, UserStatus.ENABLED.name());
     }
 
-    @PostMapping("/disableUser/{id}")
+    @GetMapping("/listAll/active")
+    public List<User> listAllActiveUsers() {
+        return userService.listAllActiveUsers();
+    }
+
+    @PutMapping("/disableUser/{id}")
     @ResponseBody
     public void disableUser(@PathVariable("id") long id) {
         userService.changeUserStatus(id, UserStatus.DISABLED.name());
     }
 
-    @PostMapping("/changeRole/admin/{id}")
+    @PutMapping("/changeRole/admin/{id}")
     @ResponseBody
     public void makeUserAdmin(@PathVariable("id") long id) {
         userService.changeUserRole(id, Roles.ADMIN.name());

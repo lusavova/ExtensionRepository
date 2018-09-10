@@ -52,7 +52,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product updateProduct) {
+    public Product updateProduct(Product updateProduct, long id) {
+        findById(id);
         return save(updateProduct);
     }
 
@@ -60,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(long id) {
         Product product =  findById(id);
         productsRepository.deleteById(id);
+
         Path filePath = Paths.get(product.getFile().getDownloadLink());
         storageService.deleteFilesFromSystem(filePath);
         Path imagePath = Paths.get(product.getProductPicture().getDownloadLink());
@@ -122,6 +124,13 @@ public class ProductServiceImpl implements ProductService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void increaseNumOfDownload(long productId) {
+        Product product = findById(productId);
+        product.setNumberOfDownloads(product.getNumberOfDownloads() + 1);
+        save(product);
     }
 
     private Product save(Product product) {

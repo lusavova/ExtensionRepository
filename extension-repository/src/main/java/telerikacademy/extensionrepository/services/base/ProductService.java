@@ -11,7 +11,7 @@ public interface ProductService extends FieldValueExists {
 
     Product addProduct(ProductDTO product);
 
-    Product updateProduct(Product updateProduct);
+    Product updateProduct(Product updateProduct, long id);
 
     void deleteProduct(long id);
 
@@ -28,4 +28,6 @@ public interface ProductService extends FieldValueExists {
     void changeFeatureProductStatus(long id, boolean status);
 
     boolean githubRepoAlreadyExists(String account);
+
+    void increaseNumOfDownload(long productId);
 }
